@@ -1,0 +1,35 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node parcelStart.js & npx nodemon ../server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^0.20.0",
+    "lodash-es": "^4.17.15",
+    "mobx": "^5.15.1",
+    "mobx-react": "^6.1.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-mobx": "0.0.4"
+  },
+  "alias": {
+    "c": "./components/",
+    "icons": "./assets/icons/",
+    "stores": "./stores/"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/plugin-proposal-decorators": "^7.7.4",
+    "@babel/preset-react": "^7.7.4"
+  }
+}

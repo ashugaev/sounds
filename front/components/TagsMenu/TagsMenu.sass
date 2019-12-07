@@ -1,0 +1,50 @@
+@import "../../assets/styles/constants"
+@import "../../assets/styles/design-system-variables"
+
+$block: '.TagsMenu'
+
+$sideblock-width: 330px
+$hash-size: 26px
+$toggle-button-width: $space-xxxs * 2 + $hash-size
+
+#{$block}
+  &-Background
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    display: none
+    background: rgba(0, 0, 0, 0)
+
+  &-Sideblock
+    position: absolute
+    top: 0
+    left: -($sideblock-width - $toggle-button-width)
+    height: 100%
+    background: url('../../assets/icons/hash.svg') $pure-white no-repeat center
+    background-size: $hash-size
+    background-position: $sideblock-width - $hash-size - $space-xxxs
+    width: 30%
+    min-width: $sideblock-width
+    transition: left .5s
+    box-shadow: none
+    padding: $space-xxxs
+    padding-right: $toggle-button-width + $space-xxxxxs
+    box-sizing: border-box
+
+  &-ToggleButton
+    width: $toggle-button-width
+    height: 100%
+    position: absolute
+    top: 0
+    right: 0
+
+  &_isOpened
+    #{$block}-Sideblock
+      left: 0
+      box-shadow: 0 15px 25px -4px rgba(13, 35, 67, 0.32)
+
+    #{$block}-Background
+      background: rgba(0, 0, 0, .25)
+      display: block

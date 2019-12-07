@@ -1,0 +1,48 @@
+$boxHeight: 200px
+
+.PlayerBox
+  height: $boxHeight
+  max-width: 800px
+  width: 100%
+  display: flex
+
+  &-Image
+    height: $boxHeight
+    width: $boxHeight
+    background-position: center
+    background-size: auto 135%
+    position: relative
+    flex-shrink: 0
+
+    &:before
+      content: ''
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      background: rgba(0, 0, 0, .35)
+
+  &-ButtonsBox
+    display: grid
+    grid-gap: 20px
+    grid-template-columns: min-content min-content min-content
+    align-items: center
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+  &-TimeLabel
+    position: absolute
+    bottom: 16px
+    left: 50%
+    transform: translateX(-50%)
+    color: white
+
+  &-InfoBox
+    margin-left: 16px
+
+  &-TagsBox
+    margin-top: 20px

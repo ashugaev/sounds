@@ -1,0 +1,17 @@
+@import "../../assets/styles/constants"
+
+.TimeLabel
+  color: white
+  font-size: 16px
+  position: relative
+
+  &-Live:before
+    content: ''
+    height: 6px
+    width: 6px
+    border-radius: 50%
+    display: inline-block
+    margin-right: 6px
+    background: $red
+    top: 50%
+    transform: translateY(-50%)
