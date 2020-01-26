@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import YouTubePlayer from 'youtube-player';
 import { observer, inject } from 'mobx-react';
+import { withRouter } from 'react-router';
+import qs from 'query-string';
+import get from 'lodash-es/get';
 
 let player;
 
@@ -12,11 +15,11 @@ const playerStates = {
 };
 
 const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer(({
-  playerStore, tracksStore, tagsStore, videoId, isPlaying,
+  playerStore, tracksStore, tagsStore, videoId, isPlaying, history,
 }) => {
   const { onPlay, onStop } = playerStore;
   const {
-    onNextClick, track, setTags, changeTrigger,
+    onNextClick, track, setTags, changeTrigger, setFilterTags
   } = tracksStore;
   const { fetchTagsByIds } = tagsStore;
 
@@ -25,6 +28,8 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
 
     player.on('stateChange', handlePlayerStateChange);
     player.on('ready', handlePlayerReady);
+
+    setTagsQuery();
   }, []);
 
   useEffect(() => {
@@ -66,6 +71,15 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
     console.log('ready', data);
   }
 
+
+  function setTagsQuery() {
+    const { tags } = qs.parse(get(history, 'location.search'));
+
+    if (!tags) return;
+
+    setFilterTags(tags.split(','), history);
+  }
+
   async function setTime() {
     const { setCurrentTime, setDuration } = playerStore;
 
@@ -84,4 +98,4 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
   );
 }));
 
-export default VideoPlayer;
+export default withRouter(VideoPlayer);

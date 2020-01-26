@@ -2,6 +2,9 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
+import get from 'lodash-es/get';
+
+const qs = require('query-string');
 
 class TracksStore {
   @observable tracks = []
@@ -96,12 +99,26 @@ class TracksStore {
     this.track.tagsIsLoaded = true;
   }
 
-  @action.bound setFilterTags(tags) {
+  @action.bound setFilterTags(tags, history) {
     this.noTracksToFetch = false;
     this.page = 0;
     this.currentTrackIndex = 0;
     this.filterTags.replace([].concat(tags));
     this.fetch(true);
+
+    this.setTagsQuery(history, tags);
+  }
+
+  setTagsQuery(history, query) {
+    if (!query || !history) return;
+
+    const params = qs.parse(get(history, 'location.search'));
+
+    params.tags = [].concat(query).join();
+
+    history.push({
+      search: `?${qs.stringify(params)}`,
+    });
   }
 }
 
