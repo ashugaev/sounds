@@ -1,0 +1,2 @@
+files:
+  include: 'components/**/*.s+(a|c)ss'
