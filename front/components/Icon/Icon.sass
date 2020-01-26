@@ -1,0 +1,16 @@
+@import "../../assets/styles/design-system-variables"
+
+$sizes: ('xs': $size-typo-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-typo-l)
+
+.Icon
+  background-size: contain
+
+  &_size
+    @each $name, $val in $sizes
+      &_#{$name}
+        height: $val
+        width: $val
+
+  &_name
+    &_hash
+      background: url('../../assets/icons/hash.svg') center no-repeat
