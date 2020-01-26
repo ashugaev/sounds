@@ -40,16 +40,25 @@ class TracksStore {
     return this.currentTrackIndex <= 0;
   }
 
-  @action.bound fetch(rewrite) {
+  /**
+   * @param rewrite - перезаписать список треков (true обычно при смене тага)
+   * @param fromId - id трека начиная с коророго хотим слушать
+   */
+  @action.bound fetch(rewrite, fromId, tags) {
+    if (this.isLoading) return;
+
     if (this.noTracksToFetch) return;
 
     const { page, filterTags } = this;
 
     this.isLoading = true;
 
+    if (tags) this.filterTags.replace(tags);
+
     axios.get('/api/tracks', {
       params: {
         page,
+        fromId,
         tags: filterTags,
       },
     })
@@ -62,6 +71,12 @@ class TracksStore {
           ) : (
             this.tracks.push(...data)
           );
+
+          if (fromId) {
+            const index = this.tracks.findIndex(track => get(track, 'id.videoId') === fromId);
+
+            this.currentTrackIndex = index;
+          }
 
           // Костыль, что бы стригерить перерендер плеера, если id при смене тега не поменялся
           this.changeTrigger = Math.random();
@@ -99,11 +114,13 @@ class TracksStore {
     this.track.tagsIsLoaded = true;
   }
 
-  @action.bound setFilterTags(tags, history) {
+  @action.bound setFilterTags(tags, history, noResetTrackIndex) {
     this.noTracksToFetch = false;
     this.page = 0;
-    this.currentTrackIndex = 0;
     this.filterTags.replace([].concat(tags));
+
+    if (!noResetTrackIndex) this.currentTrackIndex = 0;
+
     this.fetch(true);
 
     this.setTagsQuery(history, tags);

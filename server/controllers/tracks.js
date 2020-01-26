@@ -2,10 +2,16 @@ const mongoose = require('mongoose');
 const db = require('../schema/schema');
 
 module.exports.all = async function () {
-  const tracksQuantity = 10;
+  let tracksQuantity = 10;
 
   const { query } = this.request;
-  const { page = 0 } = query;
+  const { page = 0, fromId } = query;
+
+  if (fromId) {
+    // Это костыль, который станет не эффективен, когда будет целая куча треков
+    tracksQuantity = 0;
+  }
+
   let tags = query['tags[]'] || query.tags;
 
   if (typeof tags === 'string') tags = [tags];

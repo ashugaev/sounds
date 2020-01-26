@@ -19,7 +19,7 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
 }) => {
   const { onPlay, onStop } = playerStore;
   const {
-    onNextClick, track, setTags, changeTrigger, setFilterTags
+    onNextClick, track, setTags, changeTrigger, setFilterTags,
   } = tracksStore;
   const { fetchTagsByIds } = tagsStore;
 
@@ -29,7 +29,7 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
     player.on('stateChange', handlePlayerStateChange);
     player.on('ready', handlePlayerReady);
 
-    setTagsQuery();
+    updateTagsFromQueries();
   }, []);
 
   useEffect(() => {
@@ -41,6 +41,8 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
 
       if (track.tags && !track.tagsIsLoaded) fetchTagsByIds(track.tags, setTags);
     }
+
+    updateTrackQuery(videoId);
   }, [videoId, changeTrigger]);
 
   useEffect(() => {
@@ -71,13 +73,24 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
     console.log('ready', data);
   }
 
+  function updateTrackQuery(id) {
+    if (!id || !history) return;
 
-  function setTagsQuery() {
+    const params = qs.parse(get(history, 'location.search'));
+
+    params.trackId = id;
+
+    history.push({
+      search: `?${qs.stringify(params)}`,
+    });
+  }
+
+  function updateTagsFromQueries() {
     const { tags } = qs.parse(get(history, 'location.search'));
 
     if (!tags) return;
 
-    setFilterTags(tags.split(','), history);
+    setFilterTags(tags.split(','), history, true);
   }
 
   async function setTime() {

@@ -6,6 +6,7 @@ import VideoPlayer from 'c/VideoPlayer';
 import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
+import qs from 'query-string';
 import { withRouter } from 'react-router';
 import './PlayerBox.sass';
 
@@ -30,7 +31,12 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
   } = playerStore;
 
   useEffect(() => {
-    fetch();
+    let { trackId, tags } = qs.parse(get(history, 'location.search'));
+
+    tags = tags && tags.split(',');
+
+    // Первый fetch с параметрами из урла
+    fetch(false, trackId, tags);
   }, []);
 
   if (isLoading && !tracksLength) return <div>Loading...</div>;
