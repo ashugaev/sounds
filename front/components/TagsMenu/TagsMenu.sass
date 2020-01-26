@@ -1,13 +1,13 @@
 @import "../../assets/styles/constants"
 @import "../../assets/styles/design-system-variables"
 
-$block: '.TagsMenu'
+$root: '.TagsMenu'
 
 $sideblock-width: 330px
-$hash-size: 26px
+$hash-size: $size-icon-m
 $toggle-button-width: $space-xxxs * 2 + $hash-size
 
-#{$block}
+#{$root}
   &-Background
     position: absolute
     top: 0
@@ -22,9 +22,7 @@ $toggle-button-width: $space-xxxs * 2 + $hash-size
     top: 0
     left: -($sideblock-width - $toggle-button-width)
     height: 100%
-    background: url('../../assets/icons/hash.svg') $pure-white no-repeat center
-    background-size: $hash-size
-    background-position: $sideblock-width - $hash-size - $space-xxxs
+    background: $pure-white
     width: 30%
     min-width: $sideblock-width
     transition: left .5s
@@ -39,12 +37,29 @@ $toggle-button-width: $space-xxxs * 2 + $hash-size
     position: absolute
     top: 0
     right: 0
+    cursor: pointer
 
   &_isOpened
-    #{$block}-Sideblock
+    #{$root}-Sideblock
       left: 0
       box-shadow: 0 15px 25px -4px rgba(13, 35, 67, 0.32)
 
-    #{$block}-Background
+    #{$root}-Background
       background: rgba(0, 0, 0, .25)
       display: block
+
+  &-Hash
+    position: absolute
+    top: 50%
+    left: 50%
+    display: block
+    transform: translate(-50%, -50%) rotate(0)
+    transform-origin: center
+    opacity: .18
+    transition: opacity .3s, transform .3s
+
+  &:hover
+    & #{$root}-Hash
+      opacity: .9
+      transform: translate(-50%, -50%) rotate(40deg)
+
