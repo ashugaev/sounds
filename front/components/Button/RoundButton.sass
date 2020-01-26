@@ -1,3 +1,5 @@
+@import "../../assets/styles/constants"
+
 .RoundButton
   color: white
   cursor: pointer
@@ -9,13 +11,18 @@
       font-size: 16px
 
   &_theme
-    &_label
+    &_label, &_activeLabel
       padding: 10px 18px
       margin: 0 8px 8px 0
       border: 1px solid #eee
       border-radius: 30px
       display: inline-block
-      background: #D2D2D2
+
+    &_label
+      background: $button-color
+
+    &_activeLabel
+      background: $button-color_active
 
   &_disabled
     opacity: .6

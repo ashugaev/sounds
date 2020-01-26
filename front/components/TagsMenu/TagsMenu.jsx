@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { cn } from '@bem-react/classname';
 import { inject, observer } from 'mobx-react';
 import Button from 'c/Button';
+import Icon from 'c/Icon';
 import './TagsMenu.sass';
 
 const cnTagsMenu = cn('TagsMenu');
@@ -10,7 +11,7 @@ const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, track
   const [isOpened, setIsOpened] = useState(false);
 
   const { fetchTagsByIds, pushToAllTags, allTags } = tagsStore;
-  const { setFilterTags } = tracksStore;
+  const { setFilterTags, filterTags } = tracksStore;
 
   useEffect(() => {
     fetchTagsByIds(null, pushToAllTags);
@@ -30,10 +31,18 @@ const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, track
       <div className={cnTagsMenu('Background')} onClick={toggleIsOpened} />
       <div className={cnTagsMenu('Sideblock')}>
         {allTags.map((tag, i) => (
-          <Button onClickArgs={tag._id} onClick={onTagClick} key={i} theme="label" text={tag.name} />
+          <Button
+            onClickArgs={tag._id}
+            onClick={onTagClick}
+            key={i}
+            theme={filterTags.includes(tag._id) ? 'activeLabel' : 'label'}
+            text={tag.name}
+          />
         ))}
 
-        <div className={cnTagsMenu('ToggleButton')} onClick={toggleIsOpened} />
+        <div className={cnTagsMenu('ToggleButton')} onClick={toggleIsOpened}>
+          <Icon name="hash" className={cnTagsMenu('Hash')} />
+        </div>
       </div>
     </div>
   );

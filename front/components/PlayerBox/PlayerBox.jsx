@@ -6,9 +6,12 @@ import VideoPlayer from 'c/VideoPlayer';
 import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
+import { withRouter } from 'react-router';
 import './PlayerBox.sass';
 
-const PlayerBox = inject('tracksStore', 'playerStore')(observer(({ className, tracksStore, playerStore }) => {
+const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
+  className, tracksStore, playerStore, history,
+}) => {
   const {
     track,
     onNextClick,
@@ -19,6 +22,7 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({ className, tr
     isNextArrowDisabled,
     isPrevArrowDisabled,
     setFilterTags,
+    filterTags,
   } = tracksStore;
 
   const {
@@ -37,6 +41,10 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({ className, tr
   const imageUrl = thumbnails.high.url;
 
   const cnButton = cn('PlayerBox');
+
+  function ontagClick(ids) {
+    setFilterTags(ids, history);
+  }
 
   return (
     <>
@@ -58,7 +66,14 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({ className, tr
           <Text size="xxxl" text={title} />
           <div className="PlayerBox-TagsBox">
             {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => (
-              <Button onClickArgs={tag._id} onClick={setFilterTags} key={i} theme="label" text={tag.name} />
+              // TODO: Вынести эту кнопку тега (и ту, что в меню) в обертку, что бы не повторять логику в theme
+              <Button
+                onClickArgs={tag._id}
+                onClick={ontagClick}
+                key={i}
+                theme={filterTags.includes(tag._id) ? 'activeLabel' : 'label'}
+                text={tag.name}
+              />
             ))}
           </div>
         </div>
@@ -68,4 +83,4 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({ className, tr
   );
 }));
 
-export default PlayerBox;
+export default withRouter(PlayerBox);
