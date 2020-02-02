@@ -3,7 +3,7 @@
 
 $root: '.TagsMenu'
 
-$sideblock-width: 330px
+$sideblock-width: 30%
 $hash-size: $size-icon-m
 $toggle-button-width: $space-xxxs * 2 + $hash-size
 
@@ -20,7 +20,7 @@ $toggle-button-width: $space-xxxs * 2 + $hash-size
   &-Sideblock
     position: absolute
     top: 0
-    left: -($sideblock-width - $toggle-button-width)
+    left: calc(-1 * (#{$sideblock-width} - #{$toggle-button-width}))
     height: 100%
     background: $pure-white
     width: 30%
