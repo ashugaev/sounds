@@ -3,11 +3,12 @@ import { cn } from '@bem-react/classname';
 import { inject, observer } from 'mobx-react';
 import Button from 'c/Button';
 import Icon from 'c/Icon';
+import { withRouter } from 'react-router';
 import './TagsMenu.sass';
 
 const cnTagsMenu = cn('TagsMenu');
 
-const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, tracksStore }) => {
+const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, tracksStore, history }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   const { fetchTagsByIds, pushToAllTags, allTags } = tagsStore;
@@ -21,8 +22,8 @@ const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, track
     setIsOpened(!isOpened);
   }
 
-  function onTagClick(args) {
-    setFilterTags(args);
+  function onTagClick(ids) {
+    setFilterTags(ids, history);
     toggleIsOpened();
   }
 
@@ -48,4 +49,4 @@ const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, track
   );
 }));
 
-export default TagsMenu;
+export default withRouter(TagsMenu);
