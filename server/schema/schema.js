@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const path = require('path');
 
-const result = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-if (result.error) {
+if (parseEnv.error) {
   console.log('envs parsing error', result.error);
 }
 
