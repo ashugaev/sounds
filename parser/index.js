@@ -7,6 +7,7 @@ const axios = require('../front/node_modules/axios');
 const tracks = require('../server/controllers/tracks');
 
 const logger = log4js.getLogger();
+logger.level = 'debug';
 
 if (parseEnv.error) {
   logger.error('envs parsing error', parseEnv.error);
@@ -25,7 +26,7 @@ function fetchVideos(channel, nextPageUrl) {
           const { items, nextPageToken } = data;
 
           if (status !== 200 || !items.length) {
-            return rj('Ошибка получения данных с канала');
+            return rj('Ошибка получения данных с канала. Url:', url);
           }
 
           logger.debug('Got', items.length, 'items');
@@ -64,7 +65,7 @@ function getVideosFromChannel(channel) {
   return new Promise(async (rs, rj) => {
     try {
       for (let nextPageUrl, i = 0; nextPageUrl || i === 0; i++) {
-        logger.debug('Page', i);
+        logger.debug('Page', i, ', nextPageUrl', nextPageUrl);
 
         nextPageUrl = await fetchVideos(channel, nextPageUrl);
       }
@@ -93,9 +94,9 @@ function getFetchUrl(channel, nextPageUrl) {
 function writeDatoToDB(videos) {
   return new Promise(async (rs, rj) => {
     try {
-      await tracks.insertManyWithReplace(videos);
+      await tracks.insertMany(videos);
 
-      logger.debug('Writed to db');
+      logger.debug('Writed', videos.length, 'videos to db');
 
       rs();
     } catch (e) {

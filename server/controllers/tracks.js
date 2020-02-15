@@ -27,16 +27,24 @@ module.exports.all = async function () {
 };
 
 module.exports.insertMany = async function (list) {
-  await db.Tracks.collection.insertMany(list);
+  return new Promise(async (rs, rj) => {
+    try {
+      await db.Tracks.collection.insertMany(list);
+
+      rs();
+    } catch (e) {
+      rj(e);
+    }
+  });
 };
 
+// TODO: Продебажить. Кажется этот методе не работает
 module.exports.insertManyWithReplace = function (items) {
   return new Promise(async (rs, rj) => {
     try {
       // TODO: Сделать через db.Tracks.collection.bulkWrite(ops, { ordered: false });
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
-
 
         await db.Tracks.collection.replaceOne(
           { id: { videoId: item.id.videoId } },
