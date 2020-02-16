@@ -1,0 +1,310 @@
+.Icon {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.Icon_size_xs {
+  height: 13px;
+  width: 13px;
+}
+.Icon_size_s {
+  height: 20px;
+  width: 20px;
+}
+.Icon_size_m {
+  height: 24px;
+  width: 24px;
+}
+.Icon_size_l {
+  height: 18px;
+  width: 18px;
+}
+.Icon_icon_hash {
+  background-image: url("/hash.255ac128.svg");
+}
+.Icon_icon_play {
+  background-image: url("/play_white.5b4e5930.svg");
+}
+.Icon_icon_pause {
+  background-image: url("/pause.0584b182.svg");
+}
+.Icon_icon_cross {
+  background-image: url("/cross.93cc501f.svg");
+}
+.Text {
+  font-family: Roboto, sans-serif;
+}
+.Text_size_xs {
+  font-size: 13px;
+}
+.Text_size_xl {
+  font-size: 20px;
+}
+.Text_size_xxxl {
+  font-size: 32px;
+}
+.Text_color_darkGray {
+  color: #515151;
+}
+.RoundButton {
+  color: white;
+  cursor: pointer;
+  display: flex;
+}
+.RoundButton_theme_label, .RoundButton_theme_activeLabel {
+  padding: 10px 18px;
+  margin: 0 8px 8px 0;
+  border: 1px solid #eee;
+  border-radius: 30px;
+  display: inline-block;
+}
+.RoundButton_theme_label {
+  background: #D2D2D2;
+}
+.RoundButton_theme_activeLabel {
+  background: #525252;
+}
+.RoundButton_disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.RoundButton_icon_prev, .RoundButton_icon_next {
+  background-size: 30px;
+  height: 16px;
+  width: 25px;
+}
+.RoundButton_icon_prev {
+  background: url("/next.6aeaa1cb.svg") center no-repeat;
+  transform: rotate(180deg);
+}
+.RoundButton_icon_next {
+  background: url("/next.6aeaa1cb.svg") center no-repeat;
+}
+.RoundButton_withIcon .RoundButton-Text {
+  margin-left: 16px;
+}
+.Notifier {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 41px;
+  background: #E4E4E4;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  z-index: 10;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+.Notifier-Play {
+  flex-grow: 1;
+}
+.Notifier-Cross {
+  margin-left: 16px;
+}
+.TimeLabel {
+  color: white;
+  font-size: 16px;
+  position: relative;
+}
+.TimeLabel-Live:before {
+  content: "";
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  background: #c00;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.PlayerBox {
+  height: 200px;
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+}
+.PlayerBox-Image {
+  height: 200px;
+  width: 200px;
+  background-position: center;
+  background-size: auto 135%;
+  position: relative;
+  flex-shrink: 0;
+}
+.PlayerBox-Image:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+}
+.PlayerBox-ButtonsBox {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: min-content min-content min-content;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.PlayerBox-TimeLabel {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+}
+.PlayerBox-InfoBox {
+  margin-left: 16px;
+}
+.PlayerBox-TagsBox {
+  margin-top: 20px;
+}
+.PlayerBox-PlayIcon {
+  background-size: 30px;
+  background-position: 19px;
+}
+.PlayerBox-PlayIcon, .PlayerBox-PauseIcon {
+  height: 60px;
+  width: 60px;
+  border: solid 4px white;
+  border-radius: 50%;
+}
+.PlayerBox-PauseIcon {
+  background-size: 25px;
+  background-position: center;
+}
+.TagsMenu-Background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  background: rgba(0, 0, 0, 0);
+}
+.TagsMenu-Sideblock {
+  position: absolute;
+  top: 0;
+  left: calc(-1 * (30% - 56px));
+  height: 100%;
+  background: #fff;
+  width: 30%;
+  min-width: 30%;
+  transition: left 0.5s;
+  box-shadow: none;
+  padding: 16px;
+  padding-right: 64px;
+  box-sizing: border-box;
+}
+.TagsMenu-ToggleButton {
+  width: 56px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.TagsMenu_isOpened .TagsMenu-Sideblock {
+  left: 0;
+  box-shadow: 0 15px 25px -4px rgba(13, 35, 67, 0.32);
+}
+.TagsMenu_isOpened .TagsMenu-Background {
+  background: rgba(0, 0, 0, 0.25);
+  display: block;
+}
+.TagsMenu-Hash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  transform: translate(-50%, -50%) rotate(0);
+  transform-origin: center;
+  opacity: 0.18;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.TagsMenu:hover .TagsMenu-Hash {
+  opacity: 0.9;
+  transform: translate(-50%, -50%) rotate(40deg);
+}
+.TagsMenu-Background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  background: rgba(0, 0, 0, 0);
+}
+.TagsMenu-Sideblock {
+  position: absolute;
+  top: 0;
+  left: calc(-1 * (30% - 56px));
+  height: 100%;
+  background: #fff;
+  width: 30%;
+  min-width: 30%;
+  transition: left 0.5s;
+  box-shadow: none;
+  padding: 16px;
+  padding-right: 64px;
+  box-sizing: border-box;
+}
+.TagsMenu-ToggleButton {
+  width: 56px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.TagsMenu_isOpened .TagsMenu-Sideblock {
+  left: 0;
+  box-shadow: 0 15px 25px -4px rgba(13, 35, 67, 0.32);
+}
+.TagsMenu_isOpened .TagsMenu-Background {
+  background: rgba(0, 0, 0, 0.25);
+  display: block;
+}
+.TagsMenu-Hash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  transform: translate(-50%, -50%) rotate(0);
+  transform-origin: center;
+  opacity: 0.18;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.TagsMenu:hover .TagsMenu-Hash {
+  opacity: 0.9;
+  transform: translate(-50%, -50%) rotate(40deg);
+}
+
+.Body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 32px 56px;
+  box-sizing: border-box;
+  min-width: 600px;
+}
+html, #app, body {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+/*# sourceMappingURL=/components.e31bb0bc.css.map */
