@@ -60,7 +60,8 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
             <Button icon="prev" disabled={isPrevArrowDisabled} className="PlayerBox-PrevButton" onClick={onPrevClick} />
             <Button
               icon={isPlaying ? 'pause' : 'play'}
-              className="PlayerBox-PrevButton"
+              className={cnButton('PrevButton')}
+              iconClassName={cnButton(isPlaying ? 'PauseIcon' : 'PlayIcon')}
               onClick={toggleIsPlaying}
               onClickArgs={!isPlaying}
             />

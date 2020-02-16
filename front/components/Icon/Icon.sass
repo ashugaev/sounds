@@ -1,9 +1,13 @@
 @import "../../assets/styles/design-system-variables"
+@import "../../assets/styles/constants"
 
+$root: '.Icon'
 $sizes: ('xs': $size-typo-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-typo-l)
 
-.Icon
+#{$root}
   background-size: contain
+  background-position: center
+  background-repeat: no-repeat
 
   &_size
     @each $name, $val in $sizes
@@ -11,6 +15,12 @@ $sizes: ('xs': $size-typo-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-t
         height: $val
         width: $val
 
-  &_name
+  &_icon
     &_hash
-      background: url('../../assets/icons/hash.svg') center no-repeat
+      background-image: url('../../assets/icons/hash.svg')
+
+    &_play
+      background-image: url('../../assets/icons/play_white.svg')
+
+    &_pause
+      background-image: url('../../assets/icons/pause.svg')

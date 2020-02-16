@@ -42,7 +42,7 @@ const TagsMenu = inject('tagsStore', 'tracksStore')(observer(({ tagsStore, track
         ))}
 
         <div className={cnTagsMenu('ToggleButton')} onClick={toggleIsOpened}>
-          <Icon name="hash" className={cnTagsMenu('Hash')} />
+          <Icon icon="hash" className={cnTagsMenu('Hash')} />
         </div>
       </div>
     </div>

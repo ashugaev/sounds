@@ -40,9 +40,11 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
       });
 
       if (track.tags && !track.tagsIsLoaded) fetchTagsByIds(track.tags, setTags);
-    }
 
-    updateTrackQuery(videoId);
+      updateTrackQuery(videoId);
+
+      localStorage.setItem('lastVideoId', videoId);
+    }
   }, [videoId, changeTrigger]);
 
   useEffect(() => {

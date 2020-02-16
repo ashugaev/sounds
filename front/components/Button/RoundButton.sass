@@ -1,14 +1,12 @@
 @import "../../assets/styles/constants"
+@import "../../assets/styles/design-system-variables"
 
-.RoundButton
+$root: '.RoundButton'
+
+#{$root}
   color: white
   cursor: pointer
-
-  &_size
-    &_l
-      font-size: 36px
-    &_s
-      font-size: 16px
+  display: flex
 
   &_theme
     &_label, &_activeLabel
@@ -29,22 +27,6 @@
     cursor: default
 
   &_icon
-    &_play, &_pause
-      height: 60px
-      width: 60px
-      border: solid 4px white
-      border-radius: 50%
-
-    &_play
-      background: url('../../assets/icons/play.svg') center no-repeat
-      background-size: 30px
-      background-position: 19px
-
-    &_pause
-      background: url('../../assets/icons/pause.svg') center no-repeat
-      background-size: 25px
-      background-position: center
-
     &_prev, &_next
       background-size: 30px
       height: 16px
@@ -56,3 +38,8 @@
 
     &_next
       background: url('../../assets/icons/next.svg') center no-repeat
+
+  &_withIcon
+    #{$root}-Text
+      margin-left: $space-xxxs
+

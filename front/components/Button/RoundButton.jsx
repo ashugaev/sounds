@@ -1,12 +1,15 @@
 import React from 'react';
+import Icon from 'c/Icon';
+import Text from 'c/Text';
 import './RoundButton.sass';
 import { cn } from '@bem-react/classname';
 
 const RoundButton = ({
-  icon, onClick, size, className, isHidden, theme, text, onClickArgs, disabled,
+  icon, onClick, size, className, isHidden, theme, text, onClickArgs, disabled, iconClassName, textColor,
 }) => {
-  const cnButton = cn('RoundButton')({
-    size, theme, icon, disabled,
+  const cnButton = cn('RoundButton');
+  const buttonClassName = cnButton({
+    size, theme, icon, disabled, textColor, withIcon: Boolean(icon),
   });
 
   function onButtonClick() {
@@ -17,8 +20,9 @@ const RoundButton = ({
 
   return (
     !isHidden && (
-    <div className={`${cnButton} ${className || ''}`} onClick={onButtonClick}>
-      {text}
+    <div className={`${buttonClassName} ${className || ''}`} onClick={onButtonClick}>
+      {icon && <Icon icon={icon} size={size} className={iconClassName} />}
+      {text && <Text text={text} size={size} color={textColor} className={cnButton('Text')} />}
     </div>
     )
   );

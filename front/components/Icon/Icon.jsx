@@ -3,10 +3,10 @@ import './Icon.sass';
 import { cn } from '@bem-react/classname';
 
 const Icon = ({
-  size, className, isHidden, name,
+  size, className, isHidden, icon, color,
 }) => {
   const cnButton = cn('Icon')({
-    size, name, isHidden,
+    size, icon, isHidden, color,
   });
 
   return (
@@ -16,6 +16,7 @@ const Icon = ({
 
 Icon.defaultProps = {
   size: 'm',
+  color: 'white',
 };
 
 export default Icon;
