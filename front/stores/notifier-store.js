@@ -3,22 +3,17 @@ import {
 } from 'mobx';
 
 class NotifierStore {
-  @observable list = [
-    {
-      icon: 'play',
-      text: 'Продолжить слушать Chill Music Mix',
-    },
-  ]
+  @observable list = []
 
-  @action.bound killLast() {
-    console.log('killing', index);
+  @action.bound killLastNotify() {
+    this.list.splice(-1);
   }
 
-  @action.bound create(text, icon) {
-    this.list.push({ text, icon });
+  @action.bound createNotify({ text, icon, callback }) {
+    this.list.push({ text, icon, callback });
   }
 
-  @computed get lastElem() {
+  @computed get lastNotify() {
     return this.list[this.list.length - 1];
   }
 }
