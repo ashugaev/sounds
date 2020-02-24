@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node parcelStart.js & npx nodemon ../server/index.js"
+    "dev": "node parcelStart.js & npx nodemon ../server/index.js",
+    "build": "parcel build components/index.html"
   },
   "keywords": [],
   "author": "",
