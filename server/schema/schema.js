@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const path = require('path');
 
-const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 if (parseEnv.error) {
-  console.log('envs parsing error', result.error);
+  console.log('envs parsing error', parseEnv.error);
 }
 
 const { MONGO_USER_NAME, MONGO_USER_PASSWORD, MONGO_HOST } = process.env;

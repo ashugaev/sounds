@@ -1,0 +1,19 @@
+# этот файл копируется на VPS и разворачивает проект на нем
+
+version: "3"
+services:
+  front:
+    image: registry.gitlab.com/ashugaev/sounds:front
+    restart: always
+    expose:
+      - 8082
+    ports:
+      - "8005:8082"
+  server:
+    image: registry.gitlab.com/ashugaev/sounds:server
+    restart: always
+    expose:
+      - 3000
+    ports:
+      # наружний порт:внутренний
+      - "3005:3000"

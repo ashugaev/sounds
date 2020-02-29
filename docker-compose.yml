@@ -1,0 +1,25 @@
+# файл для локального запуска проекта в докере
+
+version: "3"
+services:
+  front:
+    image: registry.gitlab.com/ashugaev/sounds:front
+    restart: always
+    build:
+      context: .
+      dockerfile: front.Dockerfile
+    expose:
+      - 8082
+    ports:
+      - "8005:8082"
+  server:
+    image: registry.gitlab.com/ashugaev/sounds:server
+    restart: always
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    expose:
+      - 3000
+    ports:
+      # наружний порт:внутренний
+      - "3005:3000"
