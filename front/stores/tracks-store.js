@@ -115,9 +115,20 @@ class TracksStore {
   }
 
   @action.bound setFilterTags(tags, history, noResetTrackIndex) {
+    this.filterTags.replace([].concat(tags));
+
+    this.onTagChange({ tags, history, noResetTrackIndex });
+  }
+
+  @action.bound removeFilterTags(history, noResetTrackIndex) {
+    this.filterTags.clear();
+
+    this.onTagChange({ history, noResetTrackIndex });
+  }
+
+  onTagChange({ tags, history, noResetTrackIndex }) {
     this.noTracksToFetch = false;
     this.page = 0;
-    this.filterTags.replace([].concat(tags));
 
     if (!noResetTrackIndex) this.currentTrackIndex = 0;
 
@@ -127,7 +138,7 @@ class TracksStore {
   }
 
   setTagsQuery(history, query) {
-    if (!query || !history) return;
+    if (!history) return;
 
     const params = qs.parse(get(history, 'location.search'));
 
