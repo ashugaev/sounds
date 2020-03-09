@@ -7,17 +7,11 @@ import './Notifier.sass';
 const cnNotifier = cn('Notifier');
 
 const Notifier = inject('notifierStore')(observer(({ notifierStore }) => {
-  const { lastElem } = notifierStore;
+  const { lastNotify, killLastNotify } = notifierStore;
 
-  console.log('lastElem', lastElem);
+  if (!lastNotify) return null;
 
-  if (!lastElem) return null;
-
-  const { icon, text } = lastElem;
-
-  function onCloseClick() {
-    console.log('close');
-  }
+  const { icon, text, callback } = lastNotify;
 
   return (
     <div className={cnNotifier()}>
@@ -27,9 +21,9 @@ const Notifier = inject('notifierStore')(observer(({ notifierStore }) => {
         text={text}
         textColor="darkGray"
         className={cnNotifier('Play')}
-        onClick={() => console.log('playyy')}
+        onClick={callback}
       />
-      <Button icon="cross" onClick={onCloseClick} className={cnNotifier('Cross')} />
+      <Button icon="cross" size="s" onClick={killLastNotify} className={cnNotifier('Cross')} />
     </div>
   );
 }));
