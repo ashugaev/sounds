@@ -1,6 +1,9 @@
 @import '../../assets/styles/design-system-variables'
 @import '../../assets/styles/constants'
 @import '../TagsMenu/TagsMenu'
+@import '../TracksList/TracksList'
+@import '../PlayerBox/PlayerBox'
+@import '../Notifier/Notifier'
 
 .Body
   height: 100%
@@ -14,7 +17,14 @@
     height: 100%
     position: relative
     width: calc(100% - #{$toggle-button-width * 2})
-    max-width: 800px
+    max-width: $max-content-width
+    box-sizing: border-box
+
+    &_withNotifier
+      padding-top: $notifier-height
+
+    &_withPlayer
+      padding-bottom: $PlayerBoxHeight
 
   &-PlayerBox
     position: absolute
