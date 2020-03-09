@@ -9,7 +9,7 @@ function showLastTrackNotifier(createNotify, fetch) {
   if (lastTagId && lastTagName) {
     text = `Продолжить слушать тег ${lastTagName}`;
   } else if (lastVideoName && lastVideoName) {
-    text = `Продолжить слушать трек ${lastTagName}`;
+    text = `Продолжить слушать трек ${lastVideoName}`;
   }
 
   if (!lastVideoId || !lastVideoName) return;

@@ -1,12 +1,23 @@
 @import '../../assets/styles/design-system-variables'
+@import '../../assets/styles/constants'
 @import '../TagsMenu/TagsMenu'
 
 .Body
   height: 100%
   display: flex
-  align-items: center
-  justify-content: center
   flex-direction: column
-  padding: $space-m $toggle-button-width
   box-sizing: border-box
-  min-width: 600px
+  min-width: $min-body-width
+  align-items: center
+
+  &-Content
+    height: 100%
+    position: relative
+    width: calc(100% - #{$toggle-button-width * 2})
+    max-width: 800px
+
+  &-PlayerBox
+    position: absolute
+    bottom: 0
+    left: 0
+
