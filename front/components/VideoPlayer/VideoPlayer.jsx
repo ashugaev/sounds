@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { withRouter } from 'react-router';
 import qs from 'query-string';
 import get from 'lodash-es/get';
+import { setTrackToLocalStorage } from '../../helpers/lastTrackNotifier';
 
 let player;
 
@@ -43,7 +44,7 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
 
       updateTrackQuery(videoId);
 
-      localStorage.setItem('lastVideoId', videoId);
+      setTrackToLocalStorage(get(track, 'snippet.title'), videoId);
     }
   }, [videoId, changeTrigger]);
 

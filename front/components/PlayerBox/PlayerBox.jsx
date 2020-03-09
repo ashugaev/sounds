@@ -2,16 +2,18 @@ import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import Button from 'c/Button';
+import TagButton from 'c/TagButton';
 import VideoPlayer from 'c/VideoPlayer';
 import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
 import qs from 'query-string';
 import { withRouter } from 'react-router';
+import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import './PlayerBox.sass';
 
-const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
-  className, tracksStore, playerStore, history,
+const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer(({
+  className, tracksStore, playerStore, history, notifierStore,
 }) => {
   const {
     track,
@@ -22,9 +24,9 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
     tracksLength,
     isNextArrowDisabled,
     isPrevArrowDisabled,
-    setFilterTags,
-    filterTags,
   } = tracksStore;
+
+  const { createNotify } = notifierStore;
 
   const {
     isPlaying, toggleIsPlaying,
@@ -37,6 +39,9 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
 
     // Первый fetch с параметрами из урла
     fetch(false, trackId, tags);
+
+    // Предлагает продолжить слушать тег/трек
+    showLastTrackNotifier(createNotify, fetch);
   }, []);
 
   if (isLoading && !tracksLength) return <div>Loading...</div>;
@@ -47,10 +52,6 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
   const imageUrl = thumbnails.high.url;
 
   const cnButton = cn('PlayerBox');
-
-  function ontagClick(ids) {
-    setFilterTags(ids, history);
-  }
 
   return (
     <>
@@ -72,16 +73,15 @@ const PlayerBox = inject('tracksStore', 'playerStore')(observer(({
         <div className="PlayerBox-InfoBox">
           <Text size="xxxl" text={title} />
           <div className="PlayerBox-TagsBox">
-            {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => (
-              // TODO: Вынести эту кнопку тега (и ту, что в меню) в обертку, что бы не повторять логику в theme
-              <Button
-                onClickArgs={tag._id}
-                onClick={ontagClick}
-                key={i}
-                theme={filterTags.includes(tag._id) ? 'activeLabel' : 'label'}
-                text={tag.name}
-              />
-            ))}
+            {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => {
+              return (
+                <TagButton
+                  id={tag._id}
+                  key={i}
+                  text={tag.name}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
