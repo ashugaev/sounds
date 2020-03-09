@@ -1,3 +1,5 @@
+// Мидлвара для проксирования /api запросов на dev
+
 const Bundler = require('parcel-bundler');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
