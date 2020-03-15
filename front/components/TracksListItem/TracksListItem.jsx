@@ -7,7 +7,10 @@ const cnTracksList = cn('TracksListItem');
 
 const TracksListItem = inject()(observer(({ imageUrl, title }) => {
   return (
-    <div className={cnTracksList()} style={{ backgroundImage: `url(${imageUrl})` }} />
+    <div className={cnTracksList()}>
+      <div className={cnTracksList('ImageBg')} style={{ backgroundImage: `url(${imageUrl})` }} />
+      <div className={cnTracksList('Image')} style={{ backgroundImage: `url(${imageUrl})` }} />
+    </div>
   );
 }));
 

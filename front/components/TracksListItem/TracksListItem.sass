@@ -6,6 +6,29 @@ $track-thumb-size: 178px
 .TracksListItem
   width: $track-thumb-size
   height: $track-thumb-size
-  background-position: center
-  background-repeat: no-repeat
-  background-size: auto 135%
+  overflow: hidden
+  position: relative
+  display: flex
+  align-items: center
+
+  &-ImageBg
+    height: 120%
+    width: 120%
+    margin-left: -10%
+    margin-top: -10%
+    background-position: center
+    background-repeat: no-repeat
+    background-size: auto 135%
+    filter: blur(10px) contrast(0.7)
+    position: absolute
+    top: 0
+    left: 0
+
+  &-Image
+    width: 100%
+    height: $track-thumb-size / 1.8
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    z-index: 1
+
