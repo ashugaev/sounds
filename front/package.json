@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node parcelStart.js & npx nodemon ../server/index.js",
-    "build": "parcel build components/index.html"
+    "build": "parcel build components/index.html",
+    "dev:no-reload": "node parcelStart.js --no-hmr & npx nodemon ../server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +31,9 @@
   "alias": {
     "c": "./components/",
     "icons": "./assets/icons/",
-    "stores": "./stores/"
+    "stores": "./stores/",
+    "join": "./helpers/join.js",
+    "helpers": "./helpers/"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

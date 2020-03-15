@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel components/index.html & npx nodemon server/index.js",
-    "dev:no-reload": "parcel components/index.html --no-hmr",
     "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci"
   },
   "keywords": [],
@@ -34,9 +32,5 @@
     "mobx": "^5.15.1",
     "mobx-react": "^3.5.9",
     "nodemon": "^2.0.2"
-  },
-  "alias": {
-    "c": "./components/",
-    "icons": "./assets/icons/"
   }
 }
