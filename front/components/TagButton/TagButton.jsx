@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { setTagToLocalStorage } from '../../helpers/lastTrackNotifier';
 
 const TagsButton = inject('tracksStore')(observer(({
-  tracksStore, history, key, onClick, text, id,
+  tracksStore, history, key, onClick, text, id, theme, className,
 }) => {
   const {
     filterTags,
@@ -26,10 +26,16 @@ const TagsButton = inject('tracksStore')(observer(({
     <Button
       onClick={onTagClick}
       key={key}
-      theme={isTagActive ? 'activeLabel' : 'label'}
+      isActive={isTagActive}
+      theme={theme}
       text={text}
+      className={className}
     />
   );
 }));
+
+TagsButton.defaultProps = {
+  theme: 'label',
+};
 
 export default withRouter(TagsButton);

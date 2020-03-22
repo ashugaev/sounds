@@ -50,7 +50,9 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
   if (!track) return <div>no tracks</div>;
 
   const { tags, snippet, tagsIsLoaded } = track;
-  const { title, thumbnails, liveBroadcastContent } = snippet;
+  const {
+    title, thumbnails, liveBroadcastContent, channelTitle,
+  } = snippet;
   const imageUrl = thumbnails.high.url;
 
   const cnPlayerBox = cn('PlayerBox');
@@ -74,8 +76,16 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
           </div>
           <Time className="PlayerBox-TimeLabel" live={liveBroadcastContent === 'live'} />
         </div>
-        <div className="PlayerBox-InfoBox">
-          <Text size="xxxl" text={title} />
+        <div className={cnPlayerBox('InfoBox')}>
+          <div className={cnPlayerBox('Row')}>
+            <div className={cnPlayerBox('Column')}>
+              <Text size="s" text={title} bold cropLine />
+              <Text size="xs" text={channelTitle} cropLine />
+            </div>
+            <div className={cnPlayerBox('Column')}>
+              <Button icon="mix" onClick={() => console.log('mix everything')} />
+            </div>
+          </div>
           <div className="PlayerBox-TagsBox">
             {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => {
               return (
@@ -83,6 +93,8 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
                   id={tag._id}
                   key={i}
                   text={tag.name}
+                  theme="miniLabel"
+                  className={cnPlayerBox('Tag')}
                 />
               );
             })}

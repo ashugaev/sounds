@@ -1,5 +1,6 @@
 @import "../TimeLine/TimeLine"
 @import "../../assets/styles/constants"
+@import "../../assets/styles/design-system-variables"
 
 $PlayerBoxHeight: 92px
 
@@ -26,7 +27,7 @@ $PlayerBoxHeight: 92px
       left: 0
       height: 100%
       width: 100%
-      background: rgba(0, 0, 0, .35)
+      background: rgba(0, 0, 0, .5)
 
   &-ButtonsBox
     display: grid
@@ -46,12 +47,29 @@ $PlayerBoxHeight: 92px
     color: white
 
   &-InfoBox
-    margin-left: 16px
+    padding: $space-xxxxxs $space-xxxxs
+    display: grid
+    row-gap: 9px
+    width: 100%
+    grid-template-rows: min-content min-content
 
-  &-TagsBox
-    margin-top: 20px
+  &-Row
+    display: grid
+    column-gap: $space-xxxxs
+    grid-template-columns: 1fr auto
+
+  &-Column
+    display: grid
+    grid-row-gap: $space-xxxxxxs
 
   &-TimeLine
     position: absolute
     left: 0
     top: - $time-line-height
+
+  &-TagsBox
+    display: flex
+    overflow: auto
+
+  &-Tag:not(:first-child)
+      margin-left: $space-xxxxs

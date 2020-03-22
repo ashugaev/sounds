@@ -6,11 +6,11 @@ import { cn } from '@bem-react/classname';
 import j from 'join';
 
 const RoundButton = ({
-  icon, onClick, size, className, isHidden, theme, text, onClickArgs, disabled, iconClassName, textColor,
+  icon, onClick, size, className, isHidden, theme, text, onClickArgs, disabled, iconClassName, textColor, isActive,
 }) => {
   const cnButton = cn('RoundButton');
   const buttonClassName = cnButton({
-    size, theme, icon, disabled, textColor, withIcon: Boolean(icon),
+    size, theme, icon, disabled, textColor, withIcon: Boolean(icon), isActive,
   });
 
   function onButtonClick() {

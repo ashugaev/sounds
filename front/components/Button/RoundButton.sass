@@ -7,20 +7,36 @@ $root: '.RoundButton'
   color: white
   cursor: pointer
   display: flex
+  box-sizing: border-box
+
+  &_bold
+    font-weight: 500
 
   &_theme
-    &_label, &_activeLabel
+    &_label
       padding: 10px 18px
       margin: 0 8px 8px 0
       border: 1px solid #eee
       border-radius: 30px
       display: inline-block
-
-    &_label
       background: $button-color
 
-    &_activeLabel
-      background: $button-color_active
+      &#{$root}_isActive
+        background: $button-color_active
+
+    &_miniLabel
+      font-size: $size-typo-xs
+      padding: $space-xxxxxxs $space-xxxxxs
+      border-radius: 16px
+      display: inline-block
+      border: solid 1px $gray-color-3
+      background-color: $pure-white
+      color: $gray-color-3
+
+      &#{$root}_isActive
+        background: $gray-color-3
+        color: $pure-white
+
 
   &#{$root}_disabled
     opacity: .6

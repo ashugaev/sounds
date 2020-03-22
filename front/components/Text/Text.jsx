@@ -6,10 +6,12 @@ import './Text.sass';
 const cnText = cn('Text');
 
 const Text = ({
-  text, size, color, children, className, line,
+  text, size, color, children, className, line, bold, cropLine,
 }) => (
   <span
-    className={j(cnText({ size, color, line }), className)}
+    className={j(cnText({
+      size, color, line, bold, cropLine,
+    }), className)}
   >
     {text || children}
   </span>

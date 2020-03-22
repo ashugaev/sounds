@@ -4,6 +4,9 @@
 .Text
   font-family: Roboto, sans-serif
 
+  &_bold
+    font-weight: 500
+
   &_size
     &_xs
       font-size: $size-typo-xs
@@ -21,3 +24,8 @@
   &_line
     &_normal
       line-height: 1.2
+
+  &_cropLine
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
