@@ -36,7 +36,7 @@ class PlayerStore {
     }
 
     @action.bound setByPercent(percent) {
-      this.newTimeValue = percent / 100 * this.duration;
+      this.newTimeValue = Math.floor(percent / 100 * this.duration);
     }
 
     @action.bound startIncrementing() {
