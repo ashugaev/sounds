@@ -1,17 +1,22 @@
 import React from 'react';
 import { cn } from '@bem-react/classname';
+import j from 'join';
 import './Text.sass';
 
 const cnText = cn('Text');
 
 const Text = ({
-  text, size, color, children, className,
+  text, size, color, children, className, line,
 }) => (
   <span
-    className={`${cnText({ size, color })} ${className || ''}`}
+    className={j(cnText({ size, color, line }), className)}
   >
     {text || children}
   </span>
 );
+
+Text.defaultProps = {
+  line: 'normal',
+};
 
 export default Text;
