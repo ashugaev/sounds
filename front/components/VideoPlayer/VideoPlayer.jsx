@@ -18,7 +18,7 @@ const playerStates = {
 const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer(({
   playerStore, tracksStore, tagsStore, videoId, isPlaying, history,
 }) => {
-  const { onPlay, onStop } = playerStore;
+  const { onPlay, onStop, newTimeValue } = playerStore;
   const {
     onNextClick, track, setTags, changeTrigger, setFilterTags,
   } = tracksStore;
@@ -105,6 +105,14 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
     setDuration(dur);
     setCurrentTime(cur);
   }
+
+
+  /**
+   * Устанавливает время проигрывания трега
+   */
+  useEffect(() => {
+    player.seekTo(newTimeValue);
+  }, [newTimeValue]);
 
   return (
     <div

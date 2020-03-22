@@ -3,6 +3,9 @@ import {
 } from 'mobx';
 
 class PlayerStore {
+  // Что бы установить новое время проигрывания нужно измениеть это значение
+    @observable newTimeValue
+
     @observable currentTime
 
     @observable duration
@@ -18,6 +21,22 @@ class PlayerStore {
       if (!minutes && minutes !== 0) return;
 
       return `${minutes}:${(`0${seconds}`).slice(-2)}`;
+    }
+
+    @computed get getPercent() {
+      return this.currentTime / this.duration * 100;
+    }
+
+    @computed get currentTimeStr() {
+      return this.calcTime(this.currentTime);
+    }
+
+    @computed get durationStr() {
+      return this.calcTime(this.duration);
+    }
+
+    @action.bound setByPercent(percent) {
+      this.newTimeValue = percent / 100 * this.duration;
     }
 
     @action.bound startIncrementing() {
@@ -43,14 +62,6 @@ class PlayerStore {
 
     @action.bound onStop() {
       this.stopIncrementing();
-    }
-
-    @computed get currentTimeStr() {
-      return this.calcTime(this.currentTime);
-    }
-
-    @computed get durationStr() {
-      return this.calcTime(this.duration);
     }
 
     @action.bound setCurrentTime(cur) {

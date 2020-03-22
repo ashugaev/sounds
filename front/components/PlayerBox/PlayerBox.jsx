@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
+import j from 'join';
 import Button from 'c/Button';
 import TagButton from 'c/TagButton';
 import VideoPlayer from 'c/VideoPlayer';
+import TimeLine from 'c/TimeLine';
 import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
@@ -51,20 +53,22 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
   const { title, thumbnails, liveBroadcastContent } = snippet;
   const imageUrl = thumbnails.high.url;
 
-  const cnButton = cn('PlayerBox');
+  const cnPlayerBox = cn('PlayerBox');
 
   return (
     <>
-      <div className={`${className || ''} ${cnButton()}`}>
-        <div className={cnButton('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
+      <div className={j(cnPlayerBox(), className)}>
+        <TimeLine className={cnPlayerBox('TimeLine')} />
+        <div className={cnPlayerBox('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
           <div className="PlayerBox-ButtonsBox">
             <Button icon="prev" disabled={isPrevArrowDisabled} className="PlayerBox-PrevButton" onClick={onPrevClick} />
             <Button
               icon={isPlaying ? 'pause' : 'play'}
-              className={cnButton('PrevButton')}
-              iconClassName={cnButton(isPlaying ? 'PauseIcon' : 'PlayIcon')}
+              className={cnPlayerBox('PrevButton')}
+              iconClassName={cnPlayerBox(isPlaying ? 'PauseIcon' : 'PlayIcon')}
               onClick={toggleIsPlaying}
               onClickArgs={!isPlaying}
+              size="l"
             />
             <Button icon="next" disabled={isNextArrowDisabled} className="PlayerBox-PrevButton" onClick={onNextClick} />
           </div>
