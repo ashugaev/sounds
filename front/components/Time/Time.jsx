@@ -1,6 +1,8 @@
 import React from 'react';
 import './Time.sass';
+import Text from 'c/Text';
 import { observer, inject } from 'mobx-react';
+import j from 'join';
 
 const Time = inject('playerStore')(observer(({ className, playerStore, live }) => {
   const { currentTimeStr, durationStr } = playerStore;
@@ -11,7 +13,11 @@ const Time = inject('playerStore')(observer(({ className, playerStore, live }) =
 
   return (
     <div className={`TimeLabel ${className || ''}`}>
-      {live ? <div className="TimeLabel-Live">Live</div> : `${getTime(currentTimeStr)} | ${getTime(durationStr)}`}
+      {
+        live
+          ? <div className="TimeLabel-Live">Live</div>
+          : <Text size="xs" color="white" text={j(getTime(currentTimeStr), '/', getTime(durationStr))} />
+      }
     </div>
   );
 }));
