@@ -61,7 +61,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
         <TimeLine className={cnPlayerBox('TimeLine')} />
         <div className={cnPlayerBox('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
           <div className="PlayerBox-ButtonsBox">
-            <Button icon="prev" disabled={isPrevArrowDisabled} className="PlayerBox-PrevButton" onClick={onPrevClick} />
+            <Button icon="prev" disabled={isPrevArrowDisabled} className={cnPlayerBox('PrevButton')} onClick={onPrevClick} />
             <Button
               icon={isPlaying ? 'pause' : 'play'}
               className={cnPlayerBox('PrevButton')}
@@ -70,7 +70,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
               onClickArgs={!isPlaying}
               size="l"
             />
-            <Button icon="next" disabled={isNextArrowDisabled} className="PlayerBox-PrevButton" onClick={onNextClick} />
+            <Button icon="next" disabled={isNextArrowDisabled} className={cnPlayerBox('NextButton')} onClick={onNextClick} />
           </div>
           <Time className="PlayerBox-TimeLabel" live={liveBroadcastContent === 'live'} />
         </div>
