@@ -2,12 +2,19 @@
 @import "../../assets/styles/constants"
 
 $root: '.Icon'
-$sizes: ('xs': $size-typo-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-typo-l)
+$sizes: ('xs': $size-icon-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-icon-l)
 
 #{$root}
   background-size: contain
   background-position: center
   background-repeat: no-repeat
+
+  &_theme
+    &_inCircle
+      height: 60px
+      width: 60px
+      border: solid 4px white
+      border-radius: 50%
 
   &_size
     @each $name, $val in $sizes
@@ -27,3 +34,10 @@ $sizes: ('xs': $size-typo-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-t
 
     &_cross
       background-image: url('../../assets/icons/cross.svg')
+
+    &_prev
+      background-image: url('../../assets/icons/next.svg')
+      transform: rotate(180deg)
+
+    &_next
+      background-image: url('../../assets/icons/next.svg')
