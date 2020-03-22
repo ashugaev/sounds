@@ -1,15 +1,17 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
+import Text from 'c/Text';
 import './TracksListItem.sass';
 
-const cnTracksList = cn('TracksListItem');
+const cnTracksListItem = cn('TracksListItem');
 
-const TracksListItem = inject()(observer(({ imageUrl, title }) => {
+const TracksListItem = inject()(observer(({ imageUrl, title, channelTitle }) => {
   return (
-    <div className={cnTracksList()}>
-      <div className={cnTracksList('ImageBg')} style={{ backgroundImage: `url(${imageUrl})` }} />
-      <div className={cnTracksList('Image')} style={{ backgroundImage: `url(${imageUrl})` }} />
+    <div className={cnTracksListItem()}>
+      <div className={cnTracksListItem('Image')} style={{ backgroundImage: `url(${imageUrl})` }} />
+      <Text size="xs" text={channelTitle} cropLine className={cnTracksListItem('ChannelTitle')} />
+      <Text size="s" text={title} bold lines={2} className={cnTracksListItem('Title')} />
     </div>
   );
 }));

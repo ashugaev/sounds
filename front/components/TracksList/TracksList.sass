@@ -4,8 +4,8 @@
 @import "../TagsMenu/TagsMenu"
 
 $root: '.TracksList'
-$space-between-tracks-thumbs: $space-m
-$max-content-width: $track-thumb-size * 4 + $space-between-tracks-thumbs * 3
+$space-between-tracks-thumbs: $space-xxxs
+$max-content-width: $track-thumb-width * 4 + $space-between-tracks-thumbs * 3
 
 #{$root}
   height: 100%
@@ -14,14 +14,18 @@ $max-content-width: $track-thumb-size * 4 + $space-between-tracks-thumbs * 3
 
   &-List
     display: grid
-    grid-template-columns: repeat(2, $track-thumb-size)
-    gap: $space-between-tracks-thumbs
+    grid-template-columns: repeat(2, $track-thumb-width)
+    grid-column-gap: $space-xxxxs
+    grid-row-gap: $space-m
 
+  &-Title
+    padding: $space-xs 0
+    display: block
 
-@media only screen  and (min-width: #{$track-thumb-size * 3 + $space-between-tracks-thumbs * 2 + $toggle-button-width * 2})
+@media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $toggle-button-width * 2})
   #{$root}-List
-    grid-template-columns: repeat(3, $track-thumb-size)
+    grid-template-columns: repeat(3, $track-thumb-width)
 
 @media only screen  and (min-width: #{$max-content-width + $toggle-button-width * 2})
   #{$root}-List
-    grid-template-columns: repeat(4, $track-thumb-size)
+    grid-template-columns: repeat(4, $track-thumb-width)

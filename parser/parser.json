@@ -1,15 +1,19 @@
 {
   "channels": [],
+  "users": ["Fixtmusic"],
   "more": [],
-  "loaded": [
-    "UCTmk03XjXB7BOg7T_FUWl0w",
-    "UCwsGfP7Y3D84a_zcwKg_2Vw",
-    "UC-7RDShJHg-QfxLkcNXG-nQ",
-    "UCM0YvsRfYfsniGAhjvYFOSA",
-    "UCy4N-1_1wrR_vWezekopJJw",
-    "UCbhy5JHXn3IVZMksNSR7LkQ",
-    "UCwoTj-pZgZZ8DInOXSSLMmA",
-    "UCqRTj-Nu_8to3jIBlXptOtA",
-    "UCpbH_7H71IPKq4eH7CD5spg"
-  ]
+  "loaded": {
+    "chanels": [
+      "UCTmk03XjXB7BOg7T_FUWl0w",
+      "UCwsGfP7Y3D84a_zcwKg_2Vw",
+      "UC-7RDShJHg-QfxLkcNXG-nQ",
+      "UCM0YvsRfYfsniGAhjvYFOSA",
+      "UCy4N-1_1wrR_vWezekopJJw",
+      "UCbhy5JHXn3IVZMksNSR7LkQ",
+      "UCwoTj-pZgZZ8DInOXSSLMmA",
+      "UCqRTj-Nu_8to3jIBlXptOtA",
+      "UCpbH_7H71IPKq4eH7CD5spg"
+    ],
+    "users  ": []
+  }
 }
