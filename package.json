@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci"
+    "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci",
+    "dev": "cd front && npm run dev"
   },
   "keywords": [],
   "author": "",
