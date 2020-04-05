@@ -8,7 +8,7 @@ module.exports.all = async function () {
   let tracksQuantity = 10;
 
   const { query } = this.request;
-  const { page = 0, fromId } = query;
+  const { page = 0, fromId, channel } = query;
 
   if (fromId) {
     // Это костыль, который станет не эффективен, когда будет целая куча треков
@@ -19,7 +19,10 @@ module.exports.all = async function () {
 
   if (typeof tags === 'string') tags = [tags];
 
-  const findParams = tags && { tags: { $in: tags.map(mongoose.mongo.ObjectId) } };
+  const findParams = {};
+
+  tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
+  channel && (findParams['snippet.channelId'] = channel);
 
   const skips = page * tracksQuantity;
 

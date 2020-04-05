@@ -10,8 +10,8 @@ const TracksListItem = inject()(observer(({ imageUrl, title, channelTitle }) => 
   return (
     <div className={cnTracksListItem()}>
       <div className={cnTracksListItem('Image')} style={{ backgroundImage: `url(${imageUrl})` }} />
-      <Text size="xs" text={channelTitle} cropLine className={cnTracksListItem('ChannelTitle')} />
-      <Text size="s" text={title} bold lines={2} className={cnTracksListItem('Title')} />
+      {/*<Text size="xs" text={channelTitle} cropLine className={cnTracksListItem('ChannelTitle')} />*/}
+      <Text size="s" text={title} lines={2} className={cnTracksListItem('Title')} />
     </div>
   );
 }));

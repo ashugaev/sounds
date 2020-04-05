@@ -1,6 +1,7 @@
 import tracksStore from './tracks-store';
 import tagsStore from './tags-store';
 import playerStore from './player-store';
+import channelsStore from './channels-store';
 import notifierStore from './notifier-store';
 
 export default {
@@ -8,4 +9,5 @@ export default {
   tagsStore,
   playerStore,
   notifierStore,
+  channelsStore,
 };

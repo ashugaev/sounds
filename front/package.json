@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node parcelStart.js & npx nodemon ../server/index.js",
+    "dev:no-server": "node parcelStart.js",
     "build": "parcel build components/index.html",
     "dev:no-reload": "node parcelStart.js --no-hmr & npx nodemon ../server/index.js"
   },

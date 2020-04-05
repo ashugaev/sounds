@@ -2,10 +2,15 @@ const path = require('path');
 const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const log4js = require('log4js');
 const { decode } = require('he');
+const { get } = require('lodash');
 const queryString = require('../front/node_modules/query-string');
-const { channels } = require('./parser');
+const { channelsIds } = require('./parser');
 const axios = require('../front/node_modules/axios');
 const tracks = require('../server/controllers/tracks');
+const channelsController = require('../server/controllers/channels');
+const db = require('../server/schema/schema');
+
+let channelsList = [];
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
@@ -16,7 +21,7 @@ if (parseEnv.error) {
 
 const { YOUTUBE_TOKEN } = process.env;
 
-function fetchVideos(channel, nextPageUrl) {
+function fetchVideos(channel, nextPageUrl, pageIndex) {
   return new Promise(async (rs, rj) => {
     try {
       const url = getFetchUrl(channel, nextPageUrl);
@@ -38,6 +43,15 @@ function fetchVideos(channel, nextPageUrl) {
 
           decodeData(filtered);
 
+          const channelId = get(filtered, '0.snippet.channelId');
+
+          if (pageIndex === 0 && !channelsList.some(el => el.channelId === channelId)) {
+            await saveChannelToDB(
+              channelId,
+              get(filtered, '0.snippet.channelTitle'),
+            );
+          }
+
           await writeDatoToDB(filtered);
 
           rs(nextPageToken);
@@ -48,11 +62,42 @@ function fetchVideos(channel, nextPageUrl) {
   });
 }
 
-function getVideos(items) {
+
+function saveChannelToDB(channelId, channelTitle) {
   return new Promise(async (rs, rj) => {
     try {
-      for (let i = 0; i < items.length; i++) {
-        const channel = items[i];
+      if (!channelId || !channelTitle) {
+        return rj('Недостаточно данных для сохранения канала.', 'Id:', id, 'Title:', title);
+      }
+
+      await channelsController.insert({ channelId, channelTitle });
+
+      logger.debug('Channel', channelTitle, 'is saved to DB');
+
+      rs();
+    } catch (e) {
+      rj(e);
+    }
+  });
+}
+
+function getCnannels() {
+  return new Promise(async (rs, rj) => {
+    try {
+      const data = await db.Channels.find();
+
+      rs(data);
+    } catch (e) {
+      rj(e);
+    }
+  });
+}
+
+function getVideos(channels) {
+  return new Promise(async (rs, rj) => {
+    try {
+      for (let i = 0; i < channels.length; i++) {
+        const channel = channels[i];
 
         logger.debug('Get from channel', channel);
 
@@ -66,13 +111,15 @@ function getVideos(items) {
   });
 }
 
-function getVideosFromChannel(channel) {
+async function getVideosFromChannel(channel) {
+  channelsList = channelsList.concat(await getCnannels());
+
   return new Promise(async (rs, rj) => {
     try {
       for (let nextPageUrl, i = 0; nextPageUrl || i === 0; i++) {
         logger.debug('Page', i, ', nextPageUrl', nextPageUrl);
 
-        nextPageUrl = await fetchVideos(channel, nextPageUrl);
+        nextPageUrl = await fetchVideos(channel, nextPageUrl, i);
       }
 
       rs();
@@ -131,7 +178,7 @@ function decodeData(videos) {
  */
 (async () => {
   try {
-    await getVideos(channels);
+    await getVideos(channelsIds);
   } catch (e) {
     logger.error('Videos fetch error', e);
   } finally {

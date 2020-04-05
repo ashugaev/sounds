@@ -4,6 +4,7 @@ var logger = require('koa-logger')
 var route = require('koa-route')
 var tracks = require('./controllers/tracks')
 var tags = require('./controllers/tags')
+var channels = require('./controllers/channels')
 
 const app = new Koa()
 
@@ -12,6 +13,7 @@ app.use(logger())
 
 app.use(route.get('/api/tracks/', tracks.all))
 app.use(route.get('/api/tags/', tags.all))
+app.use(route.get('/api/channels/', channels.all))
 
 // Compress
 app.use(compress())

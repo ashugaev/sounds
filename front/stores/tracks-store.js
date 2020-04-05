@@ -17,6 +17,8 @@ class TracksStore {
 
   @observable filterTags = []
 
+  @observable filterChannel;
+
   @observable changeTrigger
 
   constructor() {
@@ -49,7 +51,9 @@ class TracksStore {
 
     if (this.noTracksToFetch) return;
 
-    const { page, filterTags } = this;
+    const { page, filterTags, filterChannel } = this;
+
+    console.log('filterChannel', filterChannel);
 
     this.isLoading = true;
 
@@ -60,6 +64,7 @@ class TracksStore {
         page,
         fromId,
         tags: filterTags,
+        channel: filterChannel,
       },
     })
       .then(({ data }) => runInAction(() => {
@@ -120,6 +125,12 @@ class TracksStore {
     this.onTagChange({ tags, history, noResetTrackIndex });
   }
 
+  @action.bound setFilterChannel(id, history, noResetTrackIndex) {
+    this.filterChannel = id;
+
+    this.onChannelChange({ id, history, noResetTrackIndex });
+  }
+
   @action.bound removeFilterTags(history, noResetTrackIndex) {
     this.filterTags.clear();
 
@@ -135,6 +146,16 @@ class TracksStore {
     this.fetch(true);
 
     this.setTagsQuery(history, tags);
+  }
+
+  onChannelChange({ id, history, noResetTrackIndex }) {
+    this.noTracksToFetch = false;
+    this.page = 0;
+    this.filterTags.replace = [];
+
+    if (!noResetTrackIndex) this.currentTrackIndex = 0;
+
+    this.fetch(true);
   }
 
   setTagsQuery(history, query) {
