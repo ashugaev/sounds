@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const db = require('../schema/schema');
 const log4js = require('log4js');
+const db = require('../schema/schema');
 
 const logger = log4js.getLogger();
 

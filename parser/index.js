@@ -1,6 +1,7 @@
 const path = require('path');
-const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const log4js = require('log4js');
+const { decode } = require('he');
 const queryString = require('../front/node_modules/query-string');
 const { channels } = require('./parser');
 const axios = require('../front/node_modules/axios');
@@ -20,6 +21,8 @@ function fetchVideos(channel, nextPageUrl) {
     try {
       const url = getFetchUrl(channel, nextPageUrl);
 
+      logger.debug('Url', url);
+
       axios.get(url)
         .then(async (resp) => {
           const { data, status } = resp;
@@ -32,6 +35,8 @@ function fetchVideos(channel, nextPageUrl) {
           logger.debug('Got', items.length, 'items');
 
           const filtered = items.filter(item => item.id.videoId);
+
+          decodeData(filtered);
 
           await writeDatoToDB(filtered);
 
@@ -102,6 +107,22 @@ function writeDatoToDB(videos) {
     } catch (e) {
       rj(e);
     }
+  });
+}
+
+const fieldsToEncode = [
+  'description',
+  'channelTitle',
+  'title',
+];
+
+function decodeData(videos) {
+  videos.forEach((video) => {
+    const { snippet } = video;
+
+    snippet && fieldsToEncode.forEach((field) => {
+      snippet[field] && (snippet[field] = decode(snippet[field]));
+    });
   });
 }
 

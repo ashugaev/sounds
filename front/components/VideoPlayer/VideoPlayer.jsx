@@ -27,6 +27,8 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
   useEffect(() => {
     player = YouTubePlayer('player');
 
+    player.unMute();
+
     player.on('stateChange', handlePlayerStateChange);
     player.on('ready', handlePlayerReady);
 
