@@ -8,7 +8,9 @@ import './TagsMenu.sass';
 
 const cnTagsMenu = cn('TagsMenu');
 
-const TagsMenu = inject('tagsStore', 'channelsStore', 'tracksStore')(observer(({ tagsStore, channelsStore, tracksStore }) => {
+const TagsMenu = inject('tagsStore', 'channelsStore', 'tracksStore')(observer(({
+  tagsStore, channelsStore, tracksStore, history,
+}) => {
   const [isOpened, setIsOpened] = useState(false);
 
   const { fetchTagsByIds, pushToAllTags, allTags } = tagsStore;
@@ -38,20 +40,21 @@ const TagsMenu = inject('tagsStore', 'channelsStore', 'tracksStore')(observer(({
             />
           ))}
 
-          <p>
-            {allChannels.map(({ channelTitle, channelId }, i) => (
-              <Button
-                onClick={() => {
-                  toggleIsOpened();
-                  setFilterChannel(channelId);
-                }}
-                key={i}
-                theme="miniLabel"
-                text={channelTitle}
-                className={cnTagsMenu('ChannelButton')}
-              />
-            ))}
-          </p>
+          <br /><br />
+
+          {allChannels.map(({ channelTitle, channelId }, i) => (
+            <Button
+              onClick={() => {
+                toggleIsOpened();
+                setFilterChannel(channelId, history);
+              }}
+              key={i}
+              theme="miniLabel"
+              text={channelTitle}
+              className={cnTagsMenu('ChannelButton')}
+            />
+          ))}
+
         </div>
         <Button icon="hash" className={cnTagsMenu('ToggleButton')} onClick={toggleIsOpened} />
       </div>

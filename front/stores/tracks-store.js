@@ -2,9 +2,8 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
-import get from 'lodash-es/get';
-
-const qs = require('query-string');
+import { get } from 'lodash-es';
+import query from 'query';
 
 class TracksStore {
   @observable tracks = []
@@ -46,14 +45,14 @@ class TracksStore {
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
    * @param fromId - id трека начиная с коророго хотим слушать
    */
-  @action.bound fetch(rewrite, fromId, tags) {
+  @action.bound fetch(rewrite, fromId, tags, channel) {
     if (this.isLoading) return;
 
     if (this.noTracksToFetch) return;
 
-    const { page, filterTags, filterChannel } = this;
+    if (channel) this.filterChannel = channel;
 
-    console.log('filterChannel', filterChannel);
+    const { page, filterTags, filterChannel } = this;
 
     this.isLoading = true;
 
@@ -145,7 +144,7 @@ class TracksStore {
 
     this.fetch(true);
 
-    this.setTagsQuery(history, tags);
+    query.set(history, 'tags', tags);
   }
 
   onChannelChange({ id, history, noResetTrackIndex }) {
@@ -156,18 +155,8 @@ class TracksStore {
     if (!noResetTrackIndex) this.currentTrackIndex = 0;
 
     this.fetch(true);
-  }
 
-  setTagsQuery(history, query) {
-    if (!history) return;
-
-    const params = qs.parse(get(history, 'location.search'));
-
-    params.tags = [].concat(query).join();
-
-    history.push({
-      search: `?${qs.stringify(params)}`,
-    });
+    query.set(history, 'channel', id);
   }
 }
 

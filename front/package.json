@@ -34,7 +34,8 @@
     "icons": "./assets/icons/",
     "stores": "./stores/",
     "join": "./helpers/join.js",
-    "helpers": "./helpers/"
+    "helpers": "./helpers/",
+    "query": "./helpers/query.js"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
