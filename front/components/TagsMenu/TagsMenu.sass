@@ -1,5 +1,6 @@
 @import "../../assets/styles/constants"
 @import "../../assets/styles/design-system-variables"
+@import "../PlayerBox/PlayerBox"
 
 $root: '.TagsMenu'
 
@@ -12,7 +13,7 @@ $hash-x-translate: calc(#{$hash-size + $space-xxxs + $space-xxxs + $sideblock-ex
 
 #{$root}
   &-SideblockWrapper
-    position: absolute
+    position: fixed
     top: 0
     left: - $sideblock-extra-offset-for-hide-shadow
     height: 100%
@@ -32,8 +33,8 @@ $hash-x-translate: calc(#{$hash-size + $space-xxxs + $space-xxxs + $sideblock-ex
     box-shadow: 0 15px 25px -4px rgba(13, 35, 67, 0.32)
 
   &-ToggleButton
-    position: absolute
-    top: 50%
+    position: fixed
+    top: calc(50% - #{$player-with-timeline-height / 2})
     right: $space-xxxs
     display: block
     transform: translate($hash-x-translate, -50%) rotate(0)
@@ -59,7 +60,7 @@ $hash-x-translate: calc(#{$hash-size + $space-xxxs + $space-xxxs + $sideblock-ex
       display: block
 
   &-Background
-    position: absolute
+    position: fixed
     top: 0
     left: 0
     height: 100%

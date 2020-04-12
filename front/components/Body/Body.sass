@@ -19,12 +19,15 @@
     width: calc(100% - #{$toggle-button-width * 2})
     max-width: $max-content-width
     box-sizing: border-box
+    display: flex
+    align-items: center
+    flex-direction: column
 
     &_withNotifier
       padding-top: $notifier-height
 
     &_withPlayer
-      padding-bottom: $PlayerBoxHeight
+      padding-bottom: $player-with-timeline-height + $space-m
 
   &-PlayerBox
     position: fixed

@@ -7,7 +7,7 @@ function showLastTrackNotifier(createNotify, fetch) {
   let text;
 
   if (lastTagId && lastTagName) {
-    text = `Продолжить слушать тег ${lastTagName}`;
+    text = `Продолжить слушать категорию ${lastTagName}`;
   } else if (lastVideoName && lastVideoName) {
     text = `Продолжить слушать трек ${lastVideoName}`;
   }
