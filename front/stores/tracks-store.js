@@ -57,6 +57,7 @@ class TracksStore {
     tags,
     channel,
     checkPrevTracks,
+    pageFetch,
   }) {
     if (beforeObjId) {
       if (this.prevTracksIsLoadhng || this.noTracksToFetchBefore) return;
@@ -74,14 +75,22 @@ class TracksStore {
 
     if (tags) this.filterTags.replace(tags);
 
+    const params = {
+      fromObjId,
+      afterObjId,
+      beforeObjId,
+      tags: filterTags,
+      channel: filterChannel,
+    };
+
+    // Дергает параллельно фетч треков для страницы
+    pageFetch && pageFetch({
+      tags: params.tags,
+      channel: params.channel,
+    });
+
     axios.get('/api/tracks', {
-      params: {
-        fromObjId,
-        afterObjId,
-        beforeObjId,
-        tags: filterTags,
-        channel: filterChannel,
-      },
+      params,
     })
       .then(({ data }) => runInAction(async () => {
         if (!data.length) {
@@ -100,7 +109,7 @@ class TracksStore {
           if (fromObjId) {
             const index = this.tracks.findIndex(track => track._id === fromObjId);
 
-            this.currentTrackIndex = index;
+            this.currentTrackIndex = index || 0;
           }
 
           // Костыль, что бы стригерить перерендер плеера, если id при смене тега не поменялся

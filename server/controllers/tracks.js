@@ -7,11 +7,12 @@ const logger = log4js.getLogger();
 module.exports.all = async function () {
   console.time('tracks endpoint');
 
-  const tracksQuantity = 6;
   const { query } = this.request;
   const {
-    fromObjId, channel, afterObjId, beforeObjId,
+    fromObjId, channel, afterObjId, beforeObjId, limit,
   } = query;
+
+  const tracksQuantity = Number(limit) || 6;
 
   let tags = query['tags[]'] || query.tags;
 

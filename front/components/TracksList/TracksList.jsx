@@ -9,8 +9,9 @@ import './TracksList.sass';
 
 const cnTracksList = cn('TracksList');
 
-const TracksList = inject('tracksStore', 'tagsStore')(observer(({ tracksStore, tagsStore }) => {
-  const { tracks, filterTags } = tracksStore;
+const TracksList = inject('tracksStore', 'tagsStore', 'pageStore')(observer(({ tracksStore, tagsStore, pageStore }) => {
+  const { filterTags } = tracksStore;
+  const { tracks } = pageStore;
   const { allTags } = tagsStore;
 
   function getTitle() {

@@ -31,14 +31,14 @@ const TagsMenu = inject('tagsStore', 'channelsStore', 'tracksStore')(observer(({
       <div className={cnTagsMenu('Background')} onClick={toggleIsOpened} />
       <div className={cnTagsMenu('SideblockWrapper')}>
         <div className={cnTagsMenu('Sideblock')}>
-          {allTags.map((tag, i) => (
+          {/* allTags.map((tag, i) => (
             <TagButton
               onClick={toggleIsOpened}
               key={i}
               text={tag.name}
               id={tag._id}
             />
-          ))}
+          )) */}
 
           <br /><br />
 

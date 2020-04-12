@@ -14,8 +14,8 @@ import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import './PlayerBox.sass';
 
-const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer(({
-  className, tracksStore, playerStore, history, notifierStore,
+const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
+  className, tracksStore, playerStore, history, notifierStore, pageStore,
 }) => {
   const {
     track,
@@ -41,7 +41,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
 
     // Первый fetch с параметрами из урла
     fetch({
-      rewrite: false, fromObjId: trackObjId, tags, channel, checkPrevTracks: true,
+      rewrite: false, fromObjId: trackObjId, tags, channel, checkPrevTracks: true, pageFetch: pageStore.fetch,
     });
 
     // Предлагает продолжить слушать тег/трек
