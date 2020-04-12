@@ -1,5 +1,5 @@
 function showLastTrackNotifier(createNotify, fetch) {
-  const lastVideoId = localStorage.getItem('lastVideoId');
+  const lastVideoObjId = localStorage.getItem('lastVideoObjId');
   const lastVideoName = localStorage.getItem('lastVideoName');
   const lastTagId = localStorage.getItem('lastTagId');
   const lastTagName = localStorage.getItem('lastTagName');
@@ -12,13 +12,15 @@ function showLastTrackNotifier(createNotify, fetch) {
     text = `Продолжить слушать трек ${lastVideoName}`;
   }
 
-  if (!lastVideoId || !lastVideoName) return;
+  if (!lastVideoObjId || !lastVideoName) return;
 
   createNotify({
     text,
     icon: 'play',
     callback() {
-      fetch(true, lastVideoId, [lastTagId]);
+      fetch({
+        rewirite: true, fromObjId: lastVideoObjId, tags: [lastTagId], checkPrevTracks: true,
+      });
     },
   });
 }
@@ -37,9 +39,10 @@ function setTagToLocalStorage(tagName, tagId, isActive) {
   localStorage.setItem('lastTagName', tagName);
 }
 
-function setTrackToLocalStorage(trackName, trackId) {
+function setTrackToLocalStorage(trackName, trackId, trackObjId) {
   localStorage.setItem('lastVideoId', trackId);
   localStorage.setItem('lastVideoName', trackName);
+  localStorage.setItem('lastVideoObjId', trackObjId);
 }
 
 module.exports = {

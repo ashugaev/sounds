@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { withRouter } from 'react-router';
 import qs from 'query-string';
 import get from 'lodash-es/get';
+import query from 'query';
 import { setTrackToLocalStorage } from '../../helpers/lastTrackNotifier';
 
 let player;
@@ -44,9 +45,9 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
 
       if (track.tags && !track.tagsIsLoaded) fetchTagsByIds(track.tags, setTags);
 
-      updateTrackQuery(videoId);
+      updateTrackQuery();
 
-      setTrackToLocalStorage(get(track, 'snippet.title'), videoId);
+      setTrackToLocalStorage(get(track, 'snippet.title'), videoId, track._id);
     }
   }, [videoId, changeTrigger]);
 
@@ -78,16 +79,9 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
     console.log('ready', data);
   }
 
-  function updateTrackQuery(id) {
-    if (!id || !history) return;
-
-    const params = qs.parse(get(history, 'location.search'));
-
-    params.trackId = id;
-
-    history.push({
-      search: `?${qs.stringify(params)}`,
-    });
+  function updateTrackQuery() {
+    query.set(history, 'trackId', videoId, true);
+    query.set(history, 'trackObjId', track._id, true);
   }
 
   function updateTagsFromQueries() {

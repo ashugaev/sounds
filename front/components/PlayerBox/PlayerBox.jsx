@@ -35,12 +35,14 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore')(observer
   } = playerStore;
 
   useEffect(() => {
-    let { trackId, tags, channel } = qs.parse(get(history, 'location.search'));
+    let { tags, channel, trackObjId } = qs.parse(get(history, 'location.search'));
 
     tags = tags && tags.split(',');
 
     // Первый fetch с параметрами из урла
-    fetch(false, trackId, tags, channel);
+    fetch({
+      rewrite: false, fromObjId: trackObjId, tags, channel, checkPrevTracks: true,
+    });
 
     // Предлагает продолжить слушать тег/трек
     showLastTrackNotifier(createNotify, fetch);

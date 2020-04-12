@@ -5,28 +5,37 @@ const db = require('../schema/schema');
 const logger = log4js.getLogger();
 
 module.exports.all = async function () {
-  let tracksQuantity = 10;
+  console.time('tracks endpoint');
 
+  const tracksQuantity = 6;
   const { query } = this.request;
-  const { page = 0, fromId, channel } = query;
-
-  if (fromId) {
-    // Это костыль, который станет не эффективен, когда будет целая куча треков
-    tracksQuantity = 0;
-  }
+  const {
+    fromObjId, channel, afterObjId, beforeObjId,
+  } = query;
 
   let tags = query['tags[]'] || query.tags;
 
   if (typeof tags === 'string') tags = [tags];
 
   const findParams = {};
+  const sortParams = { _id: 1 };
 
   tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
   channel && (findParams['snippet.channelId'] = channel);
+  fromObjId && (findParams._id = { $gte: fromObjId });
+  afterObjId && (findParams._id = { $gt: afterObjId });
+  beforeObjId && (findParams._id = { $lt: beforeObjId }, sortParams._id = -1);
 
-  const skips = page * tracksQuantity;
+  let tracks = await db.Tracks.find(findParams).limit(tracksQuantity).sort(sortParams);
 
-  this.body = await db.Tracks.find(findParams).skip(skips).limit(tracksQuantity);
+  // Нужно реверcнуть, потому что в этом случае у базы была обратная сортировка
+  if (beforeObjId) {
+    tracks = tracks.reverse();
+  }
+
+  console.timeEnd('tracks endpoint');
+
+  this.body = tracks;
 };
 
 module.exports.insertMany = async function (list) {

@@ -7,7 +7,7 @@ import { get } from 'lodash-es';
 const qs = require('query-string');
 
 function set(history, name, val) {
-  if (!history) return;
+  if (!history || !val) return;
 
   const params = qs.parse(get(history, 'location.search'));
 

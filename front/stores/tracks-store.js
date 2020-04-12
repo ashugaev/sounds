@@ -2,17 +2,16 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
-import { get } from 'lodash-es';
 import query from 'query';
 
 class TracksStore {
   @observable tracks = []
 
+  @observable prevTracksIsLoadhng = false
+
   @observable currentTrackIndex = 0
 
   @observable isLoading = false
-
-  @observable page = 0
 
   @observable filterTags = []
 
@@ -21,12 +20,17 @@ class TracksStore {
   @observable changeTrigger
 
   constructor() {
-    this.minTracksForFetch = 7;
-    this.noTracksToFetch = false;
+    this.minTracksForFetch = 3;
+    this.noTracksToFetchBefore = false;
+    this.noTracksToFetchAfter = false;
   }
 
   get track() {
     return this.tracks[this.currentTrackIndex];
+  }
+
+  get lastTrack() {
+    return this.tracks[this.tracksLength - 1];
   }
 
   get tracksLength() {
@@ -43,41 +47,58 @@ class TracksStore {
 
   /**
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
-   * @param fromId - id трека начиная с коророго хотим слушать
+   * @param fromObjId - id трека начиная с коророго хотим слушать
    */
-  @action.bound fetch(rewrite, fromId, tags, channel) {
-    if (this.isLoading) return;
+  @action.bound fetch({
+    rewrite,
+    fromObjId,
+    afterObjId,
+    beforeObjId,
+    tags,
+    channel,
+    checkPrevTracks,
+  }) {
+    if (beforeObjId) {
+      if (this.prevTracksIsLoadhng || this.noTracksToFetchBefore) return;
 
-    if (this.noTracksToFetch) return;
+      this.prevTracksIsLoadhng = true;
+    } else {
+      if (this.isLoading || this.noTracksToFetchAfter) return;
+
+      this.isLoading = true;
+    }
 
     if (channel) this.filterChannel = channel;
 
-    const { page, filterTags, filterChannel } = this;
-
-    this.isLoading = true;
+    const { filterTags, filterChannel } = this;
 
     if (tags) this.filterTags.replace(tags);
 
     axios.get('/api/tracks', {
       params: {
-        page,
-        fromId,
+        fromObjId,
+        afterObjId,
+        beforeObjId,
         tags: filterTags,
         channel: filterChannel,
       },
     })
-      .then(({ data }) => runInAction(() => {
+      .then(({ data }) => runInAction(async () => {
         if (!data.length) {
-          this.noTracksToFetch = true;
+          beforeObjId && (this.noTracksToFetchBefore = true);
+          afterObjId && (this.noTracksToFetchAfter = true);
         } else {
-          rewrite ? (
-            this.tracks.replace(data)
-          ) : (
-            this.tracks.push(...data)
-          );
+          if (rewrite) {
+            this.tracks.replace(data);
+          } else if (beforeObjId) {
+            this.tracks.replace(data.concat(this.tracks));
+            this.currentTrackIndex += data.length;
+          } else {
+            this.tracks.push(...data);
+          }
 
-          if (fromId) {
-            const index = this.tracks.findIndex(track => get(track, 'id.videoId') === fromId);
+          if (fromObjId) {
+            const index = this.tracks.findIndex(track => track._id === fromObjId);
 
             this.currentTrackIndex = index;
           }
@@ -87,9 +108,16 @@ class TracksStore {
         }
 
         this.isLoading = false;
+        this.prevTracksIsLoadhng = false;
+
+        // TODO: Разобраться почему не работает в ифаке выше
+        if (checkPrevTracks && data.length) {
+          this.fetch({ beforeObjId: this.tracks[0]._id });
+        }
       }))
       .catch(err => runInAction(() => {
         this.isLoading = false;
+        this.prevTracksIsLoadhng = false;
 
         console.log(err);
       }));
@@ -98,18 +126,25 @@ class TracksStore {
   @action.bound onNextClick() {
     if (this.isNextArrowDisabled) return;
 
-    if ((this.tracks.length - this.currentTrackIndex) <= this.minTracksForFetch) {
-      this.page++;
-      this.fetch();
-    }
-
     this.currentTrackIndex++;
+
+    if ((this.tracks.length - this.currentTrackIndex) <= this.minTracksForFetch) {
+      this.fetch({
+        afterObjId: this.lastTrack._id,
+      });
+    }
   }
 
   @action.bound onPrevClick() {
     if (this.isPrevArrowDisabled) return;
 
     this.currentTrackIndex--;
+
+    if (this.currentTrackIndex <= this.minTracksForFetch) {
+      this.fetch({
+        beforeObjId: this.tracks[0]._id,
+      });
+    }
   }
 
   @action.bound setTags(tags) {
@@ -137,24 +172,24 @@ class TracksStore {
   }
 
   onTagChange({ tags, history, noResetTrackIndex }) {
-    this.noTracksToFetch = false;
-    this.page = 0;
+    this.noTracksToFetchBefore = false;
+    this.noTracksToFetchAfter = false;
 
     if (!noResetTrackIndex) this.currentTrackIndex = 0;
 
-    this.fetch(true);
+    this.fetch({ rewrite: true });
 
     query.set(history, 'tags', tags);
   }
 
   onChannelChange({ id, history, noResetTrackIndex }) {
-    this.noTracksToFetch = false;
-    this.page = 0;
+    this.noTracksToFetchBefore = false;
+    this.noTracksToFetchAfter = false;
     this.filterTags.replace = [];
 
     if (!noResetTrackIndex) this.currentTrackIndex = 0;
 
-    this.fetch(true);
+    this.fetch({ rewrite: true });
 
     query.set(history, 'channel', id);
   }
