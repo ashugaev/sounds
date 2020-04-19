@@ -2,6 +2,7 @@ import React from 'react';
 import TracksListItem from 'c/TracksListItem';
 import get from 'lodash-es/get';
 import Text from 'c/Text';
+import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 
@@ -11,7 +12,9 @@ const cnTracksList = cn('TracksList');
 
 const TracksList = inject('tracksStore', 'tagsStore', 'pageStore')(observer(({ tracksStore, tagsStore, pageStore }) => {
   const { filterTags } = tracksStore;
-  const { tracks } = pageStore;
+  const {
+    tracks, isLoading, noTracksToFetch, fetch,
+  } = pageStore;
   const { allTags } = tagsStore;
 
   function getTitle() {
@@ -28,27 +31,40 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore')(observer(({ t
     return 'All Tracks';
   }
 
+  function loadMoreItems() {
+    fetch({
+      fromObjId: pageStore.lastTrack._id,
+    });
+  }
+
   return (
-    <div className={cnTracksList()}>
-      <Text
-        text={getTitle()}
-        size="xl"
-        className={cnTracksList('Title')}
-        bold
-        cropLine
+    <>
+      <LazyLoader
+        loadHandler={loadMoreItems}
+        pixelsLeftToLoad={500}
+        skipLoads={isLoading || noTracksToFetch}
       />
-      <div className={cnTracksList('List')}>
-        {tracks.map(({ snippet }) => (
-          <TracksListItem
-            className={cnTracksList('Track')}
-            title={get(snippet, 'title')}
-            description={get(snippet, 'description')}
-            imageUrl={get(snippet, 'thumbnails.high.url')}
-            channelTitle={get(snippet, 'channelTitle')}
-          />
-        ))}
+      <div className={cnTracksList()}>
+        <Text
+          text={getTitle()}
+          size="xl"
+          className={cnTracksList('Title')}
+          bold
+          cropLine
+        />
+        <div className={cnTracksList('List')}>
+          {tracks.map(({ snippet }) => (
+            <TracksListItem
+              className={cnTracksList('Track')}
+              title={get(snippet, 'title')}
+              description={get(snippet, 'description')}
+              imageUrl={get(snippet, 'thumbnails.high.url')}
+              channelTitle={get(snippet, 'channelTitle')}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }));
 

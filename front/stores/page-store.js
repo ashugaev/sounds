@@ -8,6 +8,7 @@ class PageStore {
 
   @observable isLoading = false
 
+  @observable noTracksToFetch = false
 
   /**
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
@@ -21,7 +22,7 @@ class PageStore {
     tags,
     channel,
   }) {
-    if (this.isLoading || this.noTracksToFetchAfter) return;
+    if (this.isLoading || this.noTracksToFetch) return;
 
     this.isLoading = true;
 
@@ -31,12 +32,12 @@ class PageStore {
         afterObjId,
         tags,
         channel,
-        limit: 20,
+        limit: 30,
       },
     })
       .then(({ data }) => runInAction(async () => {
         if (!data.length) {
-          this.noTracksToFetchAfter = true;
+          this.noTracksToFetch = true;
         } else if (rewrite) {
           this.tracks.replace(data);
         } else {
@@ -50,6 +51,10 @@ class PageStore {
 
         console.log(err);
       }));
+  }
+
+  get lastTrack() {
+    return this.tracks[this.tracks.length - 1];
   }
 }
 
