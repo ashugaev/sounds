@@ -6,7 +6,7 @@ import './Text.sass';
 const cnText = cn('Text');
 
 const Text = ({
-  text, size, color, children, className, line, bold, cropLine, lines,
+  text, size, color, children, className, line, bold, cropLine, lines, hoverable,
 }) => {
   const style = {};
 
@@ -15,7 +15,7 @@ const Text = ({
   return (
     <span
       className={j(cnText({
-        size, color, line, bold, cropLine, limitedLines: Boolean(lines),
+        size, color, line, bold, cropLine, limitedLines: Boolean(lines), hoverable,
       }), className)}
 
       style={style}

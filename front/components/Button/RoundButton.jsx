@@ -29,4 +29,8 @@ const RoundButton = ({
   );
 };
 
+RoundButton.defaultProps = {
+  onButtonClick: () => {},
+};
+
 export default RoundButton;

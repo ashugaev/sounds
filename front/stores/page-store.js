@@ -10,6 +10,10 @@ class PageStore {
 
   @observable noTracksToFetch = false
 
+  @observable filterTags = []
+
+  @observable filterChannel
+
   /**
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
    * @param fromObjId - id трека начиная с коророго хотим слушать

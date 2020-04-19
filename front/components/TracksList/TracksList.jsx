@@ -10,12 +10,15 @@ import './TracksList.sass';
 
 const cnTracksList = cn('TracksList');
 
-const TracksList = inject('tracksStore', 'tagsStore', 'pageStore')(observer(({ tracksStore, tagsStore, pageStore }) => {
-  const { filterTags } = tracksStore;
+const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore')(observer(({
+  tracksStore, tagsStore, pageStore, playerStore,
+}) => {
+  const { filterTags, track } = tracksStore;
   const {
     tracks, isLoading, noTracksToFetch, fetch,
   } = pageStore;
   const { allTags } = tagsStore;
+  const { isPlaying } = playerStore;
 
   function getTitle() {
     const activeTagId = filterTags[0];
@@ -53,13 +56,15 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore')(observer(({ t
           cropLine
         />
         <div className={cnTracksList('List')}>
-          {tracks.map(({ snippet }) => (
+          {tracks.map(({ snippet, id, _id }) => (
             <TracksListItem
               className={cnTracksList('Track')}
               title={get(snippet, 'title')}
               description={get(snippet, 'description')}
               imageUrl={get(snippet, 'thumbnails.high.url')}
               channelTitle={get(snippet, 'channelTitle')}
+              isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
+              videoObjId={_id}
             />
           ))}
         </div>
