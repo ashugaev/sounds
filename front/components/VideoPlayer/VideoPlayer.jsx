@@ -16,14 +16,16 @@ const playerStates = {
   BUFFERING: 3,
 };
 
-const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer(({
-  playerStore, tracksStore, tagsStore, videoId, isPlaying, history,
+const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore', 'pageStore')(observer(({
+  playerStore, tracksStore, tagsStore, videoId, isPlaying, history, pageStore,
 }) => {
   const { onPlay, onStop, newTimeValue } = playerStore;
   const {
-    onNextClick, track, setTags, changeTrigger, setFilterTags,
+    onNextClick, track, changeTrigger,
   } = tracksStore;
+  const { setFilterTags } = pageStore;
   const { fetchTagsByIds } = tagsStore;
+  const { setTags } = pageStore;
 
   useEffect(() => {
     player = YouTubePlayer('player');
@@ -80,8 +82,8 @@ const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore')(observer((
   }
 
   function updateTrackQuery() {
-    query.set(history, 'trackId', videoId, true);
-    query.set(history, 'trackObjId', track._id, true);
+    query.set(history, 'trackId', videoId);
+    query.set(history, 'trackObjId', track._id);
   }
 
   function updateTagsFromQueries() {

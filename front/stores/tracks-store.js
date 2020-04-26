@@ -7,7 +7,7 @@ import query from 'query';
 class TracksStore {
   @observable tracks = []
 
-  @observable prevTracksIsLoadhng = false
+  @observable prevTracksIsLoading = false
 
   @observable currentTrackIndex = 0
 
@@ -15,7 +15,7 @@ class TracksStore {
 
   @observable filterTags = []
 
-  @observable filterChannel;
+  @observable filterChannel
 
   @observable changeTrigger
 
@@ -57,40 +57,45 @@ class TracksStore {
     tags,
     channel,
     checkPrevTracks,
-    pageFetch,
+    history,
+    isPlayerClick,
   }) {
-    if (beforeObjId) {
-      if (this.prevTracksIsLoadhng || this.noTracksToFetchBefore) return;
+    // Тут получается довольно таки запутанная и не продуманная логика. Нужно порефакторить
+    // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клигу на элемент каталога
+    if (isPlayerClick) {
+      if (beforeObjId) {
+        if (this.prevTracksIsLoading || this.noTracksToFetchBefore) return;
 
-      this.prevTracksIsLoadhng = true;
-    } else {
-      if (this.isLoading || this.noTracksToFetchAfter) return;
+        this.prevTracksIsLoading = true;
+      } else {
+        if (this.isLoading || this.noTracksToFetchAfter) return;
 
-      this.isLoading = true;
+        this.isLoading = true;
+      }
     }
 
-    if (channel) this.filterChannel = channel;
+    // Если пришли параметры, то перезапишем
+    if (channel) {
+      this.filterChannel = channel;
+      history && query.set(history, 'playerChannel', channel);
+      this.resetStopParams();
+    }
+    if (tags) {
+      this.filterTags.replace(tags);
+      (history && tags.length) && query.set(history, 'playerTags', tags);
+      this.resetStopParams();
+    }
 
     const { filterTags, filterChannel } = this;
 
-    if (tags) this.filterTags.replace(tags);
-
-    const params = {
-      fromObjId,
-      afterObjId,
-      beforeObjId,
-      tags: filterTags,
-      channel: filterChannel,
-    };
-
-    // Дергает параллельно фетч треков для страницы
-    pageFetch && pageFetch({
-      tags: params.tags,
-      channel: params.channel,
-    });
-
     axios.get('/api/tracks', {
-      params,
+      params: {
+        fromObjId,
+        afterObjId,
+        beforeObjId,
+        tags: filterTags,
+        channel: filterChannel,
+      },
     })
       .then(({ data }) => runInAction(async () => {
         if (!data.length) {
@@ -117,7 +122,7 @@ class TracksStore {
         }
 
         this.isLoading = false;
-        this.prevTracksIsLoadhng = false;
+        this.prevTracksIsLoading = false;
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
@@ -126,10 +131,15 @@ class TracksStore {
       }))
       .catch(err => runInAction(() => {
         this.isLoading = false;
-        this.prevTracksIsLoadhng = false;
+        this.prevTracksIsLoading = false;
 
-        console.log(err);
+        console.error(err);
       }));
+  }
+
+  resetStopParams() {
+    this.noTracksToFetchAfter = false;
+    this.noTracksToFetchBefore = false;
   }
 
   @action.bound onNextClick() {
@@ -140,6 +150,7 @@ class TracksStore {
     if ((this.tracks.length - this.currentTrackIndex) <= this.minTracksForFetch) {
       this.fetch({
         afterObjId: this.lastTrack._id,
+        isPlayerClick: true,
       });
     }
   }
@@ -152,55 +163,18 @@ class TracksStore {
     if (this.currentTrackIndex <= this.minTracksForFetch) {
       this.fetch({
         beforeObjId: this.tracks[0]._id,
+        isPlayerClick: true,
       });
     }
   }
 
+  /**
+   * Добавляет теги к текущему треку
+   */
   @action.bound setTags(tags) {
     this.track.tags = tags;
 
     this.track.tagsIsLoaded = true;
-  }
-
-  @action.bound setFilterTags(tags, history, noResetTrackIndex) {
-    this.filterTags.replace([].concat(tags));
-
-    this.onTagChange({ tags, history, noResetTrackIndex });
-  }
-
-  @action.bound setFilterChannel(id, history, noResetTrackIndex) {
-    this.filterChannel = id;
-
-    this.onChannelChange({ id, history, noResetTrackIndex });
-  }
-
-  @action.bound removeFilterTags(history, noResetTrackIndex) {
-    this.filterTags.clear();
-
-    this.onTagChange({ history, noResetTrackIndex });
-  }
-
-  onTagChange({ tags, history, noResetTrackIndex }) {
-    this.noTracksToFetchBefore = false;
-    this.noTracksToFetchAfter = false;
-
-    if (!noResetTrackIndex) this.currentTrackIndex = 0;
-
-    this.fetch({ rewrite: true });
-
-    query.set(history, 'tags', tags);
-  }
-
-  onChannelChange({ id, history, noResetTrackIndex }) {
-    this.noTracksToFetchBefore = false;
-    this.noTracksToFetchAfter = false;
-    this.filterTags.replace = [];
-
-    if (!noResetTrackIndex) this.currentTrackIndex = 0;
-
-    this.fetch({ rewrite: true });
-
-    query.set(history, 'channel', id);
   }
 }
 

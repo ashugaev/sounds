@@ -2,6 +2,7 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
+import query from 'query';
 
 class PageStore {
   @observable tracks = []
@@ -25,17 +26,24 @@ class PageStore {
     afterObjId,
     tags,
     channel,
+    callback,
   }) {
     if (this.isLoading || this.noTracksToFetch) return;
 
     this.isLoading = true;
 
+    // Если пришли параметры, то перезапишем
+    if (channel) this.filterChannel = channel;
+    if (tags) this.filterTags.replace(tags);
+
+    const { filterTags, filterChannel } = this;
+
     axios.get('/api/tracks', {
       params: {
         fromObjId,
         afterObjId,
-        tags,
-        channel,
+        tags: filterTags,
+        channel: filterChannel,
         limit: 30,
       },
     })
@@ -48,13 +56,57 @@ class PageStore {
           this.tracks.push(...data);
         }
 
+        callback && callback();
+
         this.isLoading = false;
       }))
       .catch(err => runInAction(() => {
         this.isLoading = false;
 
-        console.log(err);
+        console.error(err);
       }));
+  }
+
+  @action.bound setFilterTags(tags, history) {
+    this.filterTags.replace([].concat(tags));
+
+    this.onTagChange({ tags, history });
+  }
+
+  @action.bound setFilterChannel(id, history) {
+    this.filterChannel = id;
+
+    this.onChannelChange({ id, history });
+  }
+
+  @action.bound removeFilterTags(history) {
+    this.filterTags.clear();
+
+    this.onTagChange({ history });
+  }
+
+  onChannelChange({ id, history }) {
+    this.filterTags.replace = [];
+
+    query.set(history, 'pageChannel', id);
+
+    this.onFilterChange();
+  }
+
+  onTagChange({ tags, history }) {
+    query.set(history, 'pageTags', tags);
+
+    this.onFilterChange();
+  }
+
+  onFilterChange() {
+    this.noTracksToFetch = false;
+
+    this.fetch({ rewrite: true, callback: this.scrollToTop });
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
 
   get lastTrack() {

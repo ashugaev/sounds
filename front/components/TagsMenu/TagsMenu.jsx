@@ -8,14 +8,14 @@ import './TagsMenu.sass';
 
 const cnTagsMenu = cn('TagsMenu');
 
-const TagsMenu = inject('tagsStore', 'channelsStore', 'tracksStore')(observer(({
-  tagsStore, channelsStore, tracksStore, history,
+const TagsMenu = inject('tagsStore', 'channelsStore', 'pageStore')(observer(({
+  tagsStore, channelsStore, pageStore, history,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
 
   const { fetchTagsByIds, pushToAllTags, allTags } = tagsStore;
   const { fetchChannels, allChannels } = channelsStore;
-  const { setFilterChannel } = tracksStore;
+  const { setFilterChannel } = pageStore;
 
   useEffect(() => {
     fetchTagsByIds(null, pushToAllTags);

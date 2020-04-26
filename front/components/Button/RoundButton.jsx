@@ -30,7 +30,7 @@ const RoundButton = ({
 };
 
 RoundButton.defaultProps = {
-  onButtonClick: () => {},
+  onClick: () => {},
 };
 
 export default RoundButton;

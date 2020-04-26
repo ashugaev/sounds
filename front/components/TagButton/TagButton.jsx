@@ -4,14 +4,14 @@ import Button from 'c/Button';
 import { withRouter } from 'react-router';
 import { setTagToLocalStorage } from '../../helpers/lastTrackNotifier';
 
-const TagsButton = inject('tracksStore')(observer(({
-  tracksStore, history, key, onClick, text, id, theme, className,
+const TagsButton = inject('pageStore')(observer(({
+  history, key, onClick, text, id, theme, className, pageStore,
 }) => {
   const {
     filterTags,
     setFilterTags,
     removeFilterTags,
-  } = tracksStore;
+  } = pageStore;
 
   const isTagActive = filterTags.includes(id);
 

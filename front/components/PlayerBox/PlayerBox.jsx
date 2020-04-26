@@ -3,13 +3,13 @@ import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import j from 'join';
 import Button from 'c/Button';
+import query from 'query';
 import TagButton from 'c/TagButton';
 import VideoPlayer from 'c/VideoPlayer';
 import TimeLine from 'c/TimeLine';
 import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
-import qs from 'query-string';
 import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import './PlayerBox.sass';
@@ -21,12 +21,16 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
     track,
     onNextClick,
     onPrevClick,
-    fetch,
+    fetch: tracksFetch,
     isLoading,
     tracksLength,
     isNextArrowDisabled,
     isPrevArrowDisabled,
   } = tracksStore;
+
+  const {
+    fetch: pageFetch,
+  } = pageStore;
 
   const { createNotify } = notifierStore;
 
@@ -35,17 +39,29 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
   } = playerStore;
 
   useEffect(() => {
-    let { tags, channel, trackObjId } = qs.parse(get(history, 'location.search'));
+    const urlQueries = query.get(history);
 
-    tags = tags && tags.split(',');
+    const { pageChannel, playerChannel, trackObjId } = urlQueries;
+    let { pageTags, playerTags } = urlQueries;
 
-    // Первый fetch с параметрами из урла
-    fetch({
-      rewrite: false, fromObjId: trackObjId, tags, channel, checkPrevTracks: true, pageFetch: pageStore.fetch,
+    pageTags = pageTags && pageTags.split(',');
+    playerTags = playerTags && playerTags.split(',');
+
+    // Первые фетчи с параметрами из урла
+    pageFetch({
+      tags: pageTags,
+      channel: pageChannel,
+    });
+
+    tracksFetch({
+      fromObjId: trackObjId,
+      tags: playerTags,
+      channel: playerChannel,
+      checkPrevTracks: true,
     });
 
     // Предлагает продолжить слушать тег/трек
-    showLastTrackNotifier(createNotify, fetch);
+    showLastTrackNotifier(createNotify, fetch, history);
   }, []);
 
   if (isLoading && !tracksLength) return <div>Loading...</div>;

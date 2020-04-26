@@ -15,7 +15,7 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
 }) => {
   const { filterTags, track } = tracksStore;
   const {
-    tracks, isLoading, noTracksToFetch, fetch,
+    tracks, isLoading, noTracksToFetch, fetch: pageFetch,
   } = pageStore;
   const { allTags } = tagsStore;
   const { isPlaying } = playerStore;
@@ -35,8 +35,8 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
   }
 
   function loadMoreItems() {
-    fetch({
-      fromObjId: pageStore.lastTrack._id,
+    pageFetch({
+      afterObjId: pageStore.lastTrack._id,
     });
   }
 
@@ -58,11 +58,11 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
         <div className={cnTracksList('List')}>
           {tracks.map(({ snippet, id, _id }) => (
             <TracksListItem
+              key={_id}
               className={cnTracksList('Track')}
               title={get(snippet, 'title')}
               description={get(snippet, 'description')}
               imageUrl={get(snippet, 'thumbnails.high.url')}
-              channelTitle={get(snippet, 'channelTitle')}
               isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
               videoObjId={_id}
             />

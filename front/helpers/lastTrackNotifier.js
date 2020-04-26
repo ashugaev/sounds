@@ -1,4 +1,4 @@
-function showLastTrackNotifier(createNotify, fetch) {
+function showLastTrackNotifier(createNotify, tracksFetch, history) {
   const lastVideoObjId = localStorage.getItem('lastVideoObjId');
   const lastVideoName = localStorage.getItem('lastVideoName');
   const lastTagId = localStorage.getItem('lastTagId');
@@ -18,8 +18,8 @@ function showLastTrackNotifier(createNotify, fetch) {
     text,
     icon: 'play',
     callback() {
-      fetch({
-        rewirite: true, fromObjId: lastVideoObjId, tags: [lastTagId], checkPrevTracks: true,
+      tracksFetch({
+        rewirite: true, fromObjId: lastVideoObjId, tags: [lastTagId], checkPrevTracks: true, history,
       });
     },
   });
