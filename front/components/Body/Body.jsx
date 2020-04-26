@@ -14,8 +14,7 @@ const Body = inject('notifierStore')(observer(({ notifierStore }) => {
 
   return (
     <div className={cnBody()}>
-      <Notifier />
-      <div className={cnBody('Content', { withNotifier: Boolean(lastNotify), withPlayer: true })}>
+      <div classNgame={cnBody('Content', { withNotifier: Boolean(lastNotify), withPlayer: true })}>
         <TracksList />
         <PlayerBox className={cnBody('PlayerBox')} />
       </div>
