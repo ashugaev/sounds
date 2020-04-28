@@ -17,3 +17,5 @@
 - [Установить Docker](https://www.digitalocean.com/community/tutorials/docker-ubuntu-16-04-ru)
 
 - [Установить Docker Compose](https://docs.docker.com/compose/install/)
+
+Начало работы над проектом 9 декабря 2019
