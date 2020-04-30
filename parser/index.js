@@ -30,13 +30,13 @@ function fetchVideos(channel, nextPageUrl, pageIndex) {
 
       axios.get(url)
         .then(async (resp) => {
-          const { data, status } = resp;
+          const { data, status, message } = resp;
           const { items, nextPageToken, prevPageToken } = data;
 
           if (status !== 200 || !items.length) {
             return prevPageToken
               ? rs()
-              : rj('Ошибка получения данных с канала. Url:', url);
+              : rj('Ошибка получения данных с канала. Url:', url, '. Ошибка', message);
           }
 
           logger.debug('Got', items.length, 'items');
@@ -47,7 +47,7 @@ function fetchVideos(channel, nextPageUrl, pageIndex) {
 
           const channelId = get(filtered, '0.snippet.channelId');
 
-          if (pageIndex === 0 && !channelsList.some(el => el.channelId === channelId)) {
+          if (pageIndex === 0) {
             await saveChannelToDB(
               channelId,
               get(filtered, '0.snippet.channelTitle'),
@@ -72,7 +72,8 @@ function saveChannelToDB(channelId, channelTitle) {
         return rj('Недостаточно данных для сохранения канала.', 'Id:', id, 'Title:', title);
       }
 
-      await channelsController.insert({ channelId, channelTitle });
+      const channelData = await fetchChannelData(channelId);
+      await channelsController.insertWithReplace(channelData);
 
       logger.debug('Channel', channelTitle, 'is saved to DB');
 
@@ -80,6 +81,27 @@ function saveChannelToDB(channelId, channelTitle) {
     } catch (e) {
       rj(e);
     }
+  });
+}
+
+function fetchChannelData(id) {
+  return new Promise((rs, rj) => {
+    axios.get(getChannelUrl(id))
+      .then((resp) => {
+        const { data, status, message } = resp;
+        const { items } = data;
+
+        if (status !== 200 || !items.length) {
+          return prevPageToken
+            ? rs()
+            : rj(message);
+        }
+
+        logger.debug('Got channel info', id);
+
+        rs(items[0]);
+      })
+      .catch(e => rj(e));
   });
 }
 
@@ -143,6 +165,16 @@ function getFetchUrl(channel, nextPageUrl) {
   nextPageUrl && (queryParams.pageToken = nextPageUrl);
 
   return `https://www.googleapis.com/youtube/v3/search?${queryString.stringify(queryParams)}`;
+}
+
+function getChannelUrl(id) {
+  const queryParams = {
+    part: 'snippet,localizations,brandingSettings,statistics,contentDetails',
+    id,
+    key: YOUTUBE_TOKEN,
+  };
+
+  return `https://www.googleapis.com/youtube/v3/channels?${queryString.stringify(queryParams)}`;
 }
 
 function writeDatoToDB(videos) {
