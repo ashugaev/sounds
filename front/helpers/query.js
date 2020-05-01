@@ -19,7 +19,15 @@ function set(history, name, val) {
 }
 
 function getParams(history) {
-  return qs.parse(get(history, 'location.search'));
+  if (!history) return {};
+
+  return qs.parse(getString(history));
+}
+
+function getString(history) {
+  if (!history) return '';
+
+  return get(history, 'location.search');
 }
 
 function remove(history, name) {
@@ -34,4 +42,4 @@ function remove(history, name) {
   });
 }
 
-module.exports = { set, remove, get: getParams };
+module.exports = { set, remove, get: getParams, getString };

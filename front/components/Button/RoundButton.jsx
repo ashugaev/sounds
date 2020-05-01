@@ -22,7 +22,7 @@ const RoundButton = ({
   return (
     !isHidden && (
     <div className={j(buttonClassName, className)} onClick={onButtonClick}>
-      {icon && <Icon icon={icon} size={size} className={iconClassName} />}
+      {icon && <Icon icon={icon} size={size} className={iconClassName} isActive={isActive} />}
       {text && <Text text={text} size={size} color={textColor} className={cnButton('Text')} />}
     </div>
     )

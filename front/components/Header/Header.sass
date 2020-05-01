@@ -1,0 +1,40 @@
+@import '../../assets/styles/design-system-variables'
+@import '../../assets/styles/constants'
+
+$root: '.Header'
+
+#{$root}
+  height: 80px
+  padding: 0 $space-m
+  border-bottom: solid $gray-color-0 1px
+  box-sizing: border-box
+  width: 100%
+  display: flex
+  align-items: center
+
+  &-Tabs
+    flex-grow: 1
+    display: flex
+
+  &-OneTab
+    text-decoration: none
+    color: $black
+
+    &:not(:first-child)
+      margin-left: $space-xl
+
+    &:hover
+      color: $red
+
+    &_active
+      font-weight: 500
+
+      &:hover
+        color: inherit
+
+  &-Icons
+    display: flex
+
+  &-OneIcon
+    &:not(:first-child)
+      margin-left: $space-xxxs
