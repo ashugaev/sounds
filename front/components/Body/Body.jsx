@@ -9,12 +9,10 @@ import './Body.sass';
 
 const cnBody = cn('Body');
 
-const Body = inject('notifierStore')(observer(({ notifierStore }) => {
-  const { lastNotify } = notifierStore;
-
+const Body = inject()(observer(() => {
   return (
     <div className={cnBody()}>
-      <div classNgame={cnBody('Content', { withNotifier: Boolean(lastNotify), withPlayer: true })}>
+      <div className={cnBody('Content', { withNotifier: false, withPlayer: true })}>
         <TracksList />
         <PlayerBox className={cnBody('PlayerBox')} />
       </div>
