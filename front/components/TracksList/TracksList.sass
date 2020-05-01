@@ -20,6 +20,9 @@ $max-content-width: $track-thumb-width * 4 + $space-between-tracks-thumbs * 3
     padding: $space-xs 0
     display: block
 
+  &-BottomPlaceholder
+    height: $space-m
+
 @media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $toggle-button-width * 2})
   #{$root}-List
     grid-template-columns: repeat(3, $track-thumb-width)

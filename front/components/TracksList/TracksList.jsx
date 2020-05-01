@@ -2,6 +2,7 @@ import React from 'react';
 import TracksListItem from 'c/TracksListItem';
 import get from 'lodash-es/get';
 import Text from 'c/Text';
+import Loader from 'c/Loader';
 import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
@@ -44,7 +45,7 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
     <>
       <LazyLoader
         loadHandler={loadMoreItems}
-        pixelsLeftToLoad={500}
+        pixelsLeftToLoad={600}
         skipLoads={isLoading || noTracksToFetch}
       />
       <div className={cnTracksList()}>
@@ -69,6 +70,7 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
           ))}
         </div>
       </div>
+      {!noTracksToFetch ? <Loader /> : <div className={cnTracksList('BottomPlaceholder')} />}
     </>
   );
 }));
