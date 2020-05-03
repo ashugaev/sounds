@@ -15,14 +15,14 @@ const tabs = [
     path: '/',
   },
   {
-    text: 'Категории',
-    path: '/categories',
+    text: 'Каналы',
+    path: '/channels',
   },
   {
     text: 'Жанры',
     path: '/genres',
   }, {
-    text: 'Live',
+    text: 'Трансляции',
     path: '/live',
     label: 'live',
   },
@@ -34,6 +34,7 @@ const Header = ({ history }) => {
       <div className={cnHeader('Tabs')}>
         {tabs.map(el => (
           <NavLink
+            key={el.path}
             exact
             activeClassName={cnHeader('OneTab', { active: true })}
             className={cnHeader('OneTab')}
@@ -41,7 +42,8 @@ const Header = ({ history }) => {
               pathname: el.path,
               search: query.getString(history),
             }}
-          >{el.text}
+          >
+            {el.text}
           </NavLink>
         ))}
       </div>

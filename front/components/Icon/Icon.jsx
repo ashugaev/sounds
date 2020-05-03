@@ -3,12 +3,12 @@ import './Icon.sass';
 import { cn } from '@bem-react/classname';
 
 const Icon = ({
-  size, className, isHidden, icon, color, isActive,
+  size, className, isHidden, icon, color, isActive, wide,
 }) => {
   const iconClass = isActive ? `${icon}-active` : icon;
 
   const cnButton = cn('Icon')({
-    size, icon: iconClass, isHidden, color,
+    size, icon: iconClass, isHidden, color, wide,
   });
 
   return (

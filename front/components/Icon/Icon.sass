@@ -2,7 +2,7 @@
 @import "../../assets/styles/constants"
 
 $root: '.Icon'
-$sizes: ('xs': $size-icon-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-icon-l)
+$sizes: ('xxs': $size-icon-xxs, 'xs': $size-icon-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-icon-l)
 
 #{$root}
   background-size: contain
@@ -21,6 +21,10 @@ $sizes: ('xs': $size-icon-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-i
       &_#{$name}
         height: $val
         width: $val
+
+    @each $name, $val in $sizes
+      &_#{$name}#{$root}_wide
+        width: $val * 1.2
 
   &_icon
     &_hash
@@ -56,3 +60,9 @@ $sizes: ('xs': $size-icon-xs, 's': $size-icon-s, 'm': $size-icon-m, 'l': $size-i
 
     &_patreon
       background-image: url('../../assets/icons/patreon.svg')
+
+    &_eye
+      background-image: url('../../assets/icons/eye.svg')
+
+    &_person
+      background-image: url('../../assets/icons/person.svg')

@@ -1,5 +1,6 @@
 import React from 'react';
 import TracksListItem from 'c/TracksListItem';
+import ChannelListItem from 'c/ChannelListItem';
 import get from 'lodash-es/get';
 import Text from 'c/Text';
 import Loader from 'c/Loader';
@@ -11,9 +12,51 @@ import './TracksList.sass';
 
 const cnTracksList = cn('TracksList');
 
-const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore')(observer(({
-  tracksStore, tagsStore, pageStore, playerStore,
+function getContent(type, track, tracks, isPlaying, allChannels) {
+  let content;
+
+  switch (type) {
+    case 'tracks':
+      content = tracks.map(({ snippet, id, _id }) => (
+        <TracksListItem
+          key={_id}
+          className={cnTracksList('Track')}
+          title={get(snippet, 'title')}
+          imageUrl={get(snippet, 'thumbnails.high.url')}
+          isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
+          videoObjId={_id}
+        />
+      ));
+      break;
+
+    case 'channels':
+      content = allChannels.map(({
+        brandingSettings, statistics, snippet, id, _id,
+      }) => (
+        <ChannelListItem
+          key={_id}
+          id={id}
+          className={cnTracksList('Track')}
+          title={get(snippet, 'title')}
+          logoImageUrl={get(snippet, 'thumbnails.default.url')}
+          wrapImageUrl={get(brandingSettings, 'image.bannerMobileImageUrl')}
+          subscriberCount={get(statistics, 'subscriberCount')}
+          viewCount={get(statistics, 'viewCount')}
+        />
+      ));
+      break;
+
+    default:
+      break;
+  }
+
+  return content;
+}
+
+const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore', 'channelsStore')(observer(({
+  tracksStore, tagsStore, pageStore, playerStore, type, channelsStore,
 }) => {
+  const { allChannels } = channelsStore;
   const { filterTags, track } = tracksStore;
   const {
     tracks, isLoading, noTracksToFetch, fetch: pageFetch,
@@ -57,17 +100,7 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
           cropLine
         />
         <div className={cnTracksList('List')}>
-          {tracks.map(({ snippet, id, _id }) => (
-            <TracksListItem
-              key={_id}
-              className={cnTracksList('Track')}
-              title={get(snippet, 'title')}
-              description={get(snippet, 'description')}
-              imageUrl={get(snippet, 'thumbnails.high.url')}
-              isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
-              videoObjId={_id}
-            />
-          ))}
+          {getContent(type, track, tracks, isPlaying, allChannels)}
         </div>
       </div>
       {!noTracksToFetch ? <Loader /> : <div className={cnTracksList('BottomPlaceholder')} />}

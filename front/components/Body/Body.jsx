@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import PlayerBox from 'c/PlayerBox';
@@ -14,7 +15,14 @@ const Body = inject()(observer(() => {
     <div className={cnBody()}>
       <Header />
       <div className={cnBody('Content', { withNotifier: false, withPlayer: true })}>
-        <TracksList />
+        <Router>
+          <Route exact path="/">
+            <TracksList type="tracks" />
+          </Route>
+          <Route exact path="/channels">
+            <TracksList type="channels" />
+          </Route>
+        </Router>
         <PlayerBox className={cnBody('PlayerBox')} />
       </div>
       <TagsMenu />
