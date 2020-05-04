@@ -2,13 +2,16 @@ const path = require('path');
 const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const log4js = require('log4js');
 const { decode } = require('he');
-const { get } = require('lodash');
+const { get, uniq } = require('lodash');
+const { write: writeJSON } = require('./helpers/json');
 const queryString = require('../front/node_modules/query-string');
-const { channelsIds } = require('./parser');
+const parserData = require('./parser');
 const axios = require('../front/node_modules/axios');
 const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
+
+const { channelsIds, userNames } = parserData;
 
 let channelsList = [];
 
@@ -61,12 +64,12 @@ function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) 
             decodeData(filtered);
 
             await writeDatoToDB(filtered);
+          }
 
-            if (pageIndex === 0) {
-              await saveChannelToDB(
-                channel,
-              );
-            }
+          if (pageIndex === 0) {
+            await saveChannelToDB(
+              channel,
+            );
           }
 
           rs([nextPageToken, noNewVideosToFetch]);
@@ -86,6 +89,13 @@ function saveChannelToDB(channelId) {
       }
 
       const channelData = await fetchChannelData(channelId);
+
+      const mostPupularVideoFromChannel = await getMostPopularVideoFromChannel(channelId);
+
+      if (mostPupularVideoFromChannel) {
+        channelData.bgImage = get(mostPupularVideoFromChannel, 'snippet.thumbnails.medium.url');
+      }
+
       await channelsController.insertWithReplace(channelData);
 
       logger.debug('Channel', get(channelData, 'snippet.title'), 'is saved to DB');
@@ -97,9 +107,9 @@ function saveChannelToDB(channelId) {
   });
 }
 
-function fetchChannelData(id) {
+function fetchChannelData(id, user, part) {
   return new Promise((rs, rj) => {
-    axios.get(getChannelUrl(id))
+    axios.get(getChannelUrl(id, user, part))
       .then((resp) => {
         const { data, status, message } = resp;
         const { items } = data;
@@ -110,7 +120,7 @@ function fetchChannelData(id) {
             : rj(message);
         }
 
-        logger.debug('Got channel info', id);
+        logger.debug('Got channel info', id || user);
 
         rs(items[0]);
       })
@@ -130,11 +140,19 @@ function getCnannels() {
   });
 }
 
-function getVideos(channels) {
+async function getVideos(channels, users) {
+  const userIds = await getUserIds(users);
+  const channelsWithUserIds = uniq(channels.concat(userIds));
+
+  parserData.channelsIds = channelsWithUserIds;
+  parserData.userNames = [];
+
+  writeNewDataToJson(parserData);
+
   return new Promise(async (rs, rj) => {
     try {
-      for (let i = 0; i < channels.length; i++) {
-        const channel = channels[i];
+      for (let i = 0; i < channelsWithUserIds.length; i++) {
+        const channel = channelsWithUserIds[i];
 
         logger.debug('Get from channel', channel);
 
@@ -146,6 +164,34 @@ function getVideos(channels) {
       rj(e);
     }
   });
+}
+
+function getUserIds(users) {
+  return new Promise(async (rs, rj) => {
+    try {
+      const ids = [];
+
+      for (let i = 0, l = users.length; i < l; i++) {
+        const user = users[i];
+        const data = await fetchChannelData(undefined, user, 'id');
+        const id = get(data, 'id');
+
+        if (id) {
+          ids.push(id);
+        } else {
+          rj('Не получили id для юзера', user);
+        }
+      }
+
+      rs(ids);
+    } catch (e) {
+      rj(e);
+    }
+  });
+}
+
+function writeNewDataToJson(data) {
+  writeJSON({ data, name: './parser.json' });
 }
 
 async function getVideosFromChannel(channel) {
@@ -180,6 +226,19 @@ function getLastVideoIdOnThisChannel(id) {
   });
 }
 
+// FIX: Пока что не получаю статистику по видосам и возвращаю отсюда просто последнее видео
+function getMostPopularVideoFromChannel(id) {
+  return new Promise(async (rs, rj) => {
+    try {
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
+
+      rs(get(data, '0._doc'));
+    } catch (e) {
+      rj(e);
+    }
+  });
+}
+
 function getFetchUrl(channel, nextPageUrl) {
   const queryParams = {
     key: YOUTUBE_TOKEN,
@@ -194,12 +253,14 @@ function getFetchUrl(channel, nextPageUrl) {
   return `https://www.googleapis.com/youtube/v3/search?${queryString.stringify(queryParams)}`;
 }
 
-function getChannelUrl(id) {
+function getChannelUrl(id, forUsername, part) {
   const queryParams = {
-    part: 'snippet,localizations,brandingSettings,statistics,contentDetails',
-    id,
+    part: part || 'snippet,localizations,brandingSettings,statistics,contentDetails',
     key: YOUTUBE_TOKEN,
   };
+
+  id && (queryParams.id = id);
+  forUsername && (queryParams.forUsername = forUsername);
 
   return `https://www.googleapis.com/youtube/v3/channels?${queryString.stringify(queryParams)}`;
 }
@@ -239,7 +300,7 @@ function decodeData(videos) {
  */
 (async () => {
   try {
-    await getVideos(channelsIds);
+    await getVideos(channelsIds, userNames);
   } catch (e) {
     logger.error('Videos fetch error', e);
   } finally {

@@ -31,7 +31,7 @@ function getContent(type, track, tracks, isPlaying, allChannels) {
 
     case 'channels':
       content = allChannels.map(({
-        brandingSettings, statistics, snippet, id, _id,
+        brandingSettings, statistics, snippet, id, _id, bgImage,
       }) => (
         <ChannelListItem
           key={_id}
@@ -39,7 +39,7 @@ function getContent(type, track, tracks, isPlaying, allChannels) {
           className={cnTracksList('Track')}
           title={get(snippet, 'title')}
           logoImageUrl={get(snippet, 'thumbnails.default.url')}
-          wrapImageUrl={get(brandingSettings, 'image.bannerMobileImageUrl')}
+          wrapImageUrl={bgImage || get(brandingSettings, 'image.bannerMobileImageUrl')}
           subscriberCount={get(statistics, 'subscriberCount')}
           viewCount={get(statistics, 'viewCount')}
         />

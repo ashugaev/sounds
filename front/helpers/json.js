@@ -7,14 +7,16 @@ const fs = require('fs');
  * @param name
  * @killAfter - убивает процесс после записи
  */
-function writeToJSON({ data, name, killAfter }) {
+function write({ data, name, killAfter }) {
   fs.writeFile(
     name || './data.json',
-    JSON.stringify({ data }), 'utf8', () => (
+    JSON.stringify(data), 'utf8', () => (
       console.log('файл записан'),
       killAfter && process.exit()
     ),
   );
 }
 
-module.exports = writeToJSON;
+module.exports = {
+  write,
+};
