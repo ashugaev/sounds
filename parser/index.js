@@ -34,12 +34,14 @@ function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) 
 
       axios.get(url)
         .then(async (resp) => {
-          const { data, status, message } = resp;
+          const {
+            data, status, message,
+          } = resp;
           const { items, nextPageToken, prevPageToken } = data;
 
           if (status !== 200 || !items.length) {
             return prevPageToken
-              ? rs()
+              ? rs([])
               : rj('Ошибка получения данных с канала. Url:', url, '. Ошибка', message);
           }
 
