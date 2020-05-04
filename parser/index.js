@@ -21,10 +21,11 @@ if (parseEnv.error) {
 
 const { YOUTUBE_TOKEN } = process.env;
 
-function fetchVideos(channel, nextPageUrl, pageIndex) {
+function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) {
   return new Promise(async (rs, rj) => {
     try {
       const url = getFetchUrl(channel, nextPageUrl);
+      let noNewVideosToFetch = false;
 
       logger.debug('Url', url);
 
@@ -41,22 +42,34 @@ function fetchVideos(channel, nextPageUrl, pageIndex) {
 
           logger.debug('Got', items.length, 'items');
 
-          const filtered = items.filter(item => item.id.videoId);
+          let filtered = items.filter(item => item.id.videoId);
 
-          decodeData(filtered);
+          // Индекс видео уже загруженного в базу (если оно есть)
+          const lastVideoInDBIndex = filtered.findIndex(el => lastVideoIdOnThisChannel === get(el, 'id.videoId'));
 
-          const channelId = get(filtered, '0.snippet.channelId');
+          // Есть есть видео уже существующее в базу
+          if (lastVideoInDBIndex >= 0) {
+            filtered = filtered.slice(0, lastVideoInDBIndex);
 
-          if (pageIndex === 0) {
-            await saveChannelToDB(
-              channelId,
-              get(filtered, '0.snippet.channelTitle'),
-            );
+            // Значит в следующих запросох будут только дубли
+            noNewVideosToFetch = true;
+
+            logger.debug('Have duplicates from index', lastVideoInDBIndex, '. Items after crop', filtered.length);
           }
 
-          await writeDatoToDB(filtered);
+          if (filtered.length) {
+            decodeData(filtered);
 
-          rs(nextPageToken);
+            await writeDatoToDB(filtered);
+
+            if (pageIndex === 0) {
+              await saveChannelToDB(
+                channel,
+              );
+            }
+          }
+
+          rs([nextPageToken, noNewVideosToFetch]);
         });
     } catch (e) {
       rj(e);
@@ -65,17 +78,17 @@ function fetchVideos(channel, nextPageUrl, pageIndex) {
 }
 
 
-function saveChannelToDB(channelId, channelTitle) {
+function saveChannelToDB(channelId) {
   return new Promise(async (rs, rj) => {
     try {
-      if (!channelId || !channelTitle) {
-        return rj('Недостаточно данных для сохранения канала.', 'Id:', id, 'Title:', title);
+      if (!channelId) {
+        return rj('Недостаточно данных для сохранения канала. Отсутствует Id.');
       }
 
       const channelData = await fetchChannelData(channelId);
       await channelsController.insertWithReplace(channelData);
 
-      logger.debug('Channel', channelTitle, 'is saved to DB');
+      logger.debug('Channel', get(channelData, 'snippet.title'), 'is saved to DB');
 
       rs();
     } catch (e) {
@@ -138,15 +151,29 @@ function getVideos(channels) {
 async function getVideosFromChannel(channel) {
   channelsList = channelsList.concat(await getCnannels());
 
+  const lastVideoIdOnThisChannel = await getLastVideoIdOnThisChannel(channel);
+
   return new Promise(async (rs, rj) => {
     try {
-      for (let nextPageUrl, i = 0; nextPageUrl || i === 0; i++) {
+      for (let nextPageUrl, noNewVideosToFetch, i = 0; !noNewVideosToFetch && (nextPageUrl || i === 0); i++) {
         logger.debug('Page', i, ', nextPageUrl', nextPageUrl);
 
-        nextPageUrl = await fetchVideos(channel, nextPageUrl, i);
+        [nextPageUrl, noNewVideosToFetch] = await fetchVideos(channel, nextPageUrl, i, lastVideoIdOnThisChannel);
       }
 
       rs();
+    } catch (e) {
+      rj(e);
+    }
+  });
+}
+
+function getLastVideoIdOnThisChannel(id) {
+  return new Promise(async (rs, rj) => {
+    try {
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
+
+      rs(get(data, '0._doc.id.videoId'));
     } catch (e) {
       rj(e);
     }

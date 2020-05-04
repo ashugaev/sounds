@@ -1,9 +1,28 @@
 {
   "channelsIds": [
+    "UCbhy5JHXn3IVZMksNSR7LkQ",
+    "UCwoTj-pZgZZ8DInOXSSLMmA",
     "UC_1hUUoMwFVCoUvXE8q1o-g",
     "UCq22aK0t0mrOEq676Be4ezw",
     "UCUNhonb7hwFeREIE7efSn_Q",
-    "UCmYTgpKxd-QOJCPDrmaXuqQ"
+    "UCmYTgpKxd-QOJCPDrmaXuqQ",
+    "UCbhy5JHXn3IVZMksNSR7LkQ",
+    "UCwoTj-pZgZZ8DInOXSSLMmA",
+    "UCqRTj-Nu_8to3jIBlXptOtA",
+    "UCDtynufG2PYl8_t2zVvFm7g",
+    "UCYy9EGb3fvmUSgMVfJ7KXJw",
+    "UCuJeAh_gV9Ng8DWrQKRtFuw",
+    "UC68KnvCZ-nJzmmuSu_tKASA",
+    "UCrILBI7SUyvBCeoJxFpJNhA",
+    "UCjoFckSzE1jUM_kmtVHNlKg",
+    "UCmWYpULd9q2TCCwzhZbAiEg",
+    "UCy4N-1_1wrR_vWezekopJJw",
+    "UCM0YvsRfYfsniGAhjvYFOSA",
+    "UCpbH_7H71IPKq4eH7CD5spg",
+    "UC-7RDShJHg-QfxLkcNXG-nQ",
+    "UCwsGfP7Y3D84a_zcwKg_2Vw",
+    "UCTmk03XjXB7BOg7T_FUWl0w",
+    "UCqmg6CMYIB4V4zeaaFAJmRA"
   ],
   "users": [
     "Fixtmusic",
@@ -19,28 +38,5 @@
     "Relax321Relaxing",
     "carpenterbrut",
     "ThePrimeThanatos"
-  ],
-  "more": [],
-  "loaded": {
-    "chanels": [
-      "UCbhy5JHXn3IVZMksNSR7LkQ",
-      "UCwoTj-pZgZZ8DInOXSSLMmA",
-      "UCqRTj-Nu_8to3jIBlXptOtA",
-      "UCDtynufG2PYl8_t2zVvFm7g",
-      "UCYy9EGb3fvmUSgMVfJ7KXJw",
-      "UCuJeAh_gV9Ng8DWrQKRtFuw",
-      "UC68KnvCZ-nJzmmuSu_tKASA",
-      "UCrILBI7SUyvBCeoJxFpJNhA",
-      "UCjoFckSzE1jUM_kmtVHNlKg",
-      "UCmWYpULd9q2TCCwzhZbAiEg",
-      "UCy4N-1_1wrR_vWezekopJJw",
-      "UCM0YvsRfYfsniGAhjvYFOSA",
-      "UCpbH_7H71IPKq4eH7CD5spg",
-      "UC-7RDShJHg-QfxLkcNXG-nQ",
-      "UCwsGfP7Y3D84a_zcwKg_2Vw",
-      "UCTmk03XjXB7BOg7T_FUWl0w",
-      "UCqmg6CMYIB4V4zeaaFAJmRA"
-    ],
-    "users  ": []
-  }
+  ]
 }
