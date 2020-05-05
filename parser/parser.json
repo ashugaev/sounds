@@ -1,5 +1,7 @@
 {
   "channelsIds": [
+    "UCXKsGxAQDQxQCpiJ3SnbdjQ",
+    "UCUSzc8BHGJPaYt0DjvscIzw",
     "UCbhy5JHXn3IVZMksNSR7LkQ",
     "UCwoTj-pZgZZ8DInOXSSLMmA",
     "UC_1hUUoMwFVCoUvXE8q1o-g",
@@ -33,5 +35,6 @@
     "UCvGwWJ_bcMkHRBuTNCL08cA",
     "UCPVnLrkvF3M_H1NTOsMvgrA"
   ],
-  "userNames": []
+  "userNames": [],
+  "toCheck": []
 }
