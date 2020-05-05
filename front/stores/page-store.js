@@ -27,8 +27,17 @@ class PageStore {
     tags,
     channel,
     callback,
+    resetBefore,
+    resetFilters,
   }) {
     if (this.isLoading || this.noTracksToFetch) return;
+
+    if (resetBefore) this.resetTracks();
+
+    if (resetFilters) {
+      this.filterChannel = undefined;
+      this.filterTags.clear();
+    }
 
     this.isLoading = true;
 
@@ -73,10 +82,10 @@ class PageStore {
     this.onTagChange({ tags, history });
   }
 
-  @action.bound setFilterChannel(id, history) {
+  @action.bound setFilterChannel({ id, history, resetBefore }) {
     this.filterChannel = id;
 
-    this.onChannelChange({ id, history });
+    this.onChannelChange({ id, history, resetBefore });
   }
 
   @action.bound removeFilterTags(history) {
@@ -85,12 +94,16 @@ class PageStore {
     this.onTagChange({ history });
   }
 
-  onChannelChange({ id, history }) {
+  @action.bound resetTracks() {
+    this.tracks.clear();
+  }
+
+  onChannelChange({ id, history, resetBefore }) {
     this.filterTags.replace = [];
 
-    query.set(history, 'pageChannel', id);
+    (id && history) && query.set(history, 'pageChannel', id);
 
-    this.onFilterChange();
+    this.onFilterChange({ resetBefore });
   }
 
   onTagChange({ tags, history }) {
@@ -99,10 +112,12 @@ class PageStore {
     this.onFilterChange();
   }
 
-  onFilterChange() {
+  onFilterChange({ resetBefore }) {
     this.noTracksToFetch = false;
 
-    this.fetch({ rewrite: true, callback: this.scrollToTop });
+    this.fetch({
+      rewrite: true, callback: this.scrollToTop, resetBefore,
+    });
   }
 
   scrollToTop() {

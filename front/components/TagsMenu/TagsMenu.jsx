@@ -19,7 +19,7 @@ const TagsMenu = inject('tagsStore', 'channelsStore', 'pageStore')(observer(({
 
   useEffect(() => {
     fetchTagsByIds(null, pushToAllTags);
-    fetchChannels();
+    fetchChannels({});
   }, []);
 
   function toggleIsOpened() {

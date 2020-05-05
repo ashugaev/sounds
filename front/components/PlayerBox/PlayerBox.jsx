@@ -28,10 +28,6 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
     isPrevArrowDisabled,
   } = tracksStore;
 
-  const {
-    fetch: pageFetch,
-  } = pageStore;
-
   const { createNotify } = notifierStore;
 
   const {
@@ -41,17 +37,10 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
   useEffect(() => {
     const urlQueries = query.get(history);
 
-    const { pageChannel, playerChannel, trackObjId } = urlQueries;
-    let { pageTags, playerTags } = urlQueries;
+    const { playerChannel, trackObjId } = urlQueries;
+    let { playerTags } = urlQueries;
 
-    pageTags = pageTags && pageTags.split(',');
     playerTags = playerTags && playerTags.split(',');
-
-    // Первые фетчи с параметрами из урла
-    pageFetch({
-      tags: pageTags,
-      channel: pageChannel,
-    });
 
     tracksFetch({
       fromObjId: trackObjId,

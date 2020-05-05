@@ -19,8 +19,14 @@ $max-content-width: $track-thumb-width * 4 + $space-between-tracks-thumbs * 3
   &-Title
     padding: $space-xs 0
     display: block
+    // высота исходя из высоты строки + отступы
+    min-height: $space-xs * 2 + ($size-typo-xl * 1.2)
+    box-sizing: border-box
 
   &-BottomPlaceholder
+    height: $space-m
+
+  &-UpperPlaceholder
     height: $space-m
 
 @media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $toggle-button-width * 2})

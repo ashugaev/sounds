@@ -53,30 +53,15 @@ function getContent(type, track, tracks, isPlaying, allChannels) {
   return content;
 }
 
-const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore', 'channelsStore')(observer(({
-  tracksStore, tagsStore, pageStore, playerStore, type, channelsStore,
+const TracksList = inject('tracksStore', 'pageStore', 'playerStore', 'channelsStore')(observer(({
+  tracksStore, pageStore, playerStore, type, channelsStore, title,
 }) => {
-  const { allChannels } = channelsStore;
-  const { filterTags, track } = tracksStore;
+  const { allChannels, noChannelsToFetch } = channelsStore;
+  const { track } = tracksStore;
   const {
     tracks, isLoading, noTracksToFetch, fetch: pageFetch,
   } = pageStore;
-  const { allTags } = tagsStore;
   const { isPlaying } = playerStore;
-
-  function getTitle() {
-    const activeTagId = filterTags[0];
-
-    if (activeTagId && allTags.length) {
-      const activeTag = allTags.find(tag => tag._id === activeTagId);
-
-      if (activeTag) {
-        return activeTag.name;
-      }
-    }
-
-    return 'All Tracks';
-  }
 
   function loadMoreItems() {
     pageFetch({
@@ -86,24 +71,31 @@ const TracksList = inject('tracksStore', 'tagsStore', 'pageStore', 'playerStore'
 
   return (
     <>
-      <LazyLoader
-        loadHandler={loadMoreItems}
-        pixelsLeftToLoad={600}
-        skipLoads={isLoading || noTracksToFetch}
-      />
-      <div className={cnTracksList()}>
-        <Text
-          text={getTitle()}
-          size="xl"
-          className={cnTracksList('Title')}
-          bold
-          cropLine
+      {type === 'tracks' && (
+        <LazyLoader
+          loadHandler={loadMoreItems}
+          pixelsLeftToLoad={600}
+          skipLoads={isLoading || noTracksToFetch}
         />
+      )}
+      <div className={cnTracksList()}>
+        {title ? (
+          <Text
+            text={title}
+            size="xl"
+            className={cnTracksList('Title')}
+            line="normal"
+            bold
+            cropLine
+          />
+        ) : <div className={cnTracksList('UpperPlaceholder')} />}
         <div className={cnTracksList('List')}>
           {getContent(type, track, tracks, isPlaying, allChannels)}
         </div>
       </div>
-      {!noTracksToFetch ? <Loader /> : <div className={cnTracksList('BottomPlaceholder')} />}
+      {((!noTracksToFetch && type === 'tracks') || (!noChannelsToFetch && type === 'channels'))
+        ? <Loader />
+        : <div className={cnTracksList('BottomPlaceholder')} />}
     </>
   );
 }));

@@ -27,6 +27,8 @@ module.exports.all = async function () {
   afterObjId && (findParams._id = { $gt: afterObjId });
   beforeObjId && (findParams._id = { $lt: beforeObjId }, sortParams._id = -1);
 
+  // TODO: Если нет тега или канала, то сортаровать по времени добавления на ютуб
+
   let tracks = await db.Tracks.find(findParams).limit(tracksQuantity).sort(sortParams);
 
   // Нужно реверcнуть, потому что в этом случае у базы была обратная сортировка
