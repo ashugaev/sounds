@@ -82,10 +82,10 @@ class PageStore {
     this.onTagChange({ tags, history });
   }
 
-  @action.bound setFilterChannel({ id, history, resetBefore }) {
+  @action.bound setFilterChannel({ id, resetBefore }) {
     this.filterChannel = id;
 
-    this.onChannelChange({ id, history, resetBefore });
+    this.onChannelChange({ resetBefore });
   }
 
   @action.bound removeFilterTags(history) {
@@ -98,10 +98,8 @@ class PageStore {
     this.tracks.clear();
   }
 
-  onChannelChange({ id, history, resetBefore }) {
+  onChannelChange({ resetBefore }) {
     this.filterTags.replace = [];
-
-    (id && history) && query.set(history, 'pageChannel', id);
 
     this.onFilterChange({ resetBefore });
   }

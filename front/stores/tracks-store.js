@@ -1,6 +1,7 @@
 import {
   observable, action, runInAction,
 } from 'mobx';
+import { get } from 'lodash-es';
 import axios from 'axios';
 import query from 'query';
 
@@ -74,6 +75,16 @@ class TracksStore {
       }
     }
 
+    // Сбросим фильтры, если не было параметрои и клик со страницы
+    if (!isPlayerClick && !get(tags, 'length') && !channel) {
+      this.filterTags.clear();
+      this.filterChannel = undefined;
+
+      query.remove(history, 'playerChannel');
+      // Пока что тегов нет, но в перспективе будет нужно
+      query.remove(history, 'playerTags');
+    }
+
     // Если пришли параметры, то перезапишем
     if (channel) {
       this.filterChannel = channel;
@@ -126,7 +137,7 @@ class TracksStore {
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id });
+          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel });
         }
       }))
       .catch(err => runInAction(() => {
