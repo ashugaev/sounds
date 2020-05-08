@@ -1,11 +1,11 @@
 @import "../../assets/styles/constants"
 @import "../../assets/styles/design-system-variables"
 @import "../TracksListItem/TracksListItem"
-@import "../TagsMenu/TagsMenu"
 
 $root: '.TracksList'
 $space-between-tracks-thumbs: $space-xxxs
 $max-content-width: $track-thumb-width * 4 + $space-between-tracks-thumbs * 3
+$content-side-margin: $space-m
 
 #{$root}
   height: 100%
@@ -29,10 +29,10 @@ $max-content-width: $track-thumb-width * 4 + $space-between-tracks-thumbs * 3
   &-UpperPlaceholder
     height: $space-m
 
-@media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $toggle-button-width * 2})
+@media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $content-side-margin * 2})
   #{$root}-List
     grid-template-columns: repeat(3, $track-thumb-width)
 
-@media only screen  and (min-width: #{$max-content-width + $toggle-button-width * 2})
+@media only screen  and (min-width: #{$max-content-width + $content-side-margin * 2})
   #{$root}-List
     grid-template-columns: repeat(4, $track-thumb-width)
