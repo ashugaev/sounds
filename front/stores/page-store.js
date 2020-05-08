@@ -107,7 +107,7 @@ class PageStore {
   onTagChange({ tags, history }) {
     query.set(history, 'pageTags', tags);
 
-    this.onFilterChange();
+    this.onFilterChange({});
   }
 
   onFilterChange({ resetBefore }) {

@@ -37,8 +37,8 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
   useEffect(() => {
     const urlQueries = query.get(history);
 
-    const { playerChannel, trackObjId } = urlQueries;
-    let { playerTags } = urlQueries;
+    // eslint-disable-next-line prefer-const
+    let { playerChannel, trackObjId, playerTags } = urlQueries;
 
     playerTags = playerTags && playerTags.split(',');
 
@@ -53,8 +53,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
     showLastTrackNotifier(createNotify, fetch, history);
   }, []);
 
-  if (isLoading && !tracksLength) return <div>Loading...</div>;
-  if (!track) return <div>no tracks</div>;
+  if (!track || (isLoading && !tracksLength)) return null;
 
   const { tags, snippet, tagsIsLoaded } = track;
   const {
