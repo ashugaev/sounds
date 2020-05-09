@@ -64,6 +64,7 @@ function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) 
 
           if (filtered.length) {
             decodeData(filtered);
+            modifyVideosData(filtered);
 
             await writeDatoToDB(filtered);
           }
@@ -82,6 +83,12 @@ function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) 
   });
 }
 
+/**
+ * Метод модификации данных видео
+ */
+function modifyVideosData(list) {
+  list.forEach(() => {});
+}
 
 function saveChannelToDB(channelId) {
   return new Promise(async (rs, rj) => {
