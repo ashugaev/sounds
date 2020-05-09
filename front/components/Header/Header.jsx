@@ -17,10 +17,6 @@ const tabs = [
   {
     text: 'Каналы',
     path: '/channels',
-  },
-  {
-    text: 'Жанры',
-    path: '/genres',
   }, {
     text: 'Трансляции',
     path: '/live',

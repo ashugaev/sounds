@@ -5,10 +5,14 @@ import axious from 'axios';
 
 class ChannelsStore {
   @observable allChannels = [];
+
   @observable noChannelsToFetch = false;
 
-  @action.bound fetchChannels({ rewrite }) {
+  @observable currentChannel = {}
+
+  @action.bound fetchChannels({ rewrite, callback, callbackArgs }) {
     this.noChannelsToFetch = false;
+    this.currentChannel = {};
 
     axious.get('/api/channels/')
       .then(({ data }) => runInAction(() => {
@@ -19,10 +23,16 @@ class ChannelsStore {
         }
 
         this.noChannelsToFetch = true;
+
+        callback && callback(callbackArgs);
       }))
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  @action.bound setCurrentChannel(id) {
+    this.currentChannel = this.allChannels.find(el => el.id === id);
   }
 }
 
