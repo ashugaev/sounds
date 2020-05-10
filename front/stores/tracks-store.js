@@ -60,6 +60,7 @@ class TracksStore {
     checkPrevTracks,
     history,
     isPlayerClick,
+    liveOnly,
   }) {
     // Тут получается довольно таки запутанная и не продуманная логика. Нужно порефакторить
     // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клигу на элемент каталога
@@ -106,6 +107,7 @@ class TracksStore {
         beforeObjId,
         tags: filterTags,
         channel: filterChannel,
+        liveOnly,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -137,7 +139,7 @@ class TracksStore {
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel });
+          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel, liveOnly });
         }
       }))
       .catch(err => runInAction(() => {

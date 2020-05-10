@@ -55,7 +55,7 @@ function getContent(type, track, tracks, isPlaying, allChannels) {
 }
 
 const TracksList = inject('tracksStore', 'pageStore', 'playerStore', 'channelsStore')(observer(({
-  tracksStore, pageStore, playerStore, type, channelsStore, title,
+  tracksStore, pageStore, playerStore, type, channelsStore, title, liveOnly
 }) => {
   const { allChannels, noChannelsToFetch } = channelsStore;
   const { track } = tracksStore;
@@ -67,6 +67,7 @@ const TracksList = inject('tracksStore', 'pageStore', 'playerStore', 'channelsSt
   function loadMoreItems() {
     pageFetch({
       afterObjId: get(pageStore, 'lastTrack._id'),
+      liveOnly,
     });
   }
 

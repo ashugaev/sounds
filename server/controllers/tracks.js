@@ -8,7 +8,7 @@ const logger = log4js.getLogger();
 module.exports.all = async function () {
   const { query } = this.request;
   const {
-    fromObjId, channel, afterObjId, beforeObjId, limit,
+    fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly,
   } = query;
 
   const tracksQuantity = Number(limit) || 6;
@@ -20,6 +20,7 @@ module.exports.all = async function () {
   const findParams = {};
   let sortParams = { 'snippet.liveBroadcastContent': 1, _id: 1 };
 
+  liveOnly && (findParams['snippet.liveBroadcastContent'] = 'live');
   tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
   channel && (findParams['snippet.channelId'] = channel);
   fromObjId && (findParams._id = { $gte: fromObjId });

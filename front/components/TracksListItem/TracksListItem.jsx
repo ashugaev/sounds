@@ -31,6 +31,7 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
           channel: filterChannel,
           checkPrevTracks: true,
           history,
+          liveOnly: get(history, 'location.pathname') === '/live',
         });
       }
 

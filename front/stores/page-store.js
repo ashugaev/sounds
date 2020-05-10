@@ -29,6 +29,7 @@ class PageStore {
     callback,
     resetBefore,
     resetFilters,
+    liveOnly,
   }) {
     if (this.isLoading || this.noTracksToFetch) return;
 
@@ -51,6 +52,7 @@ class PageStore {
       params: {
         fromObjId,
         afterObjId,
+        liveOnly,
         tags: filterTags,
         channel: filterChannel,
         limit: 30,
@@ -82,10 +84,10 @@ class PageStore {
     this.onTagChange({ tags, history });
   }
 
-  @action.bound setFilterChannel({ id, resetBefore }) {
+  @action.bound setFilterChannel({ id, resetBefore, liveOnly }) {
     this.filterChannel = id;
 
-    this.onChannelChange({ resetBefore });
+    this.onChannelChange({ resetBefore, liveOnly });
   }
 
   @action.bound removeFilterTags(history) {
@@ -98,10 +100,10 @@ class PageStore {
     this.tracks.clear();
   }
 
-  onChannelChange({ resetBefore }) {
+  onChannelChange({ resetBefore, liveOnly }) {
     this.filterTags.replace = [];
 
-    this.onFilterChange({ resetBefore });
+    this.onFilterChange({ resetBefore, liveOnly });
   }
 
   onTagChange({ tags, history }) {
@@ -110,11 +112,11 @@ class PageStore {
     this.onFilterChange({});
   }
 
-  onFilterChange({ resetBefore }) {
+  onFilterChange({ resetBefore, liveOnly }) {
     this.noTracksToFetch = false;
 
     this.fetch({
-      rewrite: true, callback: this.scrollToTop, resetBefore,
+      rewrite: true, callback: this.scrollToTop, resetBefore, liveOnly,
     });
   }
 

@@ -9,6 +9,7 @@ import Header from 'c/Header';
 import Main from 'p/Main';
 import Channels from 'p/Channels';
 import OneChannel from 'p/OneChannel';
+import Live from 'p/Live';
 
 const cnBody = cn('Body');
 
@@ -34,6 +35,7 @@ const Body = inject()(observer(() => {
           <Route exact path="/" component={Main} />
           <Route exact path="/channels" component={Channels} />
           <Route exact path="/channel/:id" component={OneChannel} />
+          <Route exact path="/live" component={Live} />
         </Switch>
         <PlayerBox className={cnBody('PlayerBox')} />
       </div>
