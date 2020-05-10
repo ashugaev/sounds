@@ -25,6 +25,7 @@ function getContent(type, track, tracks, isPlaying, allChannels) {
           imageUrl={get(snippet, 'thumbnails.high.url')}
           isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
           videoObjId={_id}
+          isLive={get(snippet, 'liveBroadcastContent') === 'live'}
         />
       ));
       break;
@@ -65,7 +66,7 @@ const TracksList = inject('tracksStore', 'pageStore', 'playerStore', 'channelsSt
 
   function loadMoreItems() {
     pageFetch({
-      afterObjId: pageStore.lastTrack._id,
+      afterObjId: get(pageStore, 'lastTrack._id'),
     });
   }
 

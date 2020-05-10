@@ -18,7 +18,7 @@ module.exports.all = async function () {
   if (typeof tags === 'string') tags = [tags];
 
   const findParams = {};
-  const sortParams = { _id: 1 };
+  let sortParams = { 'snippet.liveBroadcastContent': 1, _id: 1 };
 
   tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
   channel && (findParams['snippet.channelId'] = channel);
@@ -28,9 +28,9 @@ module.exports.all = async function () {
 
   // FIXME: Из базы приходит нестабильная сортировка и поэтому плеер расходится со страницей, если сортаировать не по _id
   // Если нет тега или канала, то сортаровать по времени добавления на ютуб
-  // if ((!tags || !tags.length) && !channel) {
-  //   sortParams = beforeObjId ? { 'snippet.publishedAt': 1 } : { 'snippet.publishedAt': -1 };
-  // }
+  if ((!tags || !tags.length) && !channel) {
+    sortParams = beforeObjId ? { 'snippet.publishedAt': 1 } : { 'snippet.publishedAt': -1 };
+  }
 
   try {
     let tracks = await db.Tracks.find(findParams).limit(tracksQuantity).sort(sortParams);

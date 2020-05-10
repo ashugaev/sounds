@@ -15,7 +15,7 @@ const Time = inject('playerStore')(observer(({ className, playerStore, live }) =
     <div className={`TimeLabel ${className || ''}`}>
       {
         live
-          ? <div className="TimeLabel-Live">Live</div>
+          ? <Text className="TimeLabel-Live" color="white">Live</Text>
           : <Text size="xs" color="white" text={j(getTime(currentTimeStr), '/', getTime(durationStr))} />
       }
     </div>

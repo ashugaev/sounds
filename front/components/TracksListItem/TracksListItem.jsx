@@ -6,11 +6,12 @@ import Button from 'c/Button';
 import './TracksListItem.sass';
 import { get } from 'lodash-es';
 import { withRouter } from 'react-router';
+import Time from 'c/Time';
 
 const cnTracksListItem = cn('TracksListItem');
 
 const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observer(({
-  imageUrl, title, isPlaying, playerStore, videoObjId, tracksStore, history, pageStore,
+  imageUrl, title, isPlaying, playerStore, videoObjId, tracksStore, history, pageStore, isLive,
 }) => {
   const { toggleIsPlaying } = playerStore;
   const {
@@ -40,6 +41,7 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
   return (
     <div className={cnTracksListItem({ isPlaying })} onClick={toggleState}>
       <div className={cnTracksListItem('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
+        {isLive && <Time live className={cnTracksListItem('LiveLabel')} />}
         <Button
           icon={isPlaying ? 'pause' : 'play'}
           className={cnTracksListItem('PrevButton')}
