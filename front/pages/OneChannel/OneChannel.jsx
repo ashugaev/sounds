@@ -16,7 +16,7 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
 }) => {
   const channelId = get(match, 'params.id');
   const {
-    fetchChannels, setCurrentChannel, currentChannel,
+    currentChannel, fetchCurrentChannel,
   } = channelsStore;
   const {
     setFilterChannel,
@@ -29,8 +29,7 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
       id: channelId,
     });
 
-    // FIX: Пока что фетчатся все каналы, но в перспективе нужен один
-    fetchChannels({ rewrite: true, callback: setCurrentChannel, callbackArgs: channelId });
+    fetchCurrentChannel(channelId);
   }, []);
 
   return (

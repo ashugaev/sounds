@@ -1,5 +1,6 @@
 import React from 'react';
 import query from 'query';
+import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import { get } from 'lodash-es';
 import { NavLink } from 'react-router-dom';
@@ -24,9 +25,11 @@ const tabs = [
   },
 ];
 
-const Header = ({ history }) => {
+const Header = inject('channelsStore')(observer(({ channelsStore, history }) => {
+  const { currentChannel } = channelsStore;
+
   return (
-    <div className={cnHeader()}>
+    <div className={cnHeader({ noBottomBorder: Boolean(get(currentChannel, 'id')) })}>
       <div className={cnHeader('Tabs')}>
         {tabs.map(el => (
           <NavLink
@@ -68,6 +71,6 @@ const Header = ({ history }) => {
       </div>
     </div>
   );
-};
+}));
 
 export default withRouter(Header);
