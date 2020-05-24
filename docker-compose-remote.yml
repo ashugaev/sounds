@@ -3,14 +3,14 @@
 version: "3"
 services:
   front:
-    image: registry.gitlab.com/ashugaev/sounds:front
+    image: registry.gitlab.com/ashugaev/sounds/front:v1
     restart: always
     expose:
       - 8082
     ports:
       - "8005:8082"
   server:
-    image: registry.gitlab.com/ashugaev/sounds:server
+    image: registry.gitlab.com/ashugaev/sounds/server:v1
     restart: always
     expose:
       - 3000

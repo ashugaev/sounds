@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "docker-up": "npm run build && docker-compose up -d --build --force-recreate",
     "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci",
-    "dev": "cd front && npm run dev"
+    "dev": "cd front && npm run dev",
+    "build": "cd front && npm run build"
   },
   "keywords": [],
   "author": "",

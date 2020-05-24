@@ -42,4 +42,6 @@ function remove(history, name) {
   });
 }
 
-module.exports = { set, remove, get: getParams, getString };
+export default {
+  set, remove, get: getParams, getString,
+};
