@@ -27,6 +27,7 @@ class PageStore {
     tags,
     channel,
     callback,
+    callbackArgs,
     resetBefore,
     resetFilters,
     liveOnly,
@@ -67,7 +68,7 @@ class PageStore {
           this.tracks.push(...data);
         }
 
-        callback && callback();
+        callback && callback(callbackArgs);
 
         this.isLoading = false;
       }))

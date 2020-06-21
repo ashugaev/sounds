@@ -23,6 +23,7 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
     if (isPlaying) {
       toggleIsPlaying(false);
     } else {
+      // Если это не тот трек, который сейчас в плеере, то фетчим данные
       if (videoObjId !== get(track, '_id')) {
         tracksFetch({
           rewrite: true,
@@ -32,10 +33,12 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
           checkPrevTracks: true,
           history,
           liveOnly: get(history, 'location.pathname') === '/live',
+          callback: toggleIsPlaying,
+          callbackArgs: true,
         });
+      } else {
+        toggleIsPlaying(true);
       }
-
-      toggleIsPlaying(true);
     }
   }
 

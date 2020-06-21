@@ -61,6 +61,8 @@ class TracksStore {
     history,
     isPlayerClick,
     liveOnly,
+    callback,
+    callbackArgs,
   }) {
     // Тут получается довольно таки запутанная и не продуманная логика. Нужно порефакторить
     // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клигу на элемент каталога
@@ -129,6 +131,8 @@ class TracksStore {
 
             this.currentTrackIndex = index || 0;
           }
+
+          callback && callback(callbackArgs);
 
           // Костыль, что бы стригерить перерендер плеера, если id при смене тега не поменялся
           this.changeTrigger = Math.random();
