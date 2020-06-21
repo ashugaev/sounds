@@ -12,6 +12,11 @@ module.exports = {
     path.resolve(__dirname, '../components/index.jsx'),
   ],
 
+  output: {
+    filename: '[name].[hash:2].js',
+    publicPath: '/',
+  },
+
   devServer: {
     port: 1234,
     disableHostCheck: true,
