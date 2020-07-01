@@ -117,6 +117,8 @@ class TracksStore {
           beforeObjId && (this.noTracksToFetchBefore = true);
           afterObjId && (this.noTracksToFetchAfter = true);
         } else {
+          this.modifyData(data);
+
           if (rewrite) {
             this.tracks.replace(data);
           } else if (beforeObjId) {
@@ -152,6 +154,18 @@ class TracksStore {
 
         console.error(err);
       }));
+  }
+
+  /**
+   * Модифицирует исходные данные, добавляя в них допполя для удобства (вообще лучше вынести это в парсер)
+   * @param data
+   */
+  modifyData(data) {
+    data.forEach((el) => {
+      el.isLive = get(el, 'snippet.liveBroadcastContent') === 'live';
+
+      return el;
+    });
   }
 
   resetStopParams() {
