@@ -29,4 +29,4 @@ Text.defaultProps = {
   line: 'normal',
 };
 
-export default Text;
+export default React.memo(Text);

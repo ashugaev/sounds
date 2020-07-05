@@ -15,7 +15,7 @@ import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import './PlayerBox.sass';
 
 const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
-  className, tracksStore, playerStore, history, notifierStore, pageStore,
+  className, tracksStore, playerStore, history, notifierStore,
 }) => {
   const {
     track,
@@ -47,7 +47,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
       tags: playerTags,
       channel: playerChannel,
       checkPrevTracks: true,
-    });
+    }, [tracksFetch]);
 
     // Предлагает продолжить слушать тег/трек
     showLastTrackNotifier(createNotify, fetch, history);
@@ -89,7 +89,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
               <Text size="xs" text={channelTitle} cropLine />
             </div>
             <div className={cnPlayerBox('Column')}>
-              <Button icon="mix" onClick={() => console.log('mix everything')} />
+              <Button icon="mix" />
             </div>
           </div>
           <div className="PlayerBox-TagsBox">

@@ -1,6 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
+    "react-hooks/exhaustive-deps": "warn",
     "no-return-assign": "off",
     "no-continue": "off",
     "no-plusplus": "off",

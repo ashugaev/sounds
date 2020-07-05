@@ -33,4 +33,4 @@ RoundButton.defaultProps = {
   onClick: () => {},
 };
 
-export default RoundButton;
+export default React.memo(RoundButton);

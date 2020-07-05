@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import Text from 'c/Text';
@@ -19,7 +19,7 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
   } = tracksStore;
   const { filterTags, filterChannel } = pageStore;
 
-  function toggleState() {
+  const toggleState = useCallback(() => {
     if (isPlaying) {
       toggleIsPlaying(false);
     } else {
@@ -40,7 +40,7 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
         toggleIsPlaying(true);
       }
     }
-  }
+  });
 
   return (
     <div className={cnTracksListItem({ isPlaying })} onClick={toggleState}>
