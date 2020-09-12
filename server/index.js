@@ -1,25 +1,25 @@
-const Koa = require('koa')
-var compress = require('koa-compress')
-var logger = require('koa-logger')
-var route = require('koa-route')
-var tracks = require('./controllers/tracks')
-var tags = require('./controllers/tags')
-var channels = require('./controllers/channels')
+const Koa = require('koa');
+const compress = require('koa-compress');
+const logger = require('koa-logger');
+const route = require('koa-route');
+const tracks = require('./controllers/tracks');
+const tags = require('./controllers/tags');
+const channels = require('./controllers/channels');
 
-const app = new Koa()
+const app = new Koa();
 
 // Logger
-app.use(logger())
+app.use(logger());
 
-app.use(route.get('/api/tracks/', tracks.all))
-app.use(route.get('/api/tags/', tags.all))
-app.use(route.get('/api/channels/', channels.all))
+app.use(route.get('/api/tracks/', tracks.all));
+app.use(route.get('/api/tags/', tags.all));
+app.use(route.get('/api/channels/', channels.all));
 
 // Compress
-app.use(compress())
+app.use(compress());
 
-const port = 3000
+const port = 3000;
 
-app.listen(port)
+app.listen(port);
 
-console.log(`listening on port ${port}`)
+console.log(`listening on port ${port}`);
