@@ -10,6 +10,7 @@ const axios = require('../front/node_modules/axios');
 const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
+const { checkEnvs } = require('../helpers/checkEnvs');
 
 const { channelsIds, userNames } = parserData;
 
@@ -21,6 +22,8 @@ logger.level = 'debug';
 if (parseEnv.error) {
   logger.error('envs parsing error', parseEnv.error);
 }
+
+checkEnvs(parseEnv);
 
 const { YOUTUBE_TOKEN } = process.env;
 
