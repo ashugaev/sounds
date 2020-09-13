@@ -3,14 +3,14 @@ const parseEnv = require('dotenv').config({ path: path.resolve(__dirname, './.en
 const log4js = require('log4js');
 const { decode } = require('he');
 const { get, uniq } = require('lodash');
+const axios = require('axios');
 const { write: writeJSON } = require('./helpers/json');
 const queryString = require('../front/node_modules/query-string');
 const parserData = require('./parser');
-const axios = require('axios');
 const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
-const { checkEnvs } = require('../helpers/checkEnvs');
+const { checkEnvs } = require('./helpers/checkEnvs');
 
 const { channelsIds, userNames } = parserData;
 
@@ -93,6 +93,18 @@ function modifyVideosData(list) {
   list.forEach(() => {});
 }
 
+function updateFeauteredChannels(list) {
+  const { featured, blackList } = parserData;
+
+  const concated = uniq(featured.concat(list));
+  const excludedBlackListItems = concated.filter(el => blackList.indexOf(el) === -1);
+
+  parserData.featured = excludedBlackListItems;
+
+  writeNewDataToJson(parserData);
+}
+
+/* Это место можено выполнять один раз для всех каналов сразу */
 function saveChannelToDB(channelId) {
   return new Promise(async (rs, rj) => {
     try {
@@ -106,6 +118,12 @@ function saveChannelToDB(channelId) {
 
       if (mostPupularVideoFromChannel) {
         channelData.bgImage = get(mostPupularVideoFromChannel, 'snippet.thumbnails.medium.url');
+      }
+
+      const featuredChannels = get(channelData, 'brandingSettings.channel.featuredChannelsUrls');
+
+      if (featuredChannels && featuredChannels.length) {
+        updateFeauteredChannels(featuredChannels);
       }
 
       await channelsController.insertWithReplace(channelData);
