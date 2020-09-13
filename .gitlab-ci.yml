@@ -101,6 +101,8 @@ deploy:
     - apt-get install -y -qq sshpass
   script:
     - sshpass -V
+    # Пробрасывает пароль для sshpass, но он не нужен, если есть $SSH_PRIVATE_KEY
+    - export SSHPASS=$SSH_PASS
 
     # Удаляет пакет, который мешает авторизации в регистре докера (проблема вылезает на одной из версий ubuntu)
     - sshpass ssh -o stricthostkeychecking=no $USER@$HOST sudo apt-get remove golang-docker-credential-helpers -y

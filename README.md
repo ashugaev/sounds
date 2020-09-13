@@ -16,7 +16,7 @@
 
 - ```apt install docker.io && apt install docker-compose``` 
 - Добавить переменные окружения в гитлабе (USER, SSH_PRIVATE_KEY
-, HOST)
+, HOST, SSH_PASS)
 
 **Роутинг**
 
