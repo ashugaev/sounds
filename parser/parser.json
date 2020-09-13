@@ -41,11 +41,7 @@
     "UC2fVSthyWxWSjsiEAHPzriQ",
     "UCKHsXi0fY-mvLAAnLq95PPQ",
     "UChHXA_Hmsj4nYFoTY8pPdnA",
-    "UC1dVfl5-I98WX3yCy8IJQMg"
-  ],
-  "userNames": [],
-  "featured": [
-    "UCpr2BRMmERoaV7vn8wYkO5A",
+    "UC1dVfl5-I98WX3yCy8IJQMg",
     "UCWzZ5TIGoZ6o-KtbGCyhnhg",
     "UCSJ4gkVC6NrvII8umztf0Ow",
     "UCoP2nmYSKQ0oisOGCLmPLcQ",
@@ -64,5 +60,10 @@
     "UCk-ekd_RU9taTUWWgmM60yA",
     "UCieVHNOU_5OglsfQn9BaZEA"
   ],
-  "blackList": []
+  "userNames": [],
+  "featured": [
+  ],
+  "blackList": [
+    "UCpr2BRMmERoaV7vn8wYkO5A"
+  ]
 }
