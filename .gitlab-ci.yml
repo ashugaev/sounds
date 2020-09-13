@@ -105,15 +105,15 @@ deploy:
     - export SSHPASS=$SSH_PASS
 
     # Удаляет пакет, который мешает авторизации в регистре докера (проблема вылезает на одной из версий ubuntu)
-    - sshpass ssh -o stricthostkeychecking=no $USER@$HOST sudo apt-get remove golang-docker-credential-helpers -y
+    - sshpass ssh -e $USER@$HOST sudo apt-get remove golang-docker-credential-helpers -y
 
     # Удяляет контейнеры содержащие в имени sounds, возрастом больше 4 дней
-    - sshpass ssh -o stricthostkeychecking=no $USER@$HOST docker image prune --filter "name=sounds" --filter "until=96h" -f
+    - sshpass ssh -e $USER@$HOST docker image prune --filter "name=sounds" --filter "until=96h" -f
 
-    - sshpass ssh -o stricthostkeychecking=no $USER@$HOST docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - sshpass ssh -e $USER@$HOST docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     # '|| true' - благодаря этому стейдж не крашится если операция не прошла
     ## Идет в папку проекта/создаем ее, пишет и запускает конфиг docker-compose
-    - sshpass ssh -o stricthostkeychecking=no $USER@$HOST mkdir -p /home/ashugaev/projects/sounds && rm /home/ashugaev/projects/sounds/docker-compose.yml || true
+    - sshpass ssh -e $USER@$HOST mkdir -p /home/ashugaev/projects/sounds && rm /home/ashugaev/projects/sounds/docker-compose.yml || true
 
-    - sshpass scp -o stricthostkeychecking=no -r docker-compose-remote.yml $USER@$HOST:/home/ashugaev/projects/sounds/docker-compose.yml
-    - sshpass ssh -o stricthostkeychecking=no $USER@$HOST "cd /home/ashugaev/projects/sounds && ls && docker-compose pull && docker-compose up -d --build --force-recreate"
+    - sshpass scp -e -r docker-compose-remote.yml $USER@$HOST:/home/ashugaev/projects/sounds/docker-compose.yml
+    - sshpass ssh -e $USER@$HOST "cd /home/ashugaev/projects/sounds && ls && docker-compose pull && docker-compose up -d --build --force-recreate"
