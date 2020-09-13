@@ -9,109 +9,104 @@ variables:
   DOCKER_DRIVER: overlay2
 
 stages:
-  # Делаем сборку
-  - build
-  # Генерим докер-образ и пушим в регистр
-  - release
+#  # Делаем сборку
+#  - build
+#  # Генерим докер-образ и пушим в регистр
+#  - release
   # Заходим на сервер, обновляем и запускаем образ
   - deploy
 
-build:
-  stage: build
-  image: node:10-alpine
-  only:
-    - master
-  script:
-    - npm run install:all
-    - cd front && npm run build
-  artifacts:
-    paths:
-     - front/dist/
-
-release_front:
-  stage: release
-  image: docker:latest
-  only:
-    - "master"
-  services:
-    - docker:dind
-  before_script:
-    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-  script:
-    - "docker build -f front.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1 ."
-    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1"
-  after_script:
-    - "docker logout ${CI_REGISTRY}"
-
-release_server:
-  stage: release
-  image: docker:latest
-  only:
-    - "master"
-  services:
-    - docker:dind
-  before_script:
-    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-  script:
-    # Пишет энвы на сервер
-    - chmod +x setup_env.sh
-    - ./setup_env.sh
-
-    - "docker build -f server.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1 ."
-    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1"
-  after_script:
-    - "docker logout ${CI_REGISTRY}"
+#build:
+#  stage: build
+#  image: node:10-alpine
+#  only:
+#    - master
+#  script:
+#    - npm run install:all
+#    - cd front && npm run build
+#  artifacts:
+#    paths:
+#     - front/dist/
+#
+#release_front:
+#  stage: release
+#  image: docker:latest
+#  only:
+#    - "master"
+#  services:
+#    - docker:dind
+#  before_script:
+#    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+#  script:
+#    - "docker build -f front.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1 ."
+#    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1"
+#  after_script:
+#    - "docker logout ${CI_REGISTRY}"
+#
+#release_server:
+#  stage: release
+#  image: docker:latest
+#  only:
+#    - "master"
+#  services:
+#    - docker:dind
+#  before_script:
+#    - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+#  script:
+#    # Пишет энвы на сервер
+#    - chmod +x setup_env.sh
+#    - ./setup_env.sh
+#
+#    - "docker build -f server.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1 ."
+#    - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1"
+#  after_script:
+#    - "docker logout ${CI_REGISTRY}"
 
 deploy:
   stage: deploy
-  image: ubuntu:latest
+  image: ubuntu:18.04
   only:
     - "master"
   environment: production
   services:
     - docker:dind
   before_script:
-    - apt-get update -y
-    ##
-    ## Install ssh-agent if not already installed, it is required by Docker.
-    ## (change apt-get to yum if you use an RPM-based image)
-    ##
-    - 'which ssh-agent || ( apt-get install openssh-client -y )'
+    # install ssh ageng if it's not
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
 
-    ##
-    ## Run ssh-agent (inside the build environment)
-    ##
+    # Run ssh-agent (inside the build environment)
     - eval $(ssh-agent -s)
 
-    ##
-    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    ## We're using tr to fix line endings which makes ed25519 keys work
-    ## without extra base64 encoding.
-    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-    ##
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
-    ##
-    ## Create the SSH directory and give it the right permissions
-    ##
+    # Create the SSH directory and give it the right permissions
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
+    # configure ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - sshpass -V || apt-get install -y -qq sshpass
-    - docker --version || apt install docker.io && apt install docker-compos
+
+    - apt-get install -y -qq sshpass
   script:
+    # Пробрасывает пароль для sshpass, но он не нужен, если есть $SSH_PRIVATE_KEY
+    - export SSHPASS=$SSH_PASS
+
+    # Поставить докер, если его нет
+    - sshpass -e ssh $USER@$HOST 'docker --version || (apt-get update && apt install docker.io -y && apt install docker-compose -y)'
+
     # Удаляет пакет, который мешает авторизации в регистре докера (проблема вылезает на одной из версий ubuntu)
-    - sshpass ssh $USER@$HOST 'sudo apt-get remove golang-docker-credential-helpers -y'
+    - sshpass -e ssh $USER@$HOST 'apt-get remove golang-docker-credential-helpers -y'
 
     # Удяляет контейнеры содержащие в имени sounds, возрастом больше 4 дней
-    - sshpass ssh $USER@$HOST 'docker image prune --filter "name=sounds" --filter "until=96h" -f'
+    - sshpass -e ssh $USER@$HOST 'docker image prune --filter "name=sounds" --filter "until=96h" -f'
 
-    - sshpass ssh $USER@$HOST 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
+    - sshpass -e ssh $USER@$HOST 'docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY'
+
+    # Идет в папку проекта/создаем ее, пишет и запускает конфиг docker-compose
     # '|| true' - благодаря этому стейдж не крашится если операция не прошла
-    ## Идет в папку проекта/создаем ее, пишет и запускает конфиг docker-compose
-    - sshpass ssh $USER@$HOST 'mkdir -p /root/projects && mkdir -p /root/projects/sounds && rm /root/projects/sounds/docker-compose.yml || true'
+    - sshpass -e ssh $USER@$HOST 'mkdir -p /root/projects && mkdir -p /root/projects/sounds && rm /root/projects/sounds/docker-compose.yml || true'
 
     # Скопировать конфиг на виртуалку
     - sshpass scp -r docker-compose-remote.yml $USER@$HOST:/root/projects/sounds/docker-compose.yml
-    - sshpass ssh $USER@$HOST 'cd /root/projects/sounds && ls && docker-compose pull && docker-compose up -d --build --force-recreate'
+    - sshpass -e ssh $USER@$HOST 'cd /root/projects/sounds && ls && docker-compose pull && docker-compose up -d --build --force-recreate'
