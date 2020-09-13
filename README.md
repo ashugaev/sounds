@@ -14,11 +14,9 @@
 
 **Подготовка виртуалки для деплоя**
 
-- [Установить Docker](https://www.digitalocean.com/community/tutorials/docker-ubuntu-16-04-ru)
-
-- [Установить Docker Compose](https://docs.docker.com/compose/install/)
-
-Начало работы над проектом 9 декабря 2019
+- ```apt install docker.io && apt install docker-compose``` 
+- Добавить переменные окружения в гитлабе (USER, SSH_PRIVATE_KEY
+, HOST)
 
 **Роутинг**
 
@@ -27,3 +25,5 @@
 /chanel/[id] - конкретный канал (перейти в него можно из списка каналов или по названию канала)
 /genres - все жанры
 /genre/[name] - конкретный жанр (перейти в него можно из списка жанров или по тегу)
+
+Начало работы над проектом 9 декабря 2019
