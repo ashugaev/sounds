@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name slowflow.app www.slowflow.app;
+    server_name http://slowflow.app;
 
     location / {
         proxy_pass http://localhost:8005;
