@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "initial_configure": "./vds_config/configure_vds.sh",
     "docker-up": "npm run build && docker-compose up -d --build --force-recreate",
     "docker-down": "docker-compose down",
-    "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci",
+    "install:all": "npm ci && cd server && npm ci && cd ../front && npm ci && cd ../parser && npm ci",
     "dev": "cd front && npm run dev",
     "build": "cd front && npm run build"
   },

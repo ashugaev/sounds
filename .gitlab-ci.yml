@@ -92,9 +92,6 @@ deploy:
     # Пробрасывает пароль для sshpass, но он не нужен, если есть $SSH_PRIVATE_KEY
     - export SSHPASS=$SSH_PASS
 
-    # Поставить докер, если его нет
-    - sshpass -e ssh $USER@$HOST 'docker --version || (apt-get update && apt install docker.io -y && apt install docker-compose -y)'
-
     # Удаляет пакет, который мешает авторизации в регистре докера (проблема вылезает на одной из версий ubuntu)
     - sshpass -e ssh $USER@$HOST 'apt-get remove golang-docker-credential-helpers -y'
 
