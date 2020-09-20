@@ -12,14 +12,14 @@ const cnHeader = cn('Header');
 
 const tabs = [
   {
-    text: 'Главная',
+    text: 'All tracks',
     path: '/',
   },
   {
-    text: 'Каналы',
+    text: 'Channels',
     path: '/channels',
   }, {
-    text: 'Трансляции',
+    text: 'Live broadcast',
     path: '/live',
     label: 'live',
   },
