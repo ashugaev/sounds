@@ -4,15 +4,13 @@ const log4js = require('log4js');
 const { decode } = require('he');
 const { get, uniq } = require('lodash');
 const axios = require('axios');
-const { write: writeJSON } = require('./helpers/json');
 const queryString = require('query-string');
+const { write: writeJSON } = require('./helpers/json');
 const parserData = require('./parser');
 const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
 const { checkEnvs } = require('./helpers/checkEnvs');
-
-const { channelsIds, userNames } = parserData;
 
 let channelsList = [];
 
@@ -94,12 +92,12 @@ function modifyVideosData(list) {
 }
 
 function updateFeauteredChannels(list) {
-  const { featured, blackList } = parserData;
+  const { featured, blackList, channelsIds } = parserData;
 
   const concated = uniq(featured.concat(list));
-  const excludedBlackListItems = concated.filter(el => blackList.indexOf(el) === -1);
+  const filtered = concated.filter(el => blackList.indexOf(el) === -1 && channelsIds.indexOf(el) === -1);
 
-  parserData.featured = excludedBlackListItems;
+  parserData.featured = filtered;
 
   writeNewDataToJson(parserData);
 }
@@ -329,6 +327,8 @@ function decodeData(videos) {
  * Метод запуска сбора видео
  */
 (async () => {
+  const { channelsIds, userNames } = parserData;
+
   try {
     await getVideos(channelsIds, userNames);
   } catch (e) {
