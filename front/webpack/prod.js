@@ -3,7 +3,7 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { cssConstants, aliases } = require('./common');
+const { cssConstants, aliases, plugins } = require('./common');
 
 module.exports = {
   entry: [
@@ -34,6 +34,7 @@ module.exports = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new MiniCssExtractPlugin({ filename: '[hash:2].css' }),
+    ...plugins,
   ],
 
   optimization: {

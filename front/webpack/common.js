@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const cssConstants = [
   path.resolve(__dirname, '../assets/styles/design-system-variables.sass'),
@@ -15,8 +16,17 @@ const aliases = {
   query: path.resolve(__dirname, '../helpers/query.js'),
 };
 
+const plugins = [
+  new CopyPlugin({
+    patterns: [
+      { from: path.resolve(__dirname, '../assets/icons/logo.svg'), to: '../dist/icons/' },
+    ],
+  }),
+];
+
 
 module.exports = {
   cssConstants,
   aliases,
+  plugins,
 };

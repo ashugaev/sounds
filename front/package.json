@@ -48,6 +48,7 @@
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/preset-react": "^7.9.4",
     "@bem-react/classname": "^1.5.8",
+    "copy-webpack-plugin": "^6.1.1",
     "sass": "^1.26.5",
     "sass-lint": "^1.13.1",
     "webpack": "^4.43.0",
