@@ -88,9 +88,9 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
               <Text size="s" text={title} bold cropLine />
               <Text size="xs" text={channelTitle} cropLine />
             </div>
-            <div className={cnPlayerBox('Column')}>
-              <Button icon="mix" />
-            </div>
+            {/* <div className={cnPlayerBox('Column')}> */}
+            {/*  <Button icon="mix" /> */}
+            {/* </div> */}
           </div>
           <div className="PlayerBox-TagsBox">
             {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => {

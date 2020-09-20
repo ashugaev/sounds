@@ -47,27 +47,27 @@ const Header = inject('channelsStore')(observer(({ channelsStore, history }) => 
         ))}
       </div>
       <div className={cnHeader('Icons')}>
-        <a href="https://www.patreon.com/" target="_blank">
+        <a href="https://www.patreon.com/ashugaev" target="_blank">
           <Button className={cnHeader('OneIcon')} icon="patreon" size="xs" />
         </a>
 
-        <NavLink
-          exact
-          activeClassName={cnHeader('OneIcon', { active: true })}
-          className={cnHeader('OneIcon')}
-          to={{
-            pathname: '/liked',
-            search: query.getString(history),
-          }}
-        >
-          <Button
-            className={cnHeader('OneIcon')}
-            icon="like"
-            size="xs"
-            isActive={get(history, 'location.pathname') === '/liked'}
-            hoverable
-          />
-        </NavLink>
+        {/* <NavLink */}
+        {/*  exact */}
+        {/*  activeClassName={cnHeader('OneIcon', { active: true })} */}
+        {/*  className={cnHeader('OneIcon')} */}
+        {/*  to={{ */}
+        {/*    pathname: '/liked', */}
+        {/*    search: query.getString(history), */}
+        {/*  }} */}
+        {/* > */}
+        {/*  <Button */}
+        {/*    className={cnHeader('OneIcon')} */}
+        {/*    icon="like" */}
+        {/*    size="xs" */}
+        {/*    isActive={get(history, 'location.pathname') === '/liked'} */}
+        {/*    hoverable */}
+        {/*  /> */}
+        {/* </NavLink> */}
       </div>
     </div>
   );
