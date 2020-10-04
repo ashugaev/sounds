@@ -15,10 +15,12 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
     currentCategory, fetchCurrentCategory,
   } = categoriesStore;
   const {
-    setFilterChannel,
+    setFilterChannel, resetTracks,
   } = pageStore;
 
   useEffect(() => {
+    resetTracks();
+
     fetchCurrentCategory(categoryName, (data) => {
       setFilterChannel({
         resetBefore: true,
@@ -29,7 +31,11 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
 
   return (
     <div className={className}>
-      <TracksList type={tracksType} title={get(currentCategory, 'name')} />
+      <TracksList
+        type={tracksType}
+        title={get(currentCategory, 'name')}
+        titlePlaceholder
+      />
     </div>
   );
 }));

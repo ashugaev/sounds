@@ -13,7 +13,7 @@ import './ItemsBlock.sass';
 const cnItemsBlock = cn('ItemsBlock');
 
 const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
-  pageStore, type, title, liveOnly, channelsStore,
+  pageStore, type, title, liveOnly, channelsStore, titlePlaceholder,
 }) => {
   const {
     isLoading, noTracksToFetch, fetch: pageFetch,
@@ -37,9 +37,9 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
         />
       )}
       <div className={cnItemsBlock()}>
-        {title ? (
+        {(title || titlePlaceholder) ? (
           <Text
-            text={title}
+            text={title || '...'}
             size="xl"
             className={cnItemsBlock('Title')}
             line="normal"
