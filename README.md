@@ -22,3 +22,6 @@
 
     `git update-index --no-assume-unchanged ./.env`
 
+## Подготовка ide
+1. Пометрить директории из aliases в вебпаке "Mark as Resourse Root"
+2. Указать вебшторму на конфиг вебпака в **"Preferences | Languages & Frameworks | JavaScript | Webpack"**

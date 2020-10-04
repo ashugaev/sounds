@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run dev:no-server & npx nodemon ../server/index.js",
-    "dev:no-server": "webpack-dev-server -d --config webpack/dev.js --hot --inline --host 0.0.0.0",
+    "dev": "webpack-dev-server -d --config webpack/dev.js --hot --inline --host 0.0.0.0",
     "build": "webpack -p --config webpack/prod.js",
     "analyze": "npm run build -- --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },

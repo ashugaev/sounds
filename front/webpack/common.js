@@ -14,6 +14,7 @@ const aliases = {
   join: path.resolve(__dirname, '../helpers/join.js'),
   helpers: path.resolve(__dirname, '../helpers/'),
   query: path.resolve(__dirname, '../helpers/query.js'),
+  '@': path.resolve(__dirname, '../'),
 };
 
 const plugins = [

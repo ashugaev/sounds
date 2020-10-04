@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { cn as bemCn } from '@bem-react/classname';
 import { get } from 'lodash-es';
 import j from 'join';
-import TracksList from 'c/TracksList';
+import TracksList from 'c/ItemsBlock';
 import './OneChannel.sass';
 
 const cn = bemCn('OneChannelPage');
