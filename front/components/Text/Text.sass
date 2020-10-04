@@ -1,11 +1,19 @@
 @import '../../assets/styles/design-system-variables'
 @import '../../assets/styles/constants'
 
-.Text
+$root: '.Text'
+
+#{$root}
   font-family: Roboto, sans-serif
 
   &_bold
     font-weight: 500
+
+  &_normal
+    font-weight: 400
+
+  &_thin
+    font-weight: 300
 
   &_hoverable:hover
     color: $red
@@ -23,10 +31,16 @@
   &_color
     &_gray
       color: $gray
+
     &_darkGray
       color: $gray-color-2
+
     &_white
       color: $pure-white
+
+      &:hover#{$root}_hoverable
+        opacity: $opacity-lvl-m
+        color: $pure-white
 
   &_line
     &_normal

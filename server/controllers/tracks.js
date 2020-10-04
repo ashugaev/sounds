@@ -22,7 +22,7 @@ module.exports.all = async function () {
 
   liveOnly === 'true' && (findParams['snippet.liveBroadcastContent'] = 'live');
   tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
-  channel && (findParams['snippet.channelId'] = channel);
+  channel && (findParams['snippet.channelId'] = { $in: channel.split(',') });
   fromObjId && (findParams._id = { $gte: fromObjId });
   afterObjId && (findParams._id = { $gt: afterObjId });
   beforeObjId && (findParams._id = { $lt: beforeObjId }, sortParams._id = -1);

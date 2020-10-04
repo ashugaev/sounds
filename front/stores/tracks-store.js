@@ -4,6 +4,7 @@ import {
 import { get } from 'lodash-es';
 import axios from 'axios';
 import query from 'query';
+import { tracksPath } from 'helpers/constants';
 
 class TracksStore {
   @observable tracks = []
@@ -102,7 +103,7 @@ class TracksStore {
 
     const { filterTags, filterChannel } = this;
 
-    axios.get('/api/tracks', {
+    axios.get(tracksPath, {
       params: {
         fromObjId,
         afterObjId,

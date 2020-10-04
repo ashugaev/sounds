@@ -6,13 +6,14 @@ import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
 import { cn } from '@bem-react/classname';
 import Items from 'c/ItemsBlock/Items';
+import { tracksType } from 'helpers/constants';
 
 import './ItemsBlock.sass';
 
 const cnItemsBlock = cn('ItemsBlock');
 
 const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
-  pageStore, type, title, liveOnly, channelsStore
+  pageStore, type, title, liveOnly, channelsStore,
 }) => {
   const {
     isLoading, noTracksToFetch, fetch: pageFetch,
@@ -28,7 +29,7 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
 
   return (
     <>
-      {type === 'tracks' && (
+      {type === tracksType && (
         <LazyLoader
           loadHandler={loadMoreItems}
           pixelsLeftToLoad={600}
@@ -50,7 +51,7 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
           <Items type={type} />
         </div>
       </div>
-      {((!noTracksToFetch && type === 'tracks') || (!noChannelsToFetch && type === 'channels'))
+      {((!noTracksToFetch && type === tracksType) || (!noChannelsToFetch && type === 'channels'))
         ? <Loader />
         : <div className={cnItemsBlock('BottomPlaceholder')} />}
     </>

@@ -34,7 +34,7 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
 
   return (
     <div className={j(className, cn())}>
-      <TracksList type="tracks" title={get(currentChannel, 'snippet.title') || ' '} />
+      <TracksList type="tracks" title={get(currentChannel, 'snippet.title')} />
     </div>
   );
 }));

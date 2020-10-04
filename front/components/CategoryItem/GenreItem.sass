@@ -1,7 +1,7 @@
 @import "../../assets/styles/constants"
 @import "../../assets/styles/design-system-variables"
 
-$root: ".ChannelListItem"
+$root: ".CategoryItem"
 $track-thumb-height: 136px
 $track-thumb-width: 246px
 
@@ -12,6 +12,8 @@ $track-thumb-width: 246px
   display: flex
   flex-direction: column
   cursor: pointer
+  border-radius: $radius-xl
+  overflow: hidden
 
   &-BgImage
     width: 100%
@@ -19,13 +21,10 @@ $track-thumb-width: 246px
     background-position: center
     background-repeat: no-repeat
     background-size: cover
-    z-index: 1
     display: flex
     align-items: center
     justify-content: center
     position: relative
-    overflow: hidden
-    border-radius: $radius-xl
 
     &:before
       display: block
@@ -37,23 +36,7 @@ $track-thumb-width: 246px
       opacity: .4
       transition: background-color $time-s $ease-show
 
-  &-LogoImage
-    background-position: center
-    background-repeat: no-repeat
-    background-size: cover
-    width: 80px
-    height: 80px
-    box-sizing: border-box
-    border: solid 3px $pure-white
-    border-radius: 50%
+  &-Title
     position: absolute
-    top: 50%
-    left: 50%
-    transform: translate(-50%, -50%)
-
-  &-Title, &-Counters
-    margin-top: $space-xxxxxs
-
-  &-OneCounter
-    &:not(:first-child)
-      margin-left: $space-xxxs
+    bottom: $space-xxxs
+    left: $space-xxxs

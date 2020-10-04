@@ -278,6 +278,7 @@ function getFetchUrl(channel, nextPageUrl) {
 
   nextPageUrl && (queryParams.pageToken = nextPageUrl);
 
+  // TODO: В search ходить дорого по квоте
   return `https://www.googleapis.com/youtube/v3/search?${queryString.stringify(queryParams)}`;
 }
 
@@ -285,6 +286,8 @@ function getChannelUrl(id, forUsername, part) {
   const queryParams = {
     part: part || 'snippet,localizations,brandingSettings,statistics,contentDetails',
     key: YOUTUBE_TOKEN,
+    // TODO: Заполнить список полей, которые используются
+    // fields: 'items(id,snippet(channelId,publishedAt,title,categoryId),statistics)&part=snippet,statistics',
   };
 
   id && (queryParams.id = id);

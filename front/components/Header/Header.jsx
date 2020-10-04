@@ -12,8 +12,9 @@ const cnHeader = cn('Header');
 
 const tabs = [
   {
-    text: 'All tracks',
-    path: '/',
+    text: 'Categories',
+    path: '/categories',
+    label: 'categories',
   },
   {
     text: 'Channels',

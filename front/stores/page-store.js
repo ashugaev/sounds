@@ -3,6 +3,7 @@ import {
 } from 'mobx';
 import axios from 'axios';
 import query from 'query';
+import { tracksPath } from 'helpers/constants';
 
 class PageStore {
   @observable tracks = []
@@ -49,7 +50,7 @@ class PageStore {
 
     const { filterTags, filterChannel } = this;
 
-    axios.get('/api/tracks', {
+    axios.get(tracksPath, {
       params: {
         fromObjId,
         afterObjId,

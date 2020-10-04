@@ -3,6 +3,7 @@ import tagsStore from './tags-store';
 import playerStore from './player-store';
 import channelsStore from './channels-store';
 import notifierStore from './notifier-store';
+import categoriesStore from './categories-store';
 import pageStore from './page-store';
 
 export default {
@@ -12,4 +13,5 @@ export default {
   notifierStore,
   channelsStore,
   pageStore,
+  categoriesStore,
 };
