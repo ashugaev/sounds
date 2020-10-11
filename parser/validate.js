@@ -1,3 +1,5 @@
+// Проверка на дубли и битые треки
+
 const axios = require('axios');
 
 (() => axios('https://www.youtube.com/get_video_info\?video_id\=Kw01XZLv5Vs')
