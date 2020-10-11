@@ -16,7 +16,15 @@ mongoose.connect(`mongodb+srv://${MONGO_USER_NAME}:${MONGO_USER_PASSWORD}@${MONG
 
 const { Schema } = mongoose;
 
-const Tracks = new Schema({});
+const Tracks = new Schema({
+  snippet: {
+    thumbnails: {
+      medium: {
+        url: String,
+      },
+    },
+  },
+});
 
 const Tags = new Schema({});
 

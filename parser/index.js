@@ -102,7 +102,7 @@ function updateFeauteredChannels(list) {
   writeNewDataToJson(parserData);
 }
 
-/* Это место можено выполнять один раз для всех каналов сразу */
+/* Это место можно выполнять один раз для всех каналов сразу */
 function saveChannelToDB(channelId) {
   return new Promise(async (rs, rj) => {
     try {
