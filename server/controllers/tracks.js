@@ -1,5 +1,6 @@
 const log4js = require('log4js');
 const db = require('../schema/schema');
+const getTracks = require('./utils/getTracksFromDB');
 
 const logger = log4js.getLogger();
 
