@@ -1,22 +1,39 @@
 import React from 'react';
-import { cn } from '@bem-react/classname';
+import cn from 'classnames';
 import j from 'join';
-import './Text.sass';
-
-const cnText = cn('Text');
+import cnByModifiers from 'cnByModifiers';
+import s from './Text.sass';
 
 const Text = ({
-  children, className, text, lines, ...modifiers
+  children, className, text, lines, line, color, size, bold, cropLine, hoverable,
 }) => {
   const style = {};
 
   if (lines) style.WebkitLineClamp = lines;
 
+  const modifiers = cnByModifiers({
+    s,
+    root: 'Text',
+    mods: {
+      size,
+      color,
+      line,
+      bold,
+      hoverable,
+      cropLine,
+    },
+  });
+
   return (
     <span
-      className={j(cnText({
-        limitedLines: Boolean(lines), ...modifiers,
-      }), className)}
+      className={j(
+        s.Text,
+        cn({
+          [s.Text_limitedLines]: Boolean(lines),
+        }),
+        ...modifiers,
+        className,
+      )}
 
       style={style}
     >

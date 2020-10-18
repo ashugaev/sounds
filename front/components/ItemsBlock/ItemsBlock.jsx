@@ -4,13 +4,9 @@ import Text from 'c/Text';
 import Loader from 'c/Loader';
 import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import Items from 'c/ItemsBlock/Items';
 import { tracksType } from 'helpers/constants';
-
-import './ItemsBlock.sass';
-
-const cnItemsBlock = cn('ItemsBlock');
+import s from './ItemsBlock.sass';
 
 const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
   pageStore, type, title, liveOnly, channelsStore, titlePlaceholder,
@@ -36,24 +32,24 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
           skipLoads={isLoading || noTracksToFetch}
         />
       )}
-      <div className={cnItemsBlock()}>
+      <div className={s.ItemsBlock}>
         {(title || titlePlaceholder) ? (
           <Text
             text={title || '...'}
             size="xl"
-            className={cnItemsBlock('Title')}
+            className={s.Title}
             line="normal"
             bold
             cropLine
           />
-        ) : <div className={cnItemsBlock('UpperPlaceholder')} />}
-        <div className={cnItemsBlock('List')}>
+        ) : <div className={s.UpperPlaceholder} />}
+        <div className={s.List}>
           <Items type={type} />
         </div>
       </div>
       {((!noTracksToFetch && type === tracksType) || (!noChannelsToFetch && type === 'channels'))
         ? <Loader />
-        : <div className={cnItemsBlock('BottomPlaceholder')} />}
+        : <div className={s.BottomPlaceholder} />}
     </>
   );
 }));

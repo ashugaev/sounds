@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import j from 'join';
 import Button from 'c/Button';
 import query from 'query';
@@ -12,7 +11,7 @@ import Text from 'c/Text';
 import get from 'lodash-es/get';
 import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
-import './PlayerBox.sass';
+import s from './PlayerBox.sass';
 
 const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
   className, tracksStore, playerStore, history, notifierStore,
@@ -61,38 +60,36 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
   } = snippet;
   const imageUrl = thumbnails.high.url;
 
-  const cnPlayerBox = cn('PlayerBox');
-
   return (
     <>
-      <div className={j(cnPlayerBox(), className)}>
-        <TimeLine className={cnPlayerBox('TimeLine')} />
-        <div className={cnPlayerBox('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
-          <div className="PlayerBox-ButtonsBox">
-            <Button icon="prev" disabled={isPrevArrowDisabled} className={cnPlayerBox('PrevButton')} onClick={onPrevClick} />
+      <div className={j(s.PlayerBox, className)}>
+        <TimeLine className={s.TimeLine} />
+        <div className={s.Image} style={{ backgroundImage: `url(${imageUrl})` }}>
+          <div className={s.ButtonsBox}>
+            <Button icon="prev" disabled={isPrevArrowDisabled} className={s.PrevButton} onClick={onPrevClick} />
             <Button
               icon={isPlaying ? 'pause' : 'play'}
-              className={cnPlayerBox('PrevButton')}
-              iconClassName={cnPlayerBox(isPlaying ? 'PauseIcon' : 'PlayIcon')}
+              className={s.PrevButton}
+              iconClassName={isPlaying ? s.PauseIcon : s.PlayIcon}
               onClick={toggleIsPlaying}
               onClickArgs={!isPlaying}
               size="l"
             />
-            <Button icon="next" disabled={isNextArrowDisabled} className={cnPlayerBox('NextButton')} onClick={onNextClick} />
+            <Button icon="next" disabled={isNextArrowDisabled} className={s.NextButton} onClick={onNextClick} />
           </div>
-          <Time className="PlayerBox-TimeLabel" live={liveBroadcastContent === 'live'} />
+          <Time className={s.TimeLabel} live={liveBroadcastContent === 'live'} />
         </div>
-        <div className={cnPlayerBox('InfoBox')}>
-          <div className={cnPlayerBox('Row')}>
-            <div className={cnPlayerBox('Column')}>
+        <div className={s.InfoBox}>
+          <div className={s.Row}>
+            <div className={s.Column}>
               <Text size="s" text={title} bold cropLine />
               <Text size="xs" text={channelTitle} cropLine />
             </div>
-            {/* <div className={cnPlayerBox('Column')}> */}
+            {/* <div className={s.Column}> */}
             {/*  <Button icon="mix" /> */}
             {/* </div> */}
           </div>
-          <div className="PlayerBox-TagsBox">
+          <div className={s.TagsBox}>
             {tagsIsLoaded && (tags || []).filter(tag => tag).map((tag, i) => {
               return (
                 <TagButton
@@ -100,7 +97,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
                   key={i}
                   text={tag.name}
                   theme="miniLabel"
-                  className={cnPlayerBox('Tag')}
+                  className={s.Tag}
                 />
               );
             })}

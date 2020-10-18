@@ -1,11 +1,8 @@
 import React from 'react';
-import { cn } from '@bem-react/classname';
 import Text from 'c/Text';
 import Icon from 'c/Icon';
 import j from 'join';
-import './ChannelCounter.sass';
-
-const cnChannelCounter = cn('ChannelCounter');
+import s from './ChannelCounter.sass';
 
 function getText(text) {
   const intVal = parseInt(text);
@@ -29,9 +26,9 @@ const ChannelCounter = ({
   if (!text) return null;
 
   return (
-    <div className={j(className, cnChannelCounter())}>
-      <Icon className={cnChannelCounter('Icon')} icon={icon} size="xxs" wide />
-      <Text className={cnChannelCounter('Text')} text={getText(text)} color="gray" size="xs" />
+    <div className={j(className, s.ChannelCounter)}>
+      <Icon className={s.Icon} icon={icon} size="xxs" wide />
+      <Text className={s.Text} text={getText(text)} color="gray" size="xs" />
     </div>
   );
 };

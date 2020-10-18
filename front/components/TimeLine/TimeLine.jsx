@@ -1,10 +1,8 @@
 import React from 'react';
-import './TimeLine.sass';
 import { observer, inject } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import j from 'join';
-
-const cnTimeLine = cn('TimeLine');
+import cnByModifiers from 'cnByModifiers';
+import s from './TimeLine.sass';
 
 const TimeLine = inject('playerStore', 'tracksStore')(observer(({
   className, playerStore, tracksStore,
@@ -23,9 +21,16 @@ const TimeLine = inject('playerStore', 'tracksStore')(observer(({
 
     setByPercent(newPercent);
   }
+
+  const modifiers = cnByModifiers({
+    s,
+    root: 'TimeLine',
+    mods: { deactivated: isLive },
+  });
+
   return (
-    <div className={j(cnTimeLine({ deactivated: isLive }), className)} onClick={onClick}>
-      <div style={{ width: `${isLive ? 100 : getPercent}%` }} className={cnTimeLine('Current')} />
+    <div className={j(s.TimeLine, ...modifiers, className)} onClick={onClick}>
+      <div style={{ width: `${isLive ? 100 : getPercent}%` }} className={s.Current} />
     </div>
   );
 }));

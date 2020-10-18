@@ -1,6 +1,3 @@
-@import "../../assets/styles/constants"
-@import "../../assets/styles/design-system-variables"
-
 $root: ".CategoryItem"
 $track-thumb-height: 136px
 $track-thumb-width: 246px
@@ -15,28 +12,28 @@ $track-thumb-width: 246px
   border-radius: $radius-xl
   overflow: hidden
 
-  &-BgImage
-    width: 100%
-    height: $track-thumb-height
-    background-position: center
-    background-repeat: no-repeat
-    background-size: cover
-    display: flex
-    align-items: center
-    justify-content: center
-    position: relative
+.BgImage
+  width: 100%
+  height: $track-thumb-height
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
 
-    &:before
-      display: block
-      background: $black
-      content: ''
-      position: absolute
-      width: 100%
-      height: 100%
-      opacity: .4
-      transition: background-color $time-s $ease-show
-
-  &-Title
+  &:before
+    display: block
+    background: $black
+    content: ''
     position: absolute
-    bottom: $space-xxxs
-    left: $space-xxxs
+    width: 100%
+    height: 100%
+    opacity: .4
+    transition: background-color $time-s $ease-show
+
+.Title
+  position: absolute
+  bottom: $space-xxxs
+  left: $space-xxxs

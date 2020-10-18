@@ -1,6 +1,4 @@
 @import "../TimeLine/TimeLine"
-@import "../../assets/styles/constants"
-@import "../../assets/styles/design-system-variables"
 @import "../TimeLine/TimeLine"
 
 $PlayerBoxHeight: 92px
@@ -13,66 +11,66 @@ $player-with-timeline-height: $PlayerBoxHeight + $time-line-height
   background: rgba(255, 255, 255, 0.95)
   z-index: $z-player-box
 
-  &-Image
-    height: $PlayerBoxHeight
-    width: 204px
-    background-position: center
-    background-size: cover
-    background-repeat: no-repeat
-    position: relative
-    flex-shrink: 0
+.Image
+  height: $PlayerBoxHeight
+  width: 204px
+  background-position: center
+  background-size: cover
+  background-repeat: no-repeat
+  position: relative
+  flex-shrink: 0
 
-    &:before
-      content: ''
-      display: block
-      position: absolute
-      top: 0
-      left: 0
-      height: 100%
-      width: 100%
-      background: $color-black-transparent
-
-  &-ButtonsBox
-    display: grid
-    grid-gap: 32px
-    grid-template-columns: min-content min-content min-content
-    justify-content: center
-    align-items: center
-    padding: 20px 0 12px 0
-
-  &-PlayButton, &-PauseButton, &-NextButton, &-PrevButton
-    z-index: 1
-    opacity: .9
-
-  &-TimeLabel
-    display: flex
-    justify-content: center
-    color: white
-
-  &-InfoBox
-    padding: $space-xxxxxs $space-xxxxs
-    display: grid
-    row-gap: 9px
-    width: 100%
-    grid-template-rows: min-content min-content
-
-  &-Row
-    display: grid
-    column-gap: $space-xxxxs
-    grid-template-columns: 1fr auto
-
-  &-Column
-    display: grid
-    grid-row-gap: $space-xxxxxxs
-
-  &-TimeLine
+  &:before
+    content: ''
+    display: block
     position: absolute
+    top: 0
     left: 0
-    top: - $time-line-height
+    height: 100%
+    width: 100%
+    background: $color-black-transparent
 
-  &-TagsBox
-    display: flex
-    overflow: auto
+.ButtonsBox
+  display: grid
+  grid-gap: 32px
+  grid-template-columns: min-content min-content min-content
+  justify-content: center
+  align-items: center
+  padding: 20px 0 12px 0
 
-  &-Tag:not(:first-child)
-      margin-left: $space-xxxxs
+.PlayButton, .PauseButton, .NextButton, .PrevButton
+  z-index: 1
+  opacity: .9
+
+.TimeLabel
+  display: flex
+  justify-content: center
+  color: white
+
+.InfoBox
+  padding: $space-xxxxxs $space-xxxxs
+  display: grid
+  row-gap: 9px
+  width: 100%
+  grid-template-rows: min-content min-content
+
+.Row
+  display: grid
+  column-gap: $space-xxxxs
+  grid-template-columns: 1fr auto
+
+.Column
+  display: grid
+  grid-row-gap: $space-xxxxxxs
+
+.TimeLine
+  position: absolute
+  left: 0
+  top: - $time-line-height
+
+.TagsBox
+  display: flex
+  overflow: auto
+
+.Tag:not(:first-child)
+    margin-left: $space-xxxxs

@@ -4,7 +4,6 @@ import { Provider } from 'mobx-react';
 import { configure } from 'mobx';
 import stores from 'stores';
 import Body from 'c/Body';
-import './index.sass';
 import {
   BrowserRouter as Router,
 } from 'react-router-dom';

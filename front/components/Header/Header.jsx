@@ -1,14 +1,12 @@
 import React from 'react';
 import query from 'query';
-import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
-import { get } from 'lodash-es';
+import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
 import Button from 'c/Button';
 import { withRouter } from 'react-router';
-import './Header.sass';
-
-const cnHeader = cn('Header');
+import Input from 'c/Input';
+import Text from 'c/Text';
+import s from './Header.sass';
 
 const tabs = [
   {
@@ -26,30 +24,31 @@ const tabs = [
   },
 ];
 
-const Header = inject('channelsStore')(observer(({ channelsStore, history }) => {
-  const { currentChannel } = channelsStore;
-
+const Header = ({ history }) => {
   return (
-    <div className={cnHeader({ noBottomBorder: Boolean(get(currentChannel, 'id')) })}>
-      <div className={cnHeader('Tabs')}>
+    <div className={s.Header}>
+      <div className={s.Tabs}>
         {tabs.map(el => (
           <NavLink
             key={el.path}
             exact
-            activeClassName={cnHeader('OneTab', { active: true })}
-            className={cnHeader('OneTab')}
+            activeClassName={cn(s.OneTab, { [s.OneTab_active]: true })}
+            className={s.OneTab}
             to={{
               pathname: el.path,
               search: query.getString(history),
             }}
           >
-            {el.text}
+            <Text>
+              {el.text}
+            </Text>
           </NavLink>
         ))}
       </div>
-      <div className={cnHeader('Icons')}>
+      <Input />
+      <div className={s.Icons}>
         <a href="https://www.patreon.com/ashugaev" target="_blank">
-          <Button className={cnHeader('OneIcon')} icon="patreon" size="xs" />
+          <Button className={s.OneIcon} icon="patreon" size="xs" />
         </a>
 
         {/* <NavLink */}
@@ -72,6 +71,6 @@ const Header = inject('channelsStore')(observer(({ channelsStore, history }) => 
       </div>
     </div>
   );
-}));
+};
 
 export default withRouter(Header);

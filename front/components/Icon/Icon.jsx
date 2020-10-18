@@ -1,18 +1,26 @@
 import React from 'react';
-import './Icon.sass';
-import { cn } from '@bem-react/classname';
+import j from 'join';
+import cnByModifiers from 'cnByModifiers';
+import s from './Icon.sass';
 
 const Icon = ({
   size, className, isHidden, icon, color, isActive, wide,
 }) => {
-  const iconClass = isActive ? `${icon}-active` : icon;
-
-  const cnButton = cn('Icon')({
-    size, icon: iconClass, isHidden, color, wide,
+  const modifiers = cnByModifiers({
+    s,
+    root: 'Icon',
+    mods: {
+      size,
+      icon,
+      color,
+      isActive,
+      isHidden,
+      wide,
+    },
   });
 
   return (
-    <div className={`${cnButton} ${className || ''}`} />
+    <div className={j(s.Icon, className, ...modifiers)} />
   );
 };
 

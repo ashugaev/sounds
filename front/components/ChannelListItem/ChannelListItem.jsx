@@ -2,13 +2,10 @@ import React from 'react';
 import query from 'query';
 import j from 'join';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import Text from 'c/Text';
-import './ChannelListItem.sass';
 import ChannelCounter from 'c/ChannelCounter';
 import { withRouter } from 'react-router';
-
-const cnChannelListItem = cn('ChannelListItem');
+import s from './ChannelListItem.sass';
 
 const ChannelListItem = inject('playerStore', 'tracksStore', 'pageStore')(observer(({
   history,
@@ -30,16 +27,16 @@ const ChannelListItem = inject('playerStore', 'tracksStore', 'pageStore')(observ
   }
 
   return (
-    <div className={j(className, cnChannelListItem())} onClick={onClick}>
-      <div className={cnChannelListItem('BgImage')} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
-        <div className={cnChannelListItem('LogoImage')} style={{ backgroundImage: `url(${logoImageUrl})` }} />
+    <div className={j(className, s.ChannelListItem)} onClick={onClick}>
+      <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
+        <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>
-      <div className={cnChannelListItem('Counters')}>
+      <div className={s.Counters}>
         {subscriberCount > 0
-          && <ChannelCounter className={cnChannelListItem('OneCounter')} text={subscriberCount} icon="person" />}
-        {viewCount > 0 && <ChannelCounter className={cnChannelListItem('OneCounter')} text={viewCount} icon="eye" />}
+          && <ChannelCounter className={s.OneCounter} text={subscriberCount} icon="person" />}
+        {viewCount > 0 && <ChannelCounter className={s.OneCounter} text={viewCount} icon="eye" />}
       </div>
-      <Text size="s" text={title} lines={2} className={cnChannelListItem('Title')} hoverable />
+      <Text size="s" text={title} lines={2} className={s.Title} hoverable />
     </div>
   );
 }));

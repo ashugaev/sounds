@@ -12,6 +12,7 @@ const aliases = {
   icons: path.resolve(__dirname, '../assets/icons/'),
   stores: path.resolve(__dirname, '../stores/'),
   join: path.resolve(__dirname, '../helpers/join.js'),
+  cnByModifiers: path.resolve(__dirname, '../helpers/cnByModifiers.js'),
   helpers: path.resolve(__dirname, '../helpers/'),
   query: path.resolve(__dirname, '../helpers/query.js'),
   '@': path.resolve(__dirname, '../'),

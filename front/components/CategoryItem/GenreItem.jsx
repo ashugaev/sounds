@@ -1,12 +1,10 @@
 import React from 'react';
 import query from 'query';
 import j from 'join';
-import { cn } from '@bem-react/classname';
 import Text from 'c/Text';
-import './GenreItem.sass';
 import { withRouter } from 'react-router';
-
-const cnChannelListItem = cn('CategoryItem');
+import cn from 'classnames';
+import s from './GenreItem.sass';
 
 const ChannelListItem = ({
   history,
@@ -25,15 +23,15 @@ const ChannelListItem = ({
   }
 
   return (
-    <div className={j(className, cnChannelListItem())} onClick={onClick}>
+    <div className={j(className, s.CategoryItem)} onClick={onClick}>
       <div
-        className={cnChannelListItem('BgImage')}
+        className={cn({ [s.BgImage]: true })}
         style={{ backgroundImage: `url(${wrapImageUrl})` }}
       />
       <Text
         text={title}
         lines={2}
-        className={cnChannelListItem('Title')}
+        className={cn({ [s.Title]: true })}
         hoverable
         color="white"
         size="xxxl"

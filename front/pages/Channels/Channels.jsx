@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn as bemCn } from '@bem-react/classname';
 import j from 'join';
 import TracksList from 'c/ItemsBlock';
-import './Channels.sass';
-
-const cn = bemCn('ChannelsPage');
+import s from './Channels.sass';
 
 const Channels = inject('channelsStore')(observer(({
   className,
@@ -18,7 +15,7 @@ const Channels = inject('channelsStore')(observer(({
   const { fetchChannels } = channelsStore;
 
   return (
-    <div className={j(className, cn())}>
+    <div className={j(className, s.ChannelsPage)}>
       <TracksList type="channels" />
     </div>
   );

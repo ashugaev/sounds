@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import j from 'join';
 import TracksList from 'c/ItemsBlock';
-import './Live.sass';
-
-const cnMain = cn('LivePage');
+import s from './Live.sass';
 
 const Live = inject('pageStore')(observer(({
   className,
@@ -21,7 +18,7 @@ const Live = inject('pageStore')(observer(({
   }, []);
 
   return (
-    <div className={j(className, cnMain())}>
+    <div className={j(className, s.LivePage)}>
       <TracksList type="tracks" liveOnly />
     </div>
   );

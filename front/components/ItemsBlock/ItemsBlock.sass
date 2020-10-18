@@ -1,5 +1,3 @@
-@import "../../assets/styles/constants"
-@import "../../assets/styles/design-system-variables"
 @import "../TracksListItem/TracksListItem"
 
 $root: '.ItemsBlock'
@@ -10,29 +8,29 @@ $content-side-margin: $space-m
 #{$root}
   height: 100%
 
-  &-List
-    display: grid
-    grid-template-columns: repeat(2, $track-thumb-width)
-    grid-column-gap: $space-xxxxs
-    grid-row-gap: $space-m
+.List
+  display: grid
+  grid-template-columns: repeat(2, $track-thumb-width)
+  grid-column-gap: $space-xxxxs
+  grid-row-gap: $space-m
 
-  &-Title
-    padding: $space-l 0 $space-l 0
-    display: block
-    // высота исходя из высоты строки + отступы
-    min-height: $space-xs * 2 + ($size-typo-xl * 1.2)
-    box-sizing: border-box
+.Title
+  padding: $space-l 0 $space-l 0
+  display: block
+  // высота исходя из высоты строки + отступы
+  min-height: $space-xs * 2 + ($size-typo-xl * 1.2)
+  box-sizing: border-box
 
-  &-BottomPlaceholder
-    height: $space-m
+.BottomPlaceholder
+  height: $space-m
 
-  &-UpperPlaceholder
-    height: $space-m
+.UpperPlaceholder
+  height: $space-m
 
 @media only screen  and (min-width: #{$track-thumb-width * 3 + $space-between-tracks-thumbs * 2 + $content-side-margin * 2})
-  #{$root}-List
+  .List
     grid-template-columns: repeat(3, $track-thumb-width)
 
 @media only screen  and (min-width: #{$max-content-width + $content-side-margin * 2})
-  #{$root}-List
+  .List
     grid-template-columns: repeat(4, $track-thumb-width)

@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
+import cn from 'classnames';
 import Text from 'c/Text';
 import Button from 'c/Button';
-import './TracksListItem.sass';
 import { get } from 'lodash-es';
 import { withRouter } from 'react-router';
 import Time from 'c/Time';
-
-const cnTracksListItem = cn('TracksListItem');
+import s from './TracksListItem.sass';
 
 const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observer(({
   imageUrl, title, isPlaying, playerStore, videoObjId, tracksStore, history, pageStore, isLive,
@@ -43,17 +41,16 @@ const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observe
   });
 
   return (
-    <div className={cnTracksListItem({ isPlaying })} onClick={toggleState}>
-      <div className={cnTracksListItem('Image')} style={{ backgroundImage: `url(${imageUrl})` }}>
-        {isLive && <Time live className={cnTracksListItem('LiveLabel')} />}
+    <div className={cn(s.TracksListItem, { [s.isPlaying]: isPlaying })} onClick={toggleState}>
+      <div className={s.Image} style={{ backgroundImage: `url(${imageUrl})` }}>
+        {isLive && <Time live className={s.LiveLabel} />}
         <Button
           icon={isPlaying ? 'pause' : 'play'}
-          className={cnTracksListItem('PrevButton')}
-          iconClassName={cnTracksListItem('Button')}
+          className={s.PlayButton}
           size="l"
         />
       </div>
-      <Text size="s" text={title} lines={2} className={cnTracksListItem('Title')} hoverable />
+      <Text size="s" text={title} lines={2} className={s.Title} hoverable />
     </div>
   );
 }));

@@ -1,10 +1,7 @@
 import React from 'react';
 import Button from 'c/Button';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
-import './Notifier.sass';
-
-const cnNotifier = cn('Notifier');
+import s from './Notifier.sass';
 
 const Notifier = inject('notifierStore')(observer(({ notifierStore }) => {
   const { lastNotify, killLastNotify } = notifierStore;
@@ -14,7 +11,7 @@ const Notifier = inject('notifierStore')(observer(({ notifierStore }) => {
   const { icon, text, callback } = lastNotify;
 
   return (
-    <div className={cnNotifier()}>
+    <div className={s.Notifier}>
       <Button
         icon={icon}
         size="s"
@@ -23,7 +20,7 @@ const Notifier = inject('notifierStore')(observer(({ notifierStore }) => {
         className={cnNotifier('Play')}
         onClick={callback}
       />
-      <Button icon="cross" size="s" onClick={killLastNotify} className={cnNotifier('Cross')} />
+      <Button icon="cross" size="s" onClick={killLastNotify} className={s.Cross} />
     </div>
   );
 }));

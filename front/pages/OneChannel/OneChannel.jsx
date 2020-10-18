@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn as bemCn } from '@bem-react/classname';
 import { get } from 'lodash-es';
 import j from 'join';
 import TracksList from 'c/ItemsBlock';
-import './OneChannel.sass';
-
-const cn = bemCn('OneChannelPage');
+import s from './OneChannel.sass';
 
 const OneChannel = inject('pageStore', 'channelsStore')(observer(({
   className,
@@ -33,7 +30,7 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
   }, []);
 
   return (
-    <div className={j(className, cn())}>
+    <div className={j(className, s.OneChannelPage)}>
       <TracksList type="tracks" title={get(currentChannel, 'snippet.title')} titlePlaceholder />
     </div>
   );

@@ -1,9 +1,4 @@
-@import '../../assets/styles/design-system-variables'
-@import '../../assets/styles/constants'
-
-$root: '.Header'
-
-#{$root}
+.Header
   height: 80px
   padding: 0 $space-m
   border-bottom: solid $gray-color-0 1px
@@ -12,32 +7,29 @@ $root: '.Header'
   display: flex
   align-items: center
 
-  &_noBottomBorder
-    border-bottom: none
+.Tabs
+  flex-grow: 1
+  display: flex
 
-  &-Tabs
-    flex-grow: 1
-    display: flex
+.OneTab
+  text-decoration: none
+  color: $black
 
-  &-OneTab
-    text-decoration: none
-    color: $black
+  &:not(:first-child)
+    margin-left: $space-xl
 
-    &:not(:first-child)
-      margin-left: $space-xl
+  &:hover
+    color: $red
+
+  &_active
+    font-weight: 500
 
     &:hover
-      color: $red
+      color: inherit
 
-    &_active
-      font-weight: 500
+.Icons
+  display: flex
 
-      &:hover
-        color: inherit
-
-  &-Icons
-    display: flex
-
-  &-OneIcon
-    &:not(:first-child)
-      margin-left: $space-xxxs
+.OneIcon
+  &:not(:first-child)
+    margin-left: $space-xxxs

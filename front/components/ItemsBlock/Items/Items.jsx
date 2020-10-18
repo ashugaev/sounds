@@ -4,18 +4,14 @@ import ChannelListItem from 'c/ChannelListItem';
 import GenreItem from 'c/CategoryItem';
 import get from 'lodash-es/get';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import { genresType } from 'helpers/constants';
 
-const cnTracksList = cn('TracksList');
 
 const Items = inject('tracksStore', 'channelsStore', 'categoriesStore', 'playerStore', 'pageStore')(observer(({
   categoriesStore, channelsStore, tracksStore, playerStore, pageStore, type,
 }) => {
   let content = null;
-  const baseProps = {
-    className: cnTracksList('Track'),
-  };
+
   const { allChannels } = channelsStore;
   const { track } = tracksStore;
   const { allCategories } = categoriesStore;
@@ -32,7 +28,6 @@ const Items = inject('tracksStore', 'channelsStore', 'categoriesStore', 'playerS
           isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
           videoObjId={_id}
           isLive={get(snippet, 'liveBroadcastContent') === 'live'}
-          {...baseProps}
         />
       ));
       break;
@@ -49,7 +44,6 @@ const Items = inject('tracksStore', 'channelsStore', 'categoriesStore', 'playerS
           wrapImageUrl={bgImage || get(brandingSettings, 'image.bannerMobileImageUrl')}
           subscriberCount={get(statistics, 'subscriberCount')}
           viewCount={get(statistics, 'viewCount')}
-          {...baseProps}
         />
       ));
       break;
@@ -63,7 +57,6 @@ const Items = inject('tracksStore', 'channelsStore', 'categoriesStore', 'playerS
           wrapImageUrl={bgImage}
           title={name}
           path={path}
-          {...baseProps}
         />
       ));
       break;

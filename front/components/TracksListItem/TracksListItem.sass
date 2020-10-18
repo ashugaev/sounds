@@ -1,7 +1,5 @@
-@import "../../assets/styles/constants"
-@import "../../assets/styles/design-system-variables"
-
 $root: ".TracksListItem"
+
 $track-thumb-height: 136px
 $track-thumb-width: 246px
 
@@ -13,48 +11,46 @@ $track-thumb-width: 246px
   flex-direction: column
   cursor: pointer
 
-  &-LiveLabel
-    position: absolute
-    top: $space-xxxxs
-    left: $space-xxxxs
-
-  &-Button
-    opacity: 0
-    z-index: $z-page-item-buttons
-    transition: opacity $time-s $ease-show
-
-  &-Image
-    width: 100%
-    height: $track-thumb-height
-    background-position: center
-    background-repeat: no-repeat
-    background-size: cover
-    z-index: 1
-    display: flex
-    align-items: center
-    justify-content: center
-    position: relative
-    overflow: hidden
-    border-radius: $radius-xl
-
-    &:before
-      display: block
-      content: ''
-      position: absolute
-      width: 100%
-      height: 100%
-      background-color: transparent
-      transition: background-color $time-s $ease-show
-
-  &-ChannelTitle, &-Title
-    margin-top: $space-xxxxxs
-
-
   &:hover, &_isPlaying
-    & #{$root}-Image:before
+    & .Image:before
       background-color: $color-black-transparent
 
-    & #{$root}-Button
+    & .PlayButton
       opacity: 1
 
+.LiveLabel
+  position: absolute
+  top: $space-xxxxs
+  left: $space-xxxxs
+
+.PlayButton
+  opacity: 0
+  z-index: $z-page-item-buttons
+  transition: opacity $time-s $ease-show
+
+.Image
+  width: 100%
+  height: $track-thumb-height
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
+  z-index: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  position: relative
+  overflow: hidden
+  border-radius: $radius-xl
+
+  &:before
+    display: block
+    content: ''
+    position: absolute
+    width: 100%
+    height: 100%
+    background-color: transparent
+    transition: background-color $time-s $ease-show
+
+.ChannelTitle, .Title
+  margin-top: $space-xxxxxs
 

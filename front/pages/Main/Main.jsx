@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { cn } from '@bem-react/classname';
 import j from 'join';
 import TracksList from 'c/ItemsBlock';
-import './Main.sass';
-
-const cnMain = cn('MainPage');
+import s from './Main.sass';
 
 const Main = inject('pageStore')(observer(({
   className,
@@ -20,7 +17,7 @@ const Main = inject('pageStore')(observer(({
   }, []);
 
   return (
-    <div className={j(className, cnMain())}>
+    <div className={j(className, s.MainPage)}>
       <TracksList type="tracks" />
     </div>
   );
