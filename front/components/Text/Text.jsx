@@ -5,7 +5,7 @@ import cnByModifiers from 'cnByModifiers';
 import s from './Text.sass';
 
 const Text = ({
-  children, className, text, lines, line, color, size, bold, cropLine, hoverable,
+  children, className, text, lines, line, color, size, bold, cropLine, hoverable, noWrap,
 }) => {
   const style = {};
 
@@ -21,6 +21,7 @@ const Text = ({
       bold,
       hoverable,
       cropLine,
+      noWrap,
     },
   });
 

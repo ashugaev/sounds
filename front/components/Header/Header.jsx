@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
 import Button from 'c/Button';
 import { withRouter } from 'react-router';
-import Input from 'c/Input';
+import Search from 'c/Header/Search';
 import Text from 'c/Text';
 import s from './Header.sass';
 
@@ -39,13 +39,13 @@ const Header = ({ history }) => {
               search: query.getString(history),
             }}
           >
-            <Text>
+            <Text noWrap>
               {el.text}
             </Text>
           </NavLink>
         ))}
       </div>
-      <Input />
+      <Search className={s.Search} />
       <div className={s.Icons}>
         <a href="https://www.patreon.com/ashugaev" target="_blank">
           <Button className={s.OneIcon} icon="patreon" size="xs" />
