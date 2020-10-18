@@ -7,3 +7,6 @@ export const categoriesPage = 'categories';
 
 // endpoints
 export const tracksPath = '/api/tracks';
+
+// query params
+export const search = 'search';
