@@ -22,8 +22,12 @@ function set(history, name, val) {
   });
 }
 
-function getParams(history) {
+function getParams(history, name) {
   if (!history) return {};
+
+  if (name) {
+    return getOne(history, name);
+  }
 
   return qs.parse(getString(history));
 }
