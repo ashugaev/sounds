@@ -3,10 +3,11 @@ export const genresType = 'genres';
 export const tracksType = 'tracks';
 
 // pages
-export const categoriesPage = 'categories';
+export const categoriesPath = '/categories';
+export const searchPath = '/search';
 
 // endpoints
 export const tracksPath = '/api/tracks';
 
 // query params
-export const search = 'search';
+export const searchQuery = 'search';

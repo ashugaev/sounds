@@ -3,7 +3,7 @@ import {
 } from 'mobx';
 
 class PlayerStore {
-  // Что бы установить новое время проигрывания нужно измениеть это значение
+    // Что бы установить новое время проигрывания нужно измениеть это значение
     @observable newTimeValue
 
     @observable currentTime
@@ -23,23 +23,28 @@ class PlayerStore {
       return `${minutes}:${(`0${seconds}`).slice(-2)}`;
     }
 
-    @computed get getPercent() {
+    @computed
+    get getPercent() {
       return this.currentTime / this.duration * 100;
     }
 
-    @computed get currentTimeStr() {
+    @computed
+    get currentTimeStr() {
       return this.calcTime(this.currentTime);
     }
 
-    @computed get durationStr() {
+    @computed
+    get durationStr() {
       return this.calcTime(this.duration);
     }
 
-    @action.bound setByPercent(percent) {
+    @action.bound
+    setByPercent(percent) {
       this.newTimeValue = Math.floor(percent / 100 * this.duration);
     }
 
-    @action.bound startIncrementing() {
+    @action.bound
+    startIncrementing() {
       if (this.setTimeoutId) {
         clearTimeout(this.setTimeoutId);
 
@@ -52,27 +57,33 @@ class PlayerStore {
       }), 1000);
     }
 
-    @action.bound stopIncrementing() {
+    @action.bound
+    stopIncrementing() {
       clearTimeout(this.setTimeoutId);
     }
 
-    @action.bound onPlay() {
+    @action.bound
+    onPlay() {
       this.startIncrementing();
     }
 
-    @action.bound onStop() {
+    @action.bound
+    onStop() {
       this.stopIncrementing();
     }
 
-    @action.bound setCurrentTime(cur) {
+    @action.bound
+    setCurrentTime(cur) {
       this.currentTime = cur;
     }
 
-    @action.bound toggleIsPlaying(newState) {
+    @action.bound
+    toggleIsPlaying(newState) {
       this.isPlaying = newState || !this.isPlaying;
     }
 
-    @action.bound setDuration(dur) {
+    @action.bound
+    setDuration(dur) {
       this.duration = dur;
     }
 }

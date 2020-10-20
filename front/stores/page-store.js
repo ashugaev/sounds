@@ -16,12 +16,14 @@ class PageStore {
 
   @observable filterChannel
 
+  @observable searchStr
+
   /**
-   * @param rewrite - перезаписать список треков (true обычно при смене тага)
-   * @param fromObjId - id трека начиная с коророго хотим слушать
-   * @param onThePage - запрос для списка треков на странице
+   * @param rewrite - перезаписать список треков
+   * @param fromObjId - id трека начиная с которого хотим слушать
    */
-  @action.bound fetch({
+  @action.bound
+  fetch({
     rewrite,
     fromObjId,
     afterObjId,
@@ -32,14 +34,16 @@ class PageStore {
     resetBefore,
     resetFilters,
     liveOnly,
+    searchStr,
   }) {
     if (this.isLoading || this.noTracksToFetch) return;
 
     if (resetBefore) this.resetTracks();
 
     if (resetFilters) {
-      this.filterChannel = undefined;
+      this.filterChannel = null;
       this.filterTags.clear();
+      this.searchStr = null;
     }
 
     this.isLoading = true;
@@ -47,6 +51,7 @@ class PageStore {
     // Если пришли параметры, то перезапишем
     if (channel) this.filterChannel = channel;
     if (tags) this.filterTags.replace(tags);
+    if (searchStr) this.searchStr = searchStr;
 
     const { filterTags, filterChannel } = this;
 
@@ -58,6 +63,7 @@ class PageStore {
         tags: filterTags,
         channel: filterChannel,
         limit: 30,
+        searchStr,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -80,19 +86,22 @@ class PageStore {
       }));
   }
 
-  @action.bound setFilterTags(tags, history) {
+  @action.bound
+  setFilterTags(tags, history) {
     this.filterTags.replace([].concat(tags));
 
     this.onTagChange({ tags, history });
   }
 
-  @action.bound setFilterChannel({ id, resetBefore, liveOnly }) {
+  @action.bound
+  setFilterChannel({ id, resetBefore, liveOnly }) {
     this.filterChannel = id;
 
     this.onChannelChange({ resetBefore, liveOnly });
   }
 
-  @action.bound removeFilterTags(history) {
+  @action.bound
+  removeFilterTags(history) {
     this.filterTags.clear();
 
     this.onTagChange({ history });
@@ -100,6 +109,21 @@ class PageStore {
 
   @action.bound resetTracks() {
     this.tracks.clear();
+  }
+
+  @action.bound
+  fetchPageTracks({ searchStr }) {
+    this.resetTracks();
+    this.resetMeta();
+
+    this.fetch({
+      rewrite: true, callback: this.scrollToTop, resetBefore: true, searchStr,
+    });
+  }
+
+  resetMeta() {
+    this.noTracksToFetch = false;
+    this.filterTags.replace = [];
   }
 
   onChannelChange({ resetBefore, liveOnly }) {
