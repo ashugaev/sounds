@@ -18,7 +18,7 @@ const Search = inject('pageStore', 'categoriesStore', 'pageStore')(observer(({
 
   const throttledFetch = React.useCallback(throttle((value) => {
     fetchPageTracks({
-      searchStr: value,
+      filterStr: value,
     });
   }, 500), []);
 

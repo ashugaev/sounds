@@ -5,23 +5,26 @@ import { get } from 'lodash-es';
 import axios from 'axios';
 import query from 'query';
 import { tracksPath } from 'helpers/constants';
+import { TracksStore } from 'stores/utils/tracksStore';
 
-class TracksStore {
+class PlayerTracksStore extends TracksStore {
+  @observable filterChannel
+
+  @observable filterTags = []
+
   @observable tracks = []
 
   @observable prevTracksIsLoading = false
 
   @observable currentTrackIndex = 0
 
-  @observable isLoading = false
-
-  @observable filterTags = []
-
-  @observable filterChannel
+  @observable isTracksLoading = false
 
   @observable changeTrigger
 
   constructor() {
+    super();
+
     this.minTracksForFetch = 3;
     this.noTracksToFetchBefore = false;
     this.noTracksToFetchAfter = false;
@@ -73,9 +76,9 @@ class TracksStore {
 
         this.prevTracksIsLoading = true;
       } else {
-        if (this.isLoading || this.noTracksToFetchAfter) return;
+        if (this.isTracksLoading || this.noTracksToFetchAfter) return;
 
-        this.isLoading = true;
+        this.isTracksLoading = true;
       }
     }
 
@@ -141,7 +144,7 @@ class TracksStore {
           this.changeTrigger = Math.random();
         }
 
-        this.isLoading = false;
+        this.isTracksLoading = false;
         this.prevTracksIsLoading = false;
 
         // TODO: Разобраться почему не работает в ифаке выше
@@ -150,7 +153,7 @@ class TracksStore {
         }
       }))
       .catch(err => runInAction(() => {
-        this.isLoading = false;
+        this.isTracksLoading = false;
         this.prevTracksIsLoading = false;
 
         console.error(err);
@@ -210,4 +213,4 @@ class TracksStore {
   }
 }
 
-export default new TracksStore();
+export default new PlayerTracksStore();

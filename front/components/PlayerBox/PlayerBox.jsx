@@ -13,8 +13,8 @@ import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import s from './PlayerBox.sass';
 
-const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
-  className, tracksStore, playerStore, history, notifierStore,
+const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
+  className, playerTracksStore, playerStore, history, notifierStore,
 }) => {
   const {
     track,
@@ -25,7 +25,7 @@ const PlayerBox = inject('tracksStore', 'playerStore', 'notifierStore', 'pageSto
     tracksLength,
     isNextArrowDisabled,
     isPrevArrowDisabled,
-  } = tracksStore;
+  } = playerTracksStore;
 
   const { createNotify } = notifierStore;
 

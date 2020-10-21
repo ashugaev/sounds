@@ -4,19 +4,14 @@ import {
 import axios from 'axios';
 import query from 'query';
 import { tracksPath } from 'helpers/constants';
+import { TracksStore } from 'stores/utils/tracksStore';
 
-class PageStore {
+class PageStore extends TracksStore {
   @observable tracks = []
 
-  @observable isLoading = false
+  @observable isTracksLoading = false
 
   @observable noTracksToFetch = false
-
-  @observable filterTags = []
-
-  @observable filterChannel
-
-  @observable searchStr
 
   /**
    * @param rewrite - перезаписать список треков
@@ -34,24 +29,24 @@ class PageStore {
     resetBefore,
     resetFilters,
     liveOnly,
-    searchStr,
+    filterStr,
   }) {
-    if (this.isLoading || this.noTracksToFetch) return;
+    if (this.isTracksLoading || this.noTracksToFetch) return;
 
     if (resetBefore) this.resetTracks();
 
     if (resetFilters) {
       this.filterChannel = null;
       this.filterTags.clear();
-      this.searchStr = null;
+      this.filterStr = null;
     }
 
-    this.isLoading = true;
+    this.isTracksLoading = true;
 
     // Если пришли параметры, то перезапишем
-    if (channel) this.filterChannel = channel;
+    if (channel) super.filterChannel = channel;
     if (tags) this.filterTags.replace(tags);
-    if (searchStr) this.searchStr = searchStr;
+    if (filterStr) this.filterStr = filterStr;
 
     const { filterTags, filterChannel } = this;
 
@@ -63,7 +58,7 @@ class PageStore {
         tags: filterTags,
         channel: filterChannel,
         limit: 30,
-        searchStr,
+        filterStr,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -77,10 +72,10 @@ class PageStore {
 
         callback && callback(callbackArgs);
 
-        this.isLoading = false;
+        this.isTracksLoading = false;
       }))
       .catch(err => runInAction(() => {
-        this.isLoading = false;
+        this.isTracksLoading = false;
 
         console.error(err);
       }));
@@ -112,12 +107,12 @@ class PageStore {
   }
 
   @action.bound
-  fetchPageTracks({ searchStr }) {
+  fetchPageTracks({ filterStr }) {
     this.resetTracks();
     this.resetMeta();
 
     this.fetch({
-      rewrite: true, callback: this.scrollToTop, resetBefore: true, searchStr,
+      rewrite: true, callback: this.scrollToTop, resetBefore: true, filterStr,
     });
   }
 

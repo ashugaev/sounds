@@ -7,13 +7,13 @@ import { inject, observer } from 'mobx-react';
 import { genresType } from 'helpers/constants';
 
 
-const Items = inject('tracksStore', 'channelsStore', 'categoriesStore', 'playerStore', 'pageStore')(observer(({
-  categoriesStore, channelsStore, tracksStore, playerStore, pageStore, type,
+const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'playerStore', 'pageStore')(observer(({
+  categoriesStore, channelsStore, playerTracksStore, playerStore, pageStore, type,
 }) => {
   let content = null;
 
   const { allChannels } = channelsStore;
-  const { track } = tracksStore;
+  const { track } = playerTracksStore;
   const { allCategories } = categoriesStore;
   const { isPlaying } = playerStore;
   const { tracks } = pageStore;

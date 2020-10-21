@@ -4,11 +4,11 @@ import j from 'join';
 import cnByModifiers from 'cnByModifiers';
 import s from './TimeLine.sass';
 
-const TimeLine = inject('playerStore', 'tracksStore')(observer(({
-  className, playerStore, tracksStore,
+const TimeLine = inject('playerStore', 'playerTracksStore')(observer(({
+  className, playerStore, playerTracksStore,
 }) => {
   const { getPercent, setByPercent } = playerStore;
-  const { track } = tracksStore;
+  const { track } = playerTracksStore;
   const { isLive } = track;
 
   function onClick(e) {

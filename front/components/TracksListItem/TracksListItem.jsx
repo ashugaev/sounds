@@ -8,13 +8,13 @@ import { withRouter } from 'react-router';
 import Time from 'c/Time';
 import s from './TracksListItem.sass';
 
-const TracksListItem = inject('playerStore', 'tracksStore', 'pageStore')(observer(({
-  imageUrl, title, isPlaying, playerStore, videoObjId, tracksStore, history, pageStore, isLive,
+const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
+  imageUrl, title, isPlaying, playerStore, videoObjId, playerTracksStore, history, pageStore, isLive,
 }) => {
   const { toggleIsPlaying } = playerStore;
   const {
     fetch: tracksFetch, track,
-  } = tracksStore;
+  } = playerTracksStore;
   const { filterTags, filterChannel } = pageStore;
 
   const toggleState = useCallback(() => {

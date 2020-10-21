@@ -7,6 +7,7 @@ import Body from 'c/Body';
 import {
   BrowserRouter as Router,
 } from 'react-router-dom';
+import './index.sass';
 
 configure({ enforceActions: 'observed' });
 

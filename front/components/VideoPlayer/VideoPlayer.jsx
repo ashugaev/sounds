@@ -16,13 +16,13 @@ const playerStates = {
   BUFFERING: 3,
 };
 
-const VideoPlayer = inject('playerStore', 'tracksStore', 'tagsStore', 'pageStore')(observer(({
-  playerStore, tracksStore, tagsStore, videoId, isPlaying, history, pageStore,
+const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pageStore')(observer(({
+  playerStore, playerTracksStore, tagsStore, videoId, isPlaying, history, pageStore,
 }) => {
   const { onPlay, onStop, newTimeValue } = playerStore;
   const {
     onNextClick, track, changeTrigger,
-  } = tracksStore;
+  } = playerTracksStore;
   const { setFilterTags } = pageStore;
   const { fetchTagsByIds } = tagsStore;
   const { setTags } = pageStore;

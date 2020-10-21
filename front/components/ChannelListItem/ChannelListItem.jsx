@@ -7,7 +7,7 @@ import ChannelCounter from 'c/ChannelCounter';
 import { withRouter } from 'react-router';
 import s from './ChannelListItem.sass';
 
-const ChannelListItem = inject('playerStore', 'tracksStore', 'pageStore')(observer(({
+const ChannelListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
   history,
   id,
   className,
