@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import j from 'join';
 import Input from 'c/Input';
 import query from 'query';
@@ -6,53 +6,40 @@ import path from 'helpers/path';
 import { withRouter } from 'react-router';
 import { searchQuery, searchPath } from 'helpers/constants';
 
+import { inject, observer } from 'mobx-react';
 import s from './Search.sass';
 
-let isNotSearchPage = true;
-
-const Search = ({
-  className, history,
+const Search = inject('searchStore')(observer(({
+  className, history, searchStore,
 }) => {
-  const [inputValue, setInputValue] = React.useState();
-
+  const { searchStr, setSearch, setSearchInput } = searchStore;
   const { pathname } = history.location;
 
   React.useEffect(() => {
     const value = query.getOne(history, searchQuery);
 
-    if (value) {
-      setInputValue(value);
-    }
+    setSearchInput(value);
   }, []);
-
-  React.useEffect(() => {
-    if (pathname !== searchPath) {
-      isNotSearchPage = true;
-    }
-  }, [pathname]);
 
   const onChange = (e) => {
     const { value } = e.target;
 
-    setInputValue(value);
+    setSearch(history, value);
 
-    query.set(history, searchQuery, value);
-
-    if (isNotSearchPage) {
+    if (pathname !== searchPath) {
       path.set(history, searchPath);
-      isNotSearchPage = false;
     }
   };
 
   return (
     <Input
-      value={inputValue}
+      value={searchStr}
       onChange={onChange}
       className={j(className, s.Search)}
       icon="search"
       placeholder="Search"
     />
   );
-};
+}));
 
-export default withRouter(Search);
+export default withRouter(memo(Search));

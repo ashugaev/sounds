@@ -5,14 +5,16 @@ import TracksList from 'c/ItemsBlock';
 import { tracksType, searchQuery } from 'helpers/constants';
 import query from 'query';
 
-const Search = inject('pageStore', 'categoriesStore', 'pageStore')(observer(({
+const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
   className,
   pageStore,
   history,
+  searchStore,
 }) => {
   const {
     fetchPageTracks,
   } = pageStore;
+  const { setSearch } = searchStore;
 
   const searchQueryVal = query.get(history, searchQuery);
 
@@ -21,6 +23,12 @@ const Search = inject('pageStore', 'categoriesStore', 'pageStore')(observer(({
       filterStr: value,
     });
   }, 500), []);
+
+  React.useEffect(() => {
+    return () => {
+      setSearch(history, '');
+    };
+  }, []);
 
   React.useEffect(() => {
     throttledFetch(searchQueryVal);
