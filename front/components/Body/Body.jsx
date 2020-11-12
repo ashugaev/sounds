@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import PlayerBox from 'c/PlayerBox';
 import Header from 'c/Header';
@@ -14,7 +13,7 @@ import ChannelWallpaper from 'c/ChannelWallpaper';
 import { categoriesPath } from 'helpers/constants';
 import s from './Body.sass';
 
-const Body = inject()(observer(() => {
+const Body = () => {
   return (
     <div className={s.Body}>
       <Route exact path="/channel/:id" component={ChannelWallpaper} />
@@ -33,6 +32,6 @@ const Body = inject()(observer(() => {
       </div>
     </div>
   );
-}));
+};
 
 export default withRouter(Body);
