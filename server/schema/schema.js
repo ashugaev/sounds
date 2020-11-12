@@ -18,11 +18,27 @@ const { Schema } = mongoose;
 
 const Tracks = new Schema({
   snippet: {
+    channelTitle: String,
+    description: String,
+    title: String,
     thumbnails: {
       medium: {
         url: String,
       },
     },
+  },
+});
+
+// Индексация для нативного поиска по тексту в Mongo DB
+Tracks.index({
+  'snippet.channelTitle': 'text',
+  'snippet.description': 'text',
+  'snippet.title': 'text',
+}, {
+  weights: {
+    'snippet.title': 10,
+    'snippet.channelTitle': 5,
+    'snippet.description': 2,
   },
 });
 

@@ -5,6 +5,7 @@ import channelsStore from './channels-store';
 import notifierStore from './notifier-store';
 import categoriesStore from './categories-store';
 import pageStore from './page-store';
+import searchStore from './search-store';
 
 export default {
   playerTracksStore,
@@ -14,4 +15,5 @@ export default {
   channelsStore,
   pageStore,
   categoriesStore,
+  searchStore,
 };

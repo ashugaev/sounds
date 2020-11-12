@@ -6,7 +6,7 @@ const db = require('../../schema/schema');
  */
 
 function getTracks({
-  fromObjId, channel, afterObjId, beforeObjId, liveOnly, tracksQuantity, tags,
+  fromObjId, channel, afterObjId, beforeObjId, liveOnly, tracksQuantity, tags, searchStr,
 }) {
   return new Promise(async (rs, rj) => {
     try {
@@ -19,6 +19,7 @@ function getTracks({
       fromObjId && (findParams._id = { $gte: fromObjId });
       afterObjId && (findParams._id = { $gt: afterObjId });
       beforeObjId && (findParams._id = { $lt: beforeObjId }, sortParams._id = -1);
+      searchStr && (findParams.$text = { $search: searchStr });
 
       // FIXME: Из базы приходит нестабильная сортировка и поэтому плеер расходится со страницей, если сортаировать не по _id
       // Если нет тега или канала, то сортаровать по времени добавления на ютуб
