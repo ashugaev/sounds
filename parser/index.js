@@ -140,9 +140,9 @@ function fetchChannelData(id, user, part) {
     axios.get(getChannelUrl(id, user, part))
       .then((resp) => {
         const { data, status, message } = resp;
-        const { items } = data;
+        const { items, prevPageToken } = data;
 
-        if (status !== 200 || !items.length) {
+        if (status !== 200 || !items || !items.length) {
           return prevPageToken
             ? rs()
             : rj(message);
