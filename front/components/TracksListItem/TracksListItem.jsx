@@ -41,8 +41,6 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
   });
 
   const trackItemClassName = cn(s.TracksListItem, { [s.TracksListItem_isPlaying]: isPlaying });
-  const ss = s;
-  debugger;
 
   return (
     <div className={trackItemClassName} onClick={toggleState}>

@@ -6,6 +6,7 @@ import Text from 'c/Text';
 import ChannelCounter from 'c/ChannelCounter';
 import { withRouter } from 'react-router';
 import s from './ChannelListItem.sass';
+import {albumsPath} from "helpers/constants";
 
 const ChannelListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
   history,
@@ -21,7 +22,7 @@ const ChannelListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(
 
   function onClick() {
     history.push({
-      pathname: `/channel/${id}`,
+      pathname: `${albumsPath}/${id}`,
       search: query.getString(history),
     });
   }

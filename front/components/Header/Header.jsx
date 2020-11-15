@@ -7,6 +7,7 @@ import { withRouter } from 'react-router';
 import Search from 'c/Header/Search';
 import Text from 'c/Text';
 import s from './Header.sass';
+import {albumsPath, livePath} from "helpers/constants";
 
 const tabs = [
   {
@@ -15,11 +16,11 @@ const tabs = [
     label: 'categories',
   },
   {
-    text: 'Channels',
-    path: '/channels',
+    text: 'Albums',
+    path: albumsPath,
   }, {
     text: 'Live broadcast',
-    path: '/live',
+    path: livePath,
     label: 'live',
   },
 ];
