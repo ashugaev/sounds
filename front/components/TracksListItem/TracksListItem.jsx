@@ -40,8 +40,12 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
     }
   });
 
+  const trackItemClassName = cn(s.TracksListItem, { [s.TracksListItem_isPlaying]: isPlaying });
+  const ss = s;
+  debugger;
+
   return (
-    <div className={cn(s.TracksListItem, { [s.isPlaying]: isPlaying })} onClick={toggleState}>
+    <div className={trackItemClassName} onClick={toggleState}>
       <div className={s.Image} style={{ backgroundImage: `url(${imageUrl})` }}>
         {isLive && <Time live className={s.LiveLabel} />}
         <Button
