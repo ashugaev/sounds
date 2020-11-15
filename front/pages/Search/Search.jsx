@@ -36,11 +36,13 @@ const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
 
   return (
     <div className={className}>
-      <TracksList
-        type={tracksType}
-        title="Search Results"
-        titlePlaceholder
-      />
+      {searchQueryVal && searchQueryVal.length && (
+        <TracksList
+          type={tracksType}
+          title="Search Results"
+          titlePlaceholder
+        />
+      )}
     </div>
   );
 }));

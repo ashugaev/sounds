@@ -12,7 +12,11 @@ checkEnvs(parseEnv);
 
 const { MONGO_USER_NAME, MONGO_USER_PASSWORD, MONGO_HOST } = process.env;
 
-mongoose.connect(`mongodb+srv://${MONGO_USER_NAME}:${MONGO_USER_PASSWORD}@${MONGO_HOST}?retryWrites=true`);
+mongoose.connect(`mongodb+srv://${MONGO_USER_NAME}:${MONGO_USER_PASSWORD}@${MONGO_HOST}?retryWrites=true`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 
 const { Schema } = mongoose;
 
@@ -31,14 +35,14 @@ const Tracks = new Schema({
 
 // Индексация для нативного поиска по тексту в Mongo DB
 Tracks.index({
-  'snippet.channelTitle': 'text',
-  'snippet.description': 'text',
-  'snippet.title': 'text',
+  'snippet.channelTitle': 1,
+  'snippet.description': 1,
+  'snippet.title': 1,
 }, {
   weights: {
     'snippet.title': 10,
-    'snippet.channelTitle': 5,
-    'snippet.description': 2,
+    'snippet.channelTitle': 3,
+    'snippet.description': 1,
   },
 });
 
