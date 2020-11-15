@@ -58,6 +58,14 @@ function remove(history, name) {
   });
 }
 
+function hasParam(history, name) {
+  if (!history) return;
+
+  const params = getParams(history);
+
+  return name in params;
+}
+
 export default {
-  set, remove, get: getParams, getString, getOne,
+  set, remove, get: getParams, getString, getOne, hasParam,
 };

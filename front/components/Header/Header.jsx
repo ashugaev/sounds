@@ -6,8 +6,8 @@ import Button from 'c/Button';
 import { withRouter } from 'react-router';
 import Search from 'c/Header/Search';
 import Text from 'c/Text';
+import { albumsPath, livePath } from 'helpers/constants';
 import s from './Header.sass';
-import {albumsPath, livePath} from "helpers/constants";
 
 const tabs = [
   {
@@ -26,6 +26,8 @@ const tabs = [
 ];
 
 const Header = ({ history }) => {
+  const isSearchEnabled = query.hasParam(history, 'isSearchEnabled');
+
   return (
     <div className={s.Header}>
       <div className={s.Tabs}>
@@ -46,7 +48,7 @@ const Header = ({ history }) => {
           </NavLink>
         ))}
       </div>
-      <Search className={s.Search} />
+      {isSearchEnabled && <Search className={s.Search} />}
       <div className={s.Icons}>
         <a href="https://www.patreon.com/ashugaev" target="_blank">
           <Button className={s.OneIcon} icon="patreon" size="xs" />
