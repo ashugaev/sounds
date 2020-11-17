@@ -8,24 +8,19 @@ const logger = log4js.getLogger();
 logger.level = 'debug';
 
 /**
- * Проверка на дубли и битые треки
- * цикл wile, который работает до тех пор пока приходят треки из базы
- *в каждой итерации
- * - получение n треков начиная с первого или последнего проверенного и запись их
- * - запись иденти
- *
- */
-
-function allTracksIterator(callback) {
+ * Просто проходится по всем трекам из базы
+ * */
+function allTracksIterator(...callbackList) {
   return new Promise(async (rs, rj) => {
     let lastFetchedTracks = [];
     let lastTrackId;
+    let counter = 0;
 
     do {
       try {
         lastFetchedTracks = await getTracks({
           afterObjId: lastTrackId,
-          Quantity: 100,
+          tracksQuantity: 30,
         });
       } catch (e) {
         rj(e);
@@ -40,10 +35,15 @@ function allTracksIterator(callback) {
       for (let i = 0; i < tracksLength; i++) {
         const track = lastFetchedTracks[i];
 
-        try {
-          await callback(track);
-        } catch (e) {
-          logger.error(e);
+        logger.info(`Track number ${counter}`);
+        counter++;
+
+        for (let j = 0; j < callbackList.length; j++) {
+          try {
+            await callbackList[j](track);
+          } catch (e) {
+            logger.error(e);
+          }
         }
       }
     } while (lastFetchedTracks.length);
@@ -52,7 +52,10 @@ function allTracksIterator(callback) {
   });
 }
 
-function validateTrack(track) {
+/**
+ * Проверяет, что трек еще жив
+ */
+function checkTracksIsNotDead(track) {
   return new Promise(async (rs, rj) => {
     const thumbnailUrl = get(track, 'snippet.thumbnails.medium.url');
 
@@ -70,9 +73,39 @@ function validateTrack(track) {
   });
 }
 
+/**
+ * Проверяет, что у трека не появились дубли
+ */
+function checkDuplicates(track) {
+  return new Promise(async (rs) => {
+    const pathToId = 'id.videoId';
+    track = JSON.parse(JSON.stringify(track));
+    const id = get(track, pathToId);
+
+    logger.debug('Check duplicate', id);
+
+    const duplicates = await db.Tracks.find({ [pathToId]: id });
+
+    if (duplicates.length > 1) {
+      // Сортировка по live, потому что бывают live и мертвые треки с одним id
+      const tracksToKill = duplicates.sort(a => (a.snippet.liveBroadcastContent === 'live' ? -1 : 1)).slice(1);
+
+      for (let i = 0; i < tracksToKill.length; i++) {
+        const { _id } = tracksToKill[i];
+
+        await db.Tracks.deleteOne({ _id });
+
+        logger.warn('REMOVED', _id);
+      }
+    }
+
+    rs();
+  });
+}
+
 (async () => {
   try {
-    await allTracksIterator(validateTrack);
+    await allTracksIterator(checkTracksIsNotDead, checkDuplicates);
   } catch (e) {
     logger.error(e);
   } finally {
