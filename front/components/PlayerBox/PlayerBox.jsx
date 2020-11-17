@@ -12,6 +12,7 @@ import get from 'lodash-es/get';
 import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import s from './PlayerBox.sass';
+import {livePath} from "helpers/constants";
 
 const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
   className, playerTracksStore, playerStore, history, notifierStore,
@@ -46,6 +47,7 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
       tags: playerTags,
       channel: playerChannel,
       checkPrevTracks: true,
+      filterLiveOnly: get(history, 'location.pathname') === livePath,
     }, [tracksFetch]);
 
     // Предлагает продолжить слушать тег/трек

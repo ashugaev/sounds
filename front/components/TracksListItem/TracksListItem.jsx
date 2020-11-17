@@ -6,6 +6,7 @@ import Button from 'c/Button';
 import { get } from 'lodash-es';
 import { withRouter } from 'react-router';
 import Time from 'c/Time';
+import { livePath } from 'helpers/constants';
 import s from './TracksListItem.sass';
 
 const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
@@ -30,7 +31,7 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
           channel: filterChannel,
           checkPrevTracks: true,
           history,
-          liveOnly: get(history, 'location.pathname') === '/live',
+          filterLiveOnly: get(history, 'location.pathname') === livePath,
           callback: toggleIsPlaying,
           callbackArgs: true,
         });

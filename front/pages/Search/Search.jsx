@@ -12,14 +12,14 @@ const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
   searchStore,
 }) => {
   const {
-    fetchPageTracks,
+    firstFetchPageTracks,
   } = pageStore;
   const { setSearch } = searchStore;
 
   const searchQueryVal = query.get(history, searchQuery);
 
   const throttledFetch = React.useCallback(throttle((value) => {
-    fetchPageTracks({
+    firstFetchPageTracks({
       searchStr: value,
     });
   }, 500), []);

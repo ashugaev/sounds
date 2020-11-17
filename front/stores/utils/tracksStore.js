@@ -8,6 +8,8 @@ import {
 
 export class TracksStore {
   // Filter Parameters
+
+  // TODO: Перейти на строку вместо массива, либо класть в тело запроса
   @observable filterTags = []
 
   @observable filterChannel
@@ -17,12 +19,12 @@ export class TracksStore {
   @observable filterLiveOnly
 
   // App data variables
+
   @observable tracks = []
 
   // Meta data variables
-  @observable isTracksLoading = false
 
-  @observable tracksLimit;
+  @observable tracksLimit
 
   /**
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
@@ -142,94 +144,60 @@ export class TracksStore {
   //     });
   // }
 
-  @action.bound
-  resetTracks() {
-    this.tracks.clear();
-  }
-
-  @action.bound
-  updateFilters({
-    filterStr,
-    filterLiveOnly,
-    filterChannel,
-    filterTags,
-  }) {
-    if (filterTags) {
-      this.filterTags.replace = filterTags;
-    } else {
-      this.filterTags.clear();
-    }
-
-    this.filterChannel = filterChannel;
-    this.filterStr = filterStr;
-    this.filterLiveOnly = filterLiveOnly;
-  }
-
-  @action.bound
-  updateMetaData({ limit }) {
-    this.tracksLimit = limit;
-    this.isTracksLoading = false;
-  }
-
-  /**
-   * Обновляет данные приложения, которые отрисовываются в UI
-   */
-  @action.bound
-  updateAppData() {
-    this.resetTracks();
-  }
-
-  /**
-   * Модифицирует исходные данные, добавляя в них допполя для удобства (вообще лучше вынести это в парсер)
-   * @param data
-   */
-  modifyData(data) {
-    data.forEach((el) => {
-      el.isLive = get(el, 'snippet.liveBroadcastContent') === 'live';
-
-      return el;
-    });
-  }
-
-  scrollToTop() {
-    window.scrollTo(0, 0);
-  }
-
-  get lastTrack() {
-    return this.tracks[this.tracksLength - 1];
-  }
-
-  get tracksLength() {
-    return this.tracks.length;
-  }
-
-  @action.bound
-  fetchPageTracks({ ...args }) {
-    this.fetch({
-      ...args,
-      callback: {
-        noData: this.callbackHasData,
-      },
-    });
-  }
-
   // @action.bound
-  // firstFetchPageTracks(...args) {
-  //   this.updateAppData();
-  //   this.updateFilters(...args);
-  //   this.updateMetaData({
-  //     ...args,
-  //     limit: 30,
-  //   });
+  // resetTracks() {
+  //   this.tracks.clear();
+  // }
   //
-  //   this.fetchPageTracks({
-  //     ...args,
-  //     callback: {
-  //       beforeFetch(callbackArgs) {
-  //         callback && callback(callbackArgs);
-  //         this.scrollToTop;
-  //       },
-  //     },
+  // @action.bound
+  // updateFilters({
+  //   filterStr,
+  //   filterLiveOnly,
+  //   filterChannel,
+  //   filterTags,
+  // }) {
+  //   if (filterTags) {
+  //     this.filterTags.replace = filterTags;
+  //   } else {
+  //     this.filterTags.clear();
+  //   }
+  //
+  //   this.filterChannel = filterChannel;
+  //   this.filterStr = filterStr;
+  //   this.filterLiveOnly = filterLiveOnly;
+  // }
+  //
+  // @action.bound
+  // updateMetaData({ limit }) {
+  //   this.tracksLimit = limit;
+  //   this.isTracksLoading = false;
+  // }
+  //
+  // /**
+  //  * Обновляет данные приложения, которые отрисовываются в UI
+  //  */
+
+  //
+  // /**
+  //  * Модифицирует исходные данные, добавляя в них допполя для удобства (вообще лучше вынести это в парсер)
+  //  * @param data
+  //  */
+  // modifyData(data) {
+  //   data.forEach((el) => {
+  //     el.isLive = get(el, 'snippet.liveBroadcastContent') === 'live';
+  //
+  //     return el;
   //   });
   // }
+  //
+  // scrollToTop() {
+  //   window.scrollTo(0, 0);
+  // }
+  //
+
+  //
+  // get tracksLength() {
+  //   return this.tracks.length;
+  // }
+  //
 }

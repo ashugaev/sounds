@@ -9,17 +9,16 @@ import { tracksType } from 'helpers/constants';
 import s from './ItemsBlock.sass';
 
 const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
-  pageStore, type, title, liveOnly, channelsStore, titlePlaceholder,
+  pageStore, type, title, channelsStore, titlePlaceholder,
 }) => {
   const {
-    isLoading, noTracksToFetch, fetch: pageFetch,
+    isLoading, noTracksToFetch, fetchPageTracks,
   } = pageStore;
   const { noChannelsToFetch } = channelsStore;
 
   function loadMoreItems() {
-    pageFetch({
+    fetchPageTracks({
       afterObjId: get(pageStore, 'lastTrack._id'),
-      liveOnly,
     });
   }
 

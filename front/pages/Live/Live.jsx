@@ -8,18 +8,17 @@ const Live = inject('pageStore')(observer(({
   className,
   pageStore,
 }) => {
-  const { setFilterChannel } = pageStore;
+  const { firstFetchPageTracks } = pageStore;
 
   useEffect(() => {
-    setFilterChannel({
-      resetBefore: true,
-      liveOnly: true,
+    firstFetchPageTracks({
+      filterLiveOnly: true,
     });
   }, []);
 
   return (
     <div className={j(className, s.LivePage)}>
-      <TracksList type="tracks" liveOnly />
+      <TracksList type="tracks" />
     </div>
   );
 }));

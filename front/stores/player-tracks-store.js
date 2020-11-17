@@ -21,6 +21,8 @@ class PlayerTracksStore {
 
   @observable changeTrigger
 
+  @observable filterLiveOnly
+
   constructor() {
     this.minTracksForFetch = 3;
     this.noTracksToFetchBefore = false;
@@ -61,12 +63,12 @@ class PlayerTracksStore {
     checkPrevTracks,
     history,
     isPlayerClick,
-    liveOnly,
     callback,
+    filterLiveOnly = this.filterLiveOnly,
     callbackArgs,
   }) {
     // Тут получается довольно таки запутанная и не продуманная логика. Нужно порефакторить
-    // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клигу на элемент каталога
+    // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клику на элемент каталога
     if (isPlayerClick) {
       if (beforeObjId) {
         if (this.prevTracksIsLoading || this.noTracksToFetchBefore) return;
@@ -83,10 +85,15 @@ class PlayerTracksStore {
     if (!isPlayerClick && !get(tags, 'length') && !channel) {
       this.filterTags.clear();
       this.filterChannel = undefined;
+      this.filterLiveOnly = false;
 
       query.remove(history, 'playerChannel');
       // Пока что тегов нет, но в перспективе будет нужно
       query.remove(history, 'playerTags');
+    }
+
+    if (filterLiveOnly) {
+      this.filterLiveOnly = filterLiveOnly;
     }
 
     // Если пришли параметры, то перезапишем
@@ -110,7 +117,7 @@ class PlayerTracksStore {
         beforeObjId,
         tags: filterTags,
         channel: filterChannel,
-        liveOnly,
+        liveOnly: filterLiveOnly,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -146,7 +153,7 @@ class PlayerTracksStore {
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel, liveOnly });
+          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel });
         }
       }))
       .catch(err => runInAction(() => {
