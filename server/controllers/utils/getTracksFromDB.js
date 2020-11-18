@@ -14,7 +14,7 @@ function getTracks({
       let findProjection = {};
       let sortParams = { 'snippet.liveBroadcastContent': 1, _id: 1 };
 
-      liveOnly === 'true' && (findParams['snippet.liveBroadcastContent'] = 'live');
+      (liveOnly === 'true' || liveOnly === true) && (findParams['snippet.liveBroadcastContent'] = 'live');
       tags && (findParams.tags = { $in: tags.map(mongoose.mongo.ObjectId) });
       channel && (findParams['snippet.channelId'] = { $in: channel.split(',') });
       fromObjId && (findParams._id = { $gte: fromObjId });
