@@ -4,9 +4,9 @@ import {
 import axios from 'axios';
 import query from 'query';
 import { tracksPath } from 'helpers/constants';
-import { TracksStore } from './utils/tracksStore';
+import { TracksStoreCommon } from './utils/tracks-store-common';
 
-class PageStore extends TracksStore {
+class PageStore extends TracksStoreCommon {
     @observable isLoading = false
 
     @observable noTracksToFetch = false

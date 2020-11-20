@@ -6,7 +6,7 @@ import {
  * Общее для pageStore и playerStore
  */
 
-export class TracksStore {
+export class TracksStoreCommon {
   // Filter Parameters
 
   // TODO: Перейти на строку вместо массива, либо класть в тело запроса
