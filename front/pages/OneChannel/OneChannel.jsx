@@ -16,16 +16,15 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
     currentChannel, fetchCurrentChannel,
   } = channelsStore;
   const {
-    setFilterChannel,
+    firstFetchPageTracks,
   } = pageStore;
 
   useEffect(() => {
-    // Фетч треков с новым каналом
-    setFilterChannel({
-      resetBefore: true,
-      id: channelId,
+    firstFetchPageTracks({
+      channel: channelId,
     });
 
+    // Фетчит допданные для страницы канала
     fetchCurrentChannel(channelId);
   }, []);
 

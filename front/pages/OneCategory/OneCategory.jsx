@@ -15,16 +15,16 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
     currentCategory, fetchCurrentCategory,
   } = categoriesStore;
   const {
-    setFilterChannel, resetTracks,
+    firstFetchPageTracks, resetTracks,
   } = pageStore;
 
   useEffect(() => {
+    // Сброс треков, что бы они не висели пока отработывает fetchCurrentCategory
     resetTracks();
 
     fetchCurrentCategory(categoryName, (data) => {
-      setFilterChannel({
-        resetBefore: true,
-        id: data.channels.join(),
+      firstFetchPageTracks({
+        channel: data.channels.join(),
       });
     });
   }, []);
