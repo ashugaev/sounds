@@ -6,15 +6,15 @@ import Button from 'c/Button';
 import { get } from 'lodash-es';
 import { withRouter } from 'react-router';
 import Time from 'c/Time';
-import { livePath } from 'helpers/constants';
 import s from './TracksListItem.sass';
+import {isLivePage} from "helpers/isLivePage";
 
 const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
   imageUrl, title, isPlaying, playerStore, videoObjId, playerTracksStore, history, pageStore, isLive,
 }) => {
   const { toggleIsPlaying } = playerStore;
   const {
-    fetch: tracksFetch, track,
+    firstFetchPlayerTracks, currentTrack,
   } = playerTracksStore;
   const { filterTags, filterChannel } = pageStore;
 
@@ -23,15 +23,13 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
       toggleIsPlaying(false);
     } else {
       // Если это не тот трек, который сейчас в плеере, то фетчим данные
-      if (videoObjId !== get(track, '_id')) {
-        tracksFetch({
-          rewrite: true,
+      if (videoObjId !== get(currentTrack, '_id')) {
+        firstFetchPlayerTracks({
           fromObjId: videoObjId,
           tags: filterTags,
           channel: filterChannel,
-          checkPrevTracks: true,
           history,
-          filterLiveOnly: get(history, 'location.pathname') === livePath,
+          filterLiveOnly: isLivePage(history),
           callback: toggleIsPlaying,
           callbackArgs: true,
         });

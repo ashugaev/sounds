@@ -5,54 +5,38 @@ import { get } from 'lodash-es';
 import axios from 'axios';
 import query from 'query';
 import { tracksPath } from 'helpers/constants';
+import { TracksStoreCommon } from 'stores/utils/tracks-store-common';
 
-class PlayerTracksStore {
-  @observable tracks = []
-
+class PlayerTracksStore extends TracksStoreCommon {
   @observable prevTracksIsLoading = false
+
+  @observable nextTracksIsLoading = false
 
   @observable currentTrackIndex = 0
 
-  @observable isLoading = false
-
-  @observable filterTags = []
-
-  @observable filterChannel
-
   @observable changeTrigger
 
-  @observable filterLiveOnly
-
   constructor() {
+    super();
+
+    // Треков должно остаться, что бы дофетчить новые
     this.minTracksForFetch = 3;
     this.noTracksToFetchBefore = false;
     this.noTracksToFetchAfter = false;
   }
 
-  get track() {
+  get currentTrack() {
     return this.tracks[this.currentTrackIndex];
   }
 
-  get lastTrack() {
-    return this.tracks[this.tracksLength - 1];
-  }
-
-  get tracksLength() {
-    return this.tracks.length;
-  }
-
   get isNextArrowDisabled() {
-    return (this.currentTrackIndex + 1) >= this.tracks.length;
+    return (this.currentTrackIndex + 1) >= this.tracksLength;
   }
 
   get isPrevArrowDisabled() {
     return this.currentTrackIndex <= 0;
   }
 
-  /**
-   * @param rewrite - перезаписать список треков (true обычно при смене тага)
-   * @param fromObjId - id трека начиная с коророго хотим слушать
-   */
   @action.bound fetch({
     rewrite,
     fromObjId,
@@ -62,25 +46,10 @@ class PlayerTracksStore {
     channel,
     checkPrevTracks,
     history,
-    isPlayerClick,
     callback,
     filterLiveOnly = this.filterLiveOnly,
     callbackArgs,
   }) {
-    // Тут получается довольно таки запутанная и не продуманная логика. Нужно порефакторить
-    // Проверка на плеер нужно для того, то бы плеерные ограничители не влияли на подгрузку по клику на элемент каталога
-    if (isPlayerClick) {
-      if (beforeObjId) {
-        if (this.prevTracksIsLoading || this.noTracksToFetchBefore) return;
-
-        this.prevTracksIsLoading = true;
-      } else {
-        if (this.isLoading || this.noTracksToFetchAfter) return;
-
-        this.isLoading = true;
-      }
-    }
-
     // Сбросим фильтры, если не было параметрои и клик со страницы
     if (!isPlayerClick && !get(tags, 'length') && !channel) {
       this.filterTags.clear();
@@ -148,7 +117,7 @@ class PlayerTracksStore {
           this.changeTrigger = Math.random();
         }
 
-        this.isLoading = false;
+        this.nextTracksIsLoading = false;
         this.prevTracksIsLoading = false;
 
         // TODO: Разобраться почему не работает в ифаке выше
@@ -157,7 +126,7 @@ class PlayerTracksStore {
         }
       }))
       .catch(err => runInAction(() => {
-        this.isLoading = false;
+        this.nextTracksIsLoading = false;
         this.prevTracksIsLoading = false;
 
         console.error(err);
@@ -181,28 +150,40 @@ class PlayerTracksStore {
     this.noTracksToFetchBefore = false;
   }
 
+  /**
+   * Клик на клавишу следующего трека
+   */
   @action.bound onNextClick() {
     if (this.isNextArrowDisabled) return;
 
     this.currentTrackIndex++;
 
-    if ((this.tracks.length - this.currentTrackIndex) <= this.minTracksForFetch) {
+    const needMoreTracks = (this.tracksLength - this.currentTrackIndex) <= this.minTracksForFetch;
+
+    if (needMoreTracks && !this.nextTracksIsLoading && !this.noTracksToFetchAfter) {
+      this.nextTracksIsLoading = true;
+
       this.fetch({
         afterObjId: this.lastTrack._id,
-        isPlayerClick: true,
       });
     }
   }
 
+  /**
+   * Клик на клавишу предыдущего трека
+   */
   @action.bound onPrevClick() {
     if (this.isPrevArrowDisabled) return;
 
     this.currentTrackIndex--;
 
-    if (this.currentTrackIndex <= this.minTracksForFetch) {
+    const needMoreTracks = this.currentTrackIndex <= this.minTracksForFetch;
+
+    if (needMoreTracks && !this.prevTracksIsLoading && !this.noTracksToFetchBefore) {
+      this.prevTracksIsLoading = true;
+
       this.fetch({
         beforeObjId: this.tracks[0]._id,
-        isPlayerClick: true,
       });
     }
   }
@@ -210,10 +191,24 @@ class PlayerTracksStore {
   /**
    * Добавляет теги к текущему треку
    */
-  @action.bound setTags(tags) {
+  @action.bound
+  setTags(tags) {
     this.track.tags = tags;
 
     this.track.tagsIsLoaded = true;
+  }
+
+  /**
+   * Первый фетч треков для плеера
+   */
+  @action.bound
+  firstFetchPlayerTracks({ ...args }) {
+    this.fetch({
+      ...args,
+      rewrite: true,
+      checkPrevTracks: true,
+      limit: 6,
+    });
   }
 }
 

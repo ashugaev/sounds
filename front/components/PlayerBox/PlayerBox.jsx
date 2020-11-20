@@ -12,17 +12,17 @@ import get from 'lodash-es/get';
 import { withRouter } from 'react-router';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import s from './PlayerBox.sass';
-import {livePath} from "helpers/constants";
+import {isLivePage} from "helpers/isLivePage";
 
 const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
   className, playerTracksStore, playerStore, history, notifierStore,
 }) => {
   const {
-    track,
+    currentTrack,
     onNextClick,
     onPrevClick,
-    fetch: tracksFetch,
-    isLoading,
+    firstFetchPlayerTracks,
+    nextTracksIsLoading,
     tracksLength,
     isNextArrowDisabled,
     isPrevArrowDisabled,
@@ -42,21 +42,20 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
 
     playerTags = playerTags && playerTags.split(',');
 
-    tracksFetch({
+    firstFetchPlayerTracks({
       fromObjId: trackObjId,
       tags: playerTags,
       channel: playerChannel,
-      checkPrevTracks: true,
-      filterLiveOnly: get(history, 'location.pathname') === livePath,
-    }, [tracksFetch]);
+      filterLiveOnly: isLivePage(history),
+    });
 
     // Предлагает продолжить слушать тег/трек
     showLastTrackNotifier(createNotify, fetch, history);
   }, []);
 
-  if (!track || (isLoading && !tracksLength)) return null;
+  if (!currentTrack || (nextTracksIsLoading && !tracksLength)) return null;
 
-  const { tags, snippet, tagsIsLoaded } = track;
+  const { tags, snippet, tagsIsLoaded } = currentTrack;
   const {
     title, thumbnails, liveBroadcastContent, channelTitle,
   } = snippet;
@@ -106,7 +105,7 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
           </div>
         </div>
       </div>
-      <VideoPlayer videoId={get(track, 'id.videoId')} isPlaying={isPlaying} />
+      <VideoPlayer videoId={get(currentTrack, 'id.videoId')} isPlaying={isPlaying} />
     </>
   );
 }));

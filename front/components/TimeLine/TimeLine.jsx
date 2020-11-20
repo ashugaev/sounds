@@ -8,8 +8,8 @@ const TimeLine = inject('playerStore', 'playerTracksStore')(observer(({
   className, playerStore, playerTracksStore,
 }) => {
   const { getPercent, setByPercent } = playerStore;
-  const { track } = playerTracksStore;
-  const { isLive } = track;
+  const { currentTrack } = playerTracksStore;
+  const { isLive } = currentTrack;
 
   function onClick(e) {
     if (isLive) return;

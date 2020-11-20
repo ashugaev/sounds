@@ -13,7 +13,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
   let content = null;
 
   const { allChannels } = channelsStore;
-  const { track } = playerTracksStore;
+  const { currentTrack } = playerTracksStore;
   const { allCategories } = categoriesStore;
   const { isPlaying } = playerStore;
   const { tracks } = pageStore;
@@ -25,7 +25,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
           key={_id}
           title={get(snippet, 'title')}
           imageUrl={get(snippet, 'thumbnails.high.url')}
-          isPlaying={(id.videoId === get(track, 'id.videoId')) && isPlaying}
+          isPlaying={(id.videoId === get(currentTrack, 'id.videoId')) && isPlaying}
           videoObjId={_id}
           isLive={get(snippet, 'liveBroadcastContent') === 'live'}
         />

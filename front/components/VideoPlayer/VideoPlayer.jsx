@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import YouTubePlayer from 'youtube-player';
 import { observer, inject } from 'mobx-react';
 import { withRouter } from 'react-router';
-import qs from 'query-string';
 import get from 'lodash-es/get';
 import query from 'query';
 import { setTrackToLocalStorage } from '../../helpers/lastTrackNotifier';
@@ -21,7 +20,7 @@ const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pag
 }) => {
   const { onPlay, onStop, newTimeValue } = playerStore;
   const {
-    onNextClick, track, changeTrigger,
+    onNextClick, currentTrack, changeTrigger,
   } = playerTracksStore;
   const { fetchTagsByIds } = tagsStore;
   const { setTags } = pageStore;
@@ -44,11 +43,11 @@ const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pag
         isPlaying ? player.playVideo() : player.pauseVideo();
       });
 
-      if (track.tags && !track.tagsIsLoaded) fetchTagsByIds(track.tags, setTags);
+      if (currentTrack.tags && !currentTrack.tagsIsLoaded) fetchTagsByIds(currentTrack.tags, setTags);
 
       updateTrackQuery();
 
-      setTrackToLocalStorage(get(track, 'snippet.title'), videoId, track._id);
+      setTrackToLocalStorage(get(currentTrack, 'snippet.title'), videoId, currentTrack._id);
     }
   }, [videoId, changeTrigger]);
 
@@ -82,7 +81,7 @@ const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pag
 
   function updateTrackQuery() {
     query.set(history, 'trackId', videoId);
-    query.set(history, 'trackObjId', track._id);
+    query.set(history, 'trackObjId', currentTrack._id);
   }
 
   // TODO: Переписать логику тегов

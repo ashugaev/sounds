@@ -10,10 +10,6 @@ class PageStore extends TracksStoreCommon {
 
     @observable noTracksToFetch = false
 
-    /**
-     * @param rewrite - перезаписать список треков
-     * @param fromObjId - id трека начиная с которого хотим слушать
-     */
     @action.bound
     fetch({
       rewrite,
@@ -65,10 +61,6 @@ class PageStore extends TracksStoreCommon {
       this.fetch({
         ...args,
         limit: 30,
-
-        // callback: {
-        //   noData: this.callbackHasData,
-        // },
       });
     }
 
@@ -80,12 +72,6 @@ class PageStore extends TracksStoreCommon {
 
       this.fetchPageTracks({
         ...args,
-        // callback: {
-        //   beforeFetch(callbackArgs) {
-        //     callback && callback(callbackArgs);
-        //     this.scrollToTop();
-        //   },
-        // },
         rewrite: true,
         callback: this.scrollToTop,
         resetBefore: true,
