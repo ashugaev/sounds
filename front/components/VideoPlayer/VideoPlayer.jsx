@@ -23,7 +23,6 @@ const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pag
   const {
     onNextClick, track, changeTrigger,
   } = playerTracksStore;
-  const { setFilterTags } = pageStore;
   const { fetchTagsByIds } = tagsStore;
   const { setTags } = pageStore;
 
@@ -86,12 +85,13 @@ const VideoPlayer = inject('playerStore', 'playerTracksStore', 'tagsStore', 'pag
     query.set(history, 'trackObjId', track._id);
   }
 
+  // TODO: Переписать логику тегов
   function updateTagsFromQueries() {
-    const { tags } = qs.parse(get(history, 'location.search'));
+    // const { tags } = qs.parse(get(history, 'location.search'));
 
-    if (!tags) return;
+    // if (!tags) return;
 
-    setFilterTags(tags.split(','), history, true);
+    // setFilterTags(tags.split(','), history, true);
   }
 
   async function setTime() {

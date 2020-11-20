@@ -8,10 +8,10 @@ const Main = inject('pageStore')(observer(({
   className,
   pageStore,
 }) => {
-  const { setFilterChannel } = pageStore;
+  const { firstFetchPageTracks } = pageStore;
 
   useEffect(() => {
-    setFilterChannel({
+    firstFetchPageTracks({
       resetBefore: true,
     });
   }, []);

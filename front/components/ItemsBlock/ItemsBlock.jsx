@@ -12,7 +12,7 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
   pageStore, type, title, channelsStore, titlePlaceholder,
 }) => {
   const {
-    isLoading, noTracksToFetch, fetchPageTracks,
+    isTracksLoading, noTracksToFetch, fetchPageTracks,
   } = pageStore;
   const { noChannelsToFetch } = channelsStore;
 
@@ -28,7 +28,7 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
         <LazyLoader
           loadHandler={loadMoreItems}
           pixelsLeftToLoad={600}
-          skipLoads={isLoading || noTracksToFetch}
+          skipLoads={isTracksLoading || noTracksToFetch}
         />
       )}
       <div className={s.ItemsBlock}>

@@ -26,6 +26,22 @@ export class TracksStoreCommon {
 
   @observable tracksLimit
 
+  @action.bound resetTracks() {
+    this.tracks.clear();
+  }
+
+  get tracksLength() {
+    return this.tracks.length;
+  }
+
+  get lastTrack() {
+    return this.tracks[this.tracksLength - 1];
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
   /**
    * @param rewrite - перезаписать список треков (true обычно при смене тага)
    * @param fromObjId - id трека начиная с коророго хотим слушать

@@ -2,12 +2,11 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
-import query from 'query';
 import { tracksPath } from 'helpers/constants';
 import { TracksStoreCommon } from './utils/tracks-store-common';
 
 class PageStore extends TracksStoreCommon {
-    @observable isLoading = false
+    @observable isTracksLoading = false
 
     @observable noTracksToFetch = false
 
@@ -29,7 +28,7 @@ class PageStore extends TracksStoreCommon {
       searchStr,
       limit,
     }) {
-      if (this.isLoading || this.noTracksToFetch) return;
+      if (this.isTracksLoading || this.noTracksToFetch) return;
 
       if (resetBefore) this.resetTracks();
 
@@ -39,7 +38,7 @@ class PageStore extends TracksStoreCommon {
         this.searchStr = null;
       }
 
-      this.isLoading = true;
+      this.isTracksLoading = true;
 
       // Если пришли параметры, то перезапишем
       if (channel) this.filterChannel = channel;
@@ -70,67 +69,13 @@ class PageStore extends TracksStoreCommon {
 
           callback && callback(callbackArgs);
 
-          this.isLoading = false;
+          this.isTracksLoading = false;
         }))
         .catch(err => runInAction(() => {
-          this.isLoading = false;
+          this.isTracksLoading = false;
 
           console.error(err);
         }));
-    }
-
-    @action.bound
-    setFilterTags(tags, history) {
-      this.filterTags.replace([].concat(tags));
-
-      this.onTagChange({ tags, history });
-    }
-
-    @action.bound
-    setFilterChannel({ id, resetBefore, liveOnly }) {
-      this.filterChannel = id;
-
-      this.onChannelChange({ resetBefore, liveOnly });
-    }
-
-    @action.bound
-    removeFilterTags(history) {
-      this.filterTags.clear();
-
-      this.onTagChange({ history });
-    }
-
-    @action.bound resetTracks() {
-      this.tracks.clear();
-    }
-
-    resetMeta() {
-      this.noTracksToFetch = false;
-      this.filterTags.replace = [];
-    }
-
-    onChannelChange({ resetBefore, liveOnly }) {
-      this.filterTags.replace = [];
-
-      this.onFilterChange({ resetBefore, liveOnly });
-    }
-
-    onTagChange({ tags, history }) {
-      query.set(history, 'pageTags', tags);
-
-      this.onFilterChange({});
-    }
-
-    onFilterChange({ resetBefore, liveOnly }) {
-      this.noTracksToFetch = false;
-
-      this.fetch({
-        rewrite: true, callback: this.scrollToTop, resetBefore, liveOnly,
-      });
-    }
-
-    scrollToTop() {
-      window.scrollTo(0, 0);
     }
 
     @action.bound
@@ -192,14 +137,6 @@ class PageStore extends TracksStoreCommon {
       this.filterChannel = filterChannel;
       this.filterStr = filterStr;
       this.filterLiveOnly = filterLiveOnly;
-    }
-
-    get tracksLength() {
-      return this.tracks.length;
-    }
-
-    get lastTrack() {
-      return this.tracks[this.tracksLength - 1];
     }
 }
 
