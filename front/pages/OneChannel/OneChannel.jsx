@@ -21,7 +21,7 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
 
   useEffect(() => {
     firstFetchPageTracks({
-      channel: channelId,
+      filterChannel: channelId,
     });
 
     // Фетчит допданные для страницы канала

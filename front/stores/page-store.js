@@ -19,43 +19,26 @@ class PageStore extends TracksStoreCommon {
       rewrite,
       fromObjId,
       afterObjId,
-      tags,
-      channel,
       callback,
       callbackArgs,
       resetBefore,
-      resetFilters,
-      searchStr,
       limit,
     }) {
       if (this.isTracksLoading || this.noTracksToFetch) return;
 
       if (resetBefore) this.resetTracks();
 
-      if (resetFilters) {
-        this.filterChannel = null;
-        this.filterTags.clear();
-        this.searchStr = null;
-      }
-
       this.isTracksLoading = true;
-
-      // Если пришли параметры, то перезапишем
-      if (channel) this.filterChannel = channel;
-      if (tags) this.filterTags.replace(tags);
-      if (searchStr) this.searchStr = searchStr;
-
-      const { filterTags, filterChannel, filterLiveOnly } = this;
 
       axios.get(tracksPath, {
         params: {
           fromObjId,
           afterObjId,
-          liveOnly: filterLiveOnly,
-          tags: filterTags,
-          channel: filterChannel,
+          liveOnly: this.filterLiveOnly,
+          tags: this.filterTags,
+          channel: this.filterChannel,
           limit,
-          searchStr,
+          searchStr: this.filterStr,
         },
       })
         .then(({ data }) => runInAction(async () => {
@@ -68,13 +51,12 @@ class PageStore extends TracksStoreCommon {
           }
 
           callback && callback(callbackArgs);
-
-          this.isTracksLoading = false;
         }))
-        .catch(err => runInAction(() => {
-          this.isTracksLoading = false;
-
+        .catch((err) => {
           console.error(err);
+        })
+        .finally(() => runInAction(() => {
+          this.isTracksLoading = false;
         }));
     }
 

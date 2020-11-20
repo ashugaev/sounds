@@ -24,7 +24,7 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
 
     fetchCurrentCategory(categoryName, (data) => {
       firstFetchPageTracks({
-        channel: data.channels.join(),
+        filterChannel: data.channels.join(),
       });
     });
   }, []);
