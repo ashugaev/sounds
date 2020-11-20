@@ -42,51 +42,18 @@ class PlayerTracksStore extends TracksStoreCommon {
     fromObjId,
     afterObjId,
     beforeObjId,
-    tags,
-    channel,
     checkPrevTracks,
-    history,
     callback,
-    filterLiveOnly = this.filterLiveOnly,
     callbackArgs,
   }) {
-    // Сбросим фильтры, если не было параметрои и клик со страницы
-    if (!isPlayerClick && !get(tags, 'length') && !channel) {
-      this.filterTags.clear();
-      this.filterChannel = undefined;
-      this.filterLiveOnly = false;
-
-      query.remove(history, 'playerChannel');
-      // Пока что тегов нет, но в перспективе будет нужно
-      query.remove(history, 'playerTags');
-    }
-
-    if (filterLiveOnly) {
-      this.filterLiveOnly = filterLiveOnly;
-    }
-
-    // Если пришли параметры, то перезапишем
-    if (channel) {
-      this.filterChannel = channel;
-      history && query.set(history, 'playerChannel', channel);
-      this.resetStopParams();
-    }
-    if (tags) {
-      this.filterTags.replace(tags);
-      (history && tags.length) && query.set(history, 'playerTags', tags);
-      this.resetStopParams();
-    }
-
-    const { filterTags, filterChannel } = this;
-
     axios.get(tracksPath, {
       params: {
         fromObjId,
         afterObjId,
         beforeObjId,
-        tags: filterTags,
-        channel: filterChannel,
-        liveOnly: filterLiveOnly,
+        tags: this.filterTags,
+        channel: this.filterChannel,
+        liveOnly: this.filterLiveOnly,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -122,7 +89,7 @@ class PlayerTracksStore extends TracksStoreCommon {
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id, channel: filterChannel });
+          this.fetch({ beforeObjId: this.tracks[0]._id, channel: this.filterChannel });
         }
       }))
       .catch(err => runInAction(() => {
@@ -203,6 +170,8 @@ class PlayerTracksStore extends TracksStoreCommon {
    */
   @action.bound
   firstFetchPlayerTracks({ ...args }) {
+    this.updateFilters({ ...args });
+
     this.fetch({
       ...args,
       rewrite: true,

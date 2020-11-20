@@ -88,24 +88,6 @@ class PageStore extends TracksStoreCommon {
     updateAppData() {
       this.resetTracks();
     }
-
-    @action.bound
-    updateFilters({
-      filterStr,
-      filterLiveOnly,
-      filterChannel,
-      filterTags,
-    }) {
-      if (filterTags) {
-        this.filterTags.replace = filterTags;
-      } else {
-        this.filterTags.clear();
-      }
-
-      this.filterChannel = filterChannel;
-      this.filterStr = filterStr;
-      this.filterLiveOnly = filterLiveOnly;
-    }
 }
 
 export default new PageStore();

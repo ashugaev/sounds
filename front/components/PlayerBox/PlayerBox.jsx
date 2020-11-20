@@ -10,9 +10,10 @@ import Time from 'c/Time';
 import Text from 'c/Text';
 import get from 'lodash-es/get';
 import { withRouter } from 'react-router';
+import { isLivePage } from 'helpers/isLivePage';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import s from './PlayerBox.sass';
-import {isLivePage} from "helpers/isLivePage";
+import { useQueriesUpdate } from '../../helpers/hooks';
 
 const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'pageStore')(observer(({
   className, playerTracksStore, playerStore, history, notifierStore,
@@ -26,6 +27,8 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
     tracksLength,
     isNextArrowDisabled,
     isPrevArrowDisabled,
+    filterChannel,
+    filterTags,
   } = playerTracksStore;
 
   const { createNotify } = notifierStore;
@@ -52,6 +55,12 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
     // Предлагает продолжить слушать тег/трек
     showLastTrackNotifier(createNotify, fetch, history);
   }, []);
+
+  useQueriesUpdate({
+    filterChannel,
+    filterTags,
+    history,
+  });
 
   if (!currentTrack || (nextTracksIsLoading && !tracksLength)) return null;
 

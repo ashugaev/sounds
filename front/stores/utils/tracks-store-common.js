@@ -38,6 +38,24 @@ export class TracksStoreCommon {
     return this.tracks[this.tracksLength - 1];
   }
 
+  @action.bound
+  updateFilters({
+    filterStr,
+    filterLiveOnly,
+    filterChannel,
+    filterTags,
+  }) {
+    if (filterTags) {
+      this.filterTags.replace = filterTags;
+    } else {
+      this.filterTags.clear();
+    }
+
+    this.filterChannel = filterChannel;
+    this.filterStr = filterStr;
+    this.filterLiveOnly = filterLiveOnly;
+  }
+
   scrollToTop() {
     window.scrollTo(0, 0);
   }
