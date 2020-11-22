@@ -91,15 +91,43 @@ function modifyVideosData(list) {
   list.forEach(() => {});
 }
 
+// TODO: Потестить, что эта ф-ция работает корректно после рефакторинга
 function updateFeauteredChannels(list) {
-  const { featured, blackList, channelsIds } = parserData;
+  return new Promise(async (rs, rj) => {
+    try {
+      const { featured, blackList, channelsIds } = parserData;
+      const minSubscribersCount = 10000;
 
-  const concated = uniq(featured.concat(list));
-  const filtered = concated.filter(el => blackList.indexOf(el) === -1 && channelsIds.indexOf(el) === -1);
+      for (let i = 0; i < list.length; i++) {
+        const channelId = list[i];
 
-  parserData.featured = filtered;
+        if (featured.includes(channelId)
+            || blackList.includes(channelId)
+            || channelsIds.includes(channelId)
+        ) {
+          continue;
+        }
 
-  writeNewDataToJson(parserData);
+        const channelData = await fetchChannelData({
+          id: channelId,
+          part: 'statistics',
+          fields: 'items(statistics/subscriberCount)',
+        });
+
+        if (get(channelData, 'items.0.statistics.subscriberCount') >= minSubscribersCount) {
+          featured.push(channelId);
+        } else {
+          blackList.push(channelId);
+        }
+      }
+
+      writeNewDataToJson(parserData);
+
+      rs();
+    } catch (e) {
+      rj();
+    }
+  });
 }
 
 /* Это место можно выполнять один раз для всех каналов сразу */
@@ -110,7 +138,7 @@ function saveChannelToDB(channelId) {
         return rj('Недостаточно данных для сохранения канала. Отсутствует Id.');
       }
 
-      const channelData = await fetchChannelData(channelId);
+      const channelData = await fetchChannelData({ id: channelId });
 
       const mostPupularVideoFromChannel = await getMostPopularVideoFromChannel(channelId);
 
@@ -135,9 +163,11 @@ function saveChannelToDB(channelId) {
   });
 }
 
-function fetchChannelData(id, user, part) {
+function fetchChannelData({
+  id, user, part, fields,
+}) {
   return new Promise((rs, rj) => {
-    axios.get(getChannelUrl(id, user, part))
+    axios.get(getChannelUrl(id, user, part, fields))
       .then((resp) => {
         const { data, status, message } = resp;
         const { items, prevPageToken } = data;
@@ -201,7 +231,7 @@ function getUserIds(users) {
 
       for (let i = 0, l = users.length; i < l; i++) {
         const user = users[i];
-        const data = await fetchChannelData(undefined, user, 'id');
+        const data = await fetchChannelData({ user, part: 'id' });
         const id = get(data, 'id');
 
         if (id) {
@@ -282,7 +312,7 @@ function getFetchUrl(channel, nextPageUrl) {
   return `https://www.googleapis.com/youtube/v3/search?${queryString.stringify(queryParams)}`;
 }
 
-function getChannelUrl(id, forUsername, part) {
+function getChannelUrl(id, forUsername, part, fields) {
   const queryParams = {
     part: part || 'snippet,localizations,brandingSettings,statistics,contentDetails',
     key: YOUTUBE_TOKEN,
@@ -290,6 +320,7 @@ function getChannelUrl(id, forUsername, part) {
     // fields: 'items(id,snippet(channelId,publishedAt,title,categoryId),statistics)&part=snippet,statistics',
   };
 
+  fields && (queryParams.fields = fields);
   id && (queryParams.id = id);
   forUsername && (queryParams.forUsername = forUsername);
 
