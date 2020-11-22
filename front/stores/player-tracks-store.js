@@ -3,7 +3,6 @@ import {
 } from 'mobx';
 import { get } from 'lodash-es';
 import axios from 'axios';
-import query from 'query';
 import { tracksPath } from 'helpers/constants';
 import { TracksStoreCommon } from 'stores/utils/tracks-store-common';
 
@@ -88,21 +87,18 @@ class PlayerTracksStore extends TracksStoreCommon {
 
           // Костыль, что бы стригерить перерендер плеера, если id при смене тега не поменялся
           this.changeTrigger = Math.random();
-        }
 
-        this.nextTracksIsLoading = false;
-        this.prevTracksIsLoading = false;
-
-        // TODO: Разобраться почему не работает в ифаке выше
-        if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id });
+          if (checkPrevTracks) {
+            this.fetch({ beforeObjId: this.tracks[0]._id });
+          }
         }
       }))
       .catch(err => runInAction(() => {
+        console.error(err);
+      }))
+      .finally(() => runInAction(() => {
         this.nextTracksIsLoading = false;
         this.prevTracksIsLoading = false;
-
-        console.error(err);
       }));
   }
 

@@ -35,7 +35,7 @@ const checkIsAlive = ({ videoId, _id }) => {
         }
 
         if (get(items, '0.snippet.liveBroadcastContent') !== 'live') {
-          logger.debug('Удаляем нахер нахер', videoId);
+          logger.debug('Удаляем нахер', videoId);
 
           try {
             await db.Tracks.deleteOne({ _id });

@@ -1,6 +1,7 @@
 const log4js = require('log4js');
-const getTracks = require('../../server/controllers/utils/getTracksFromDB');
 const get = require('lodash/get');
+const getTracks = require('../../server/controllers/utils/getTracksFromDB');
+const { wait } = require('./wait');
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
@@ -39,6 +40,8 @@ const tracksIterator = (callbackList, filters = {}) => {
         counter++;
 
         for (let j = 0; j < callbackList.length; j++) {
+          await wait(500);
+
           try {
             trackJSON = JSON.parse(JSON.stringify(track));
 
