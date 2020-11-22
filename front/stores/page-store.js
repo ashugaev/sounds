@@ -10,6 +10,12 @@ class PageStore extends TracksStoreCommon {
 
     @observable noTracksToFetch = false
 
+    constructor() {
+      super();
+
+      this.limit = 30;
+    }
+
     @action.bound
     fetch({
       rewrite,
@@ -18,7 +24,6 @@ class PageStore extends TracksStoreCommon {
       callback,
       callbackArgs,
       resetBefore,
-      limit,
     }) {
       if (this.isTracksLoading || this.noTracksToFetch) return;
 
@@ -33,7 +38,7 @@ class PageStore extends TracksStoreCommon {
           liveOnly: this.filterLiveOnly,
           tags: this.filterTags,
           channel: this.filterChannel,
-          limit,
+          limit: this.limit,
           searchStr: this.filterStr,
         },
       })
@@ -60,7 +65,6 @@ class PageStore extends TracksStoreCommon {
     fetchPageTracks({ ...args }) {
       this.fetch({
         ...args,
-        limit: 30,
       });
     }
 

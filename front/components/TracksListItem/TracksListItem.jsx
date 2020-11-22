@@ -26,8 +26,8 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
       if (videoObjId !== get(currentTrack, '_id')) {
         firstFetchPlayerTracks({
           fromObjId: videoObjId,
-          tags: filterTags,
-          channel: filterChannel,
+          filterTags,
+          filterChannel,
           history,
           filterLiveOnly: isLivePage(history),
           callback: toggleIsPlaying,

@@ -47,8 +47,8 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
 
     firstFetchPlayerTracks({
       fromObjId: trackObjId,
-      tags: playerTags,
-      channel: playerChannel,
+      filterTags: playerTags,
+      filterChannel: playerChannel,
       filterLiveOnly: isLivePage(history),
     });
 

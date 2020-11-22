@@ -23,6 +23,7 @@ class PlayerTracksStore extends TracksStoreCommon {
     this.minTracksForFetch = 3;
     this.noTracksToFetchBefore = false;
     this.noTracksToFetchAfter = false;
+    this.limit = 6;
   }
 
   get currentTrack() {
@@ -75,7 +76,12 @@ class PlayerTracksStore extends TracksStoreCommon {
           if (fromObjId) {
             const index = this.tracks.findIndex(track => track._id === fromObjId);
 
-            this.currentTrackIndex = index || 0;
+            if (index === -1) {
+              // Это условие срабатывает, когда зафетчили треги отличные от трков на странице
+              console.error("Can't find index of track");
+            } else {
+              this.currentTrackIndex = index;
+            }
           }
 
           callback && callback(callbackArgs);
@@ -89,7 +95,7 @@ class PlayerTracksStore extends TracksStoreCommon {
 
         // TODO: Разобраться почему не работает в ифаке выше
         if (checkPrevTracks && data.length) {
-          this.fetch({ beforeObjId: this.tracks[0]._id, channel: this.filterChannel });
+          this.fetch({ beforeObjId: this.tracks[0]._id });
         }
       }))
       .catch(err => runInAction(() => {
@@ -176,7 +182,6 @@ class PlayerTracksStore extends TracksStoreCommon {
       ...args,
       rewrite: true,
       checkPrevTracks: true,
-      limit: 6,
     });
   }
 }
