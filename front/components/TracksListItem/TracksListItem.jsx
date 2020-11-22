@@ -5,9 +5,9 @@ import Text from 'c/Text';
 import Button from 'c/Button';
 import { get } from 'lodash-es';
 import { withRouter } from 'react-router';
-import Time from 'c/Time';
+import { isLivePage } from 'helpers/isLivePage';
+import LiveLabel from 'c/LiveLabel';
 import s from './TracksListItem.sass';
-import {isLivePage} from "helpers/isLivePage";
 
 const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
   imageUrl, title, isPlaying, playerStore, videoObjId, playerTracksStore, history, pageStore, isLive,
@@ -44,7 +44,11 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
   return (
     <div className={trackItemClassName} onClick={toggleState}>
       <div className={s.Image} style={{ backgroundImage: `url(${imageUrl})` }}>
-        {isLive && <Time live className={s.LiveLabel} />}
+        {isLive && (
+          <div className={s.LabelsWrapper}>
+            <LiveLabel className={s.LiveLabel} withBg />
+          </div>
+        )}
         <Button
           icon={isPlaying ? 'pause' : 'play'}
           className={s.PlayButton}

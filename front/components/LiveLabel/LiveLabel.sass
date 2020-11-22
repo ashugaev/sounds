@@ -1,0 +1,25 @@
+.Live
+  z-index: 1
+
+  &_withBg
+    paddin: 5px
+    background: gray
+    display: inline-block
+    padding: 5px 12px
+    background: rgba(0,0,0,0.2)
+    padding: 2px 9px
+    background: $red
+    border-radius: 12px
+
+
+.Content
+  &_withDot:before
+    content: ''
+    height: 6px
+    width: 6px
+    border-radius: 50%
+    display: inline-block
+    margin-right: 6px
+    background: $red
+    top: 50%
+    transform: translateY(-50%)

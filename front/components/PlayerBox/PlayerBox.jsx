@@ -11,6 +11,7 @@ import Text from 'c/Text';
 import get from 'lodash-es/get';
 import { withRouter } from 'react-router';
 import { isLivePage } from 'helpers/isLivePage';
+import LiveLabel from 'c/LiveLabel';
 import { showLastTrackNotifier } from '../../helpers/lastTrackNotifier';
 import s from './PlayerBox.sass';
 import { useQueriesUpdate } from '../../helpers/hooks';
@@ -69,6 +70,7 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
     title, thumbnails, liveBroadcastContent, channelTitle,
   } = snippet;
   const imageUrl = thumbnails.high.url;
+  const isLive = liveBroadcastContent === 'live';
 
   return (
     <>
@@ -87,7 +89,11 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
             />
             <Button icon="next" disabled={isNextArrowDisabled} className={s.NextButton} onClick={onNextClick} />
           </div>
-          <Time className={s.TimeLabel} live={liveBroadcastContent === 'live'} />
+          {
+            isLive
+              ? <LiveLabel withBg />
+              : <Time className={s.TimeLabel} />
+          }
         </div>
         <div className={s.InfoBox}>
           <div className={s.Row}>

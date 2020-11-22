@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import j from 'join';
 import s from './Time.sass';
 
-const Time = inject('playerStore')(observer(({ className, playerStore, live }) => {
+const Time = inject('playerStore')(observer(({ className, playerStore }) => {
   const { currentTimeStr, durationStr } = playerStore;
 
   function getTime(time) {
@@ -13,11 +13,7 @@ const Time = inject('playerStore')(observer(({ className, playerStore, live }) =
 
   return (
     <div className={j(s.TimeLabel, className)}>
-      {
-        live
-          ? <Text className={s.Live} color="white">Live</Text>
-          : <Text size="xs" color="white" text={j(getTime(currentTimeStr), '/', getTime(durationStr))} />
-      }
+      <Text size="xs" color="white" text={j(getTime(currentTimeStr), '/', getTime(durationStr))} />
     </div>
   );
 }));
