@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "validate": "node validate.js",
-    "validate:live": "node validateLive.js",
+    "validate:dead": "node validators/checkDeadTracks.js",
+    "validate:duplicates": "node validators/checkDuplicates.js",
+    "validate:live": "node validators/checkLive.js",
     "cron-init": "cron -f"
   },
   "author": "",

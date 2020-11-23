@@ -5,9 +5,9 @@
 const axios = require('axios');
 const log4js = require('log4js');
 const get = require('lodash/get');
-const { tracksIterator } = require('./helpers/tracksIterator.js');
-const { getYoutubeApiUrl } = require('./helpers/youtubeAPI');
-const db = require('../server/schema/schema');
+const { tracksIterator } = require('../helpers/tracksIterator.js');
+const { getYoutubeApiUrl } = require('../helpers/youtubeAPI');
+const db = require('../../server/schema/schema');
 
 const logger = log4js.getLogger();
 logger.level = 'debug';

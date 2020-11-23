@@ -25,6 +25,7 @@ const tracksIterator = (callbackList, filters = {}) => {
         });
       } catch (e) {
         rj(e);
+        continue;
       }
 
       const tracksLength = lastFetchedTracks.length;
@@ -40,11 +41,10 @@ const tracksIterator = (callbackList, filters = {}) => {
         counter++;
 
         for (let j = 0; j < callbackList.length; j++) {
-          await wait(500);
+          await wait(0);
 
           try {
-            trackJSON = JSON.parse(JSON.stringify(track));
-
+            const trackJSON = JSON.parse(JSON.stringify(track));
             const videoId = get(trackJSON, 'id.videoId');
             const { _id } = track;
 
@@ -54,7 +54,7 @@ const tracksIterator = (callbackList, filters = {}) => {
               _id,
             });
           } catch (e) {
-            logger.error(e);
+            rj(e);
           }
         }
       }
