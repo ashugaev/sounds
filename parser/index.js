@@ -114,7 +114,7 @@ function updateFeauteredChannels(list) {
           fields: 'items(statistics/subscriberCount)',
         });
 
-        if (get(channelData, 'items.0.statistics.subscriberCount') >= minSubscribersCount) {
+        if (get(channelData, 'statistics.subscriberCount') >= minSubscribersCount) {
           featured.push(channelId);
         } else {
           blackList.push(channelId);
