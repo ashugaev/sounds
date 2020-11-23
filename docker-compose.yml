@@ -7,7 +7,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: front.Dockerfile
+      dockerfile: front/Dockerfile
     expose:
       - 8082
     ports:
@@ -17,7 +17,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: server.Dockerfile
+      dockerfile: server/Dockerfile
     expose:
       - 3000
     ports:

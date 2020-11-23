@@ -38,7 +38,7 @@ release_front:
   before_script:
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    - "docker build -f front.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1 ."
+    - "docker build -f front/Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1 ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/front:v1"
   after_script:
     - "docker logout ${CI_REGISTRY}"
@@ -57,7 +57,7 @@ release_server:
     - chmod +x setup_env.sh
     - ./setup_env.sh
 
-    - "docker build -f server.Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1 ."
+    - "docker build -f server/Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1 ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/server:v1"
   after_script:
     - "docker logout ${CI_REGISTRY}"

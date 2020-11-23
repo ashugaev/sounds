@@ -2,8 +2,8 @@ FROM nginx:1.15.11
 
 WORKDIR /app
 
-COPY /front/dist .
-COPY /front/nginx.conf /etc/nginx/nginx.conf
+COPY front/dist .
+COPY front/nginx.conf /etc/nginx/nginx.conf
 
 RUN chmod -R 777 /etc/nginx/
 RUN chmod -R 777 /app/
