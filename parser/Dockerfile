@@ -11,7 +11,7 @@ RUN npm install
 RUN apt-get update && apt-get install -y cron
 
 # cron data copy
-#RUN crontab crontab
+RUN crontab crontab
 
 CMD npm run cron-init
 

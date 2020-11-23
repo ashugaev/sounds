@@ -1,2 +1,4 @@
 # Получение нового контента каждый день
 * * * * * /usr/local/bin/node /app/index.js
+
+* * * * * /usr/local/bin/node /app/kek.js > /app/logs/$(date +\%Y_\%m_\%d_\%H_)__kek.log 2>&1

@@ -17,3 +17,8 @@ services:
     ports:
       # наружний порт:внутренний
       - "3005:3000"
+  parser:
+    image: registry.gitlab.com/ashugaev/sounds/parser:v1
+    restart: always
+    volumes:
+      - "./logs:/app/logs/parser"
