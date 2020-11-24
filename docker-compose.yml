@@ -33,4 +33,4 @@ services:
       context: .
       dockerfile: parser/Dockerfile
     volumes:
-      - "./parser/logs:/app/logs"
+      - "./parser/logs:/app/parser/logs"

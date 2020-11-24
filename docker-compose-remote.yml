@@ -21,4 +21,4 @@ services:
     image: registry.gitlab.com/ashugaev/sounds/parser:v1
     restart: always
     volumes:
-      - "./logs:/app/logs/parser"
+      - "./logs:/app/parser/logs"
