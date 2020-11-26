@@ -11,7 +11,7 @@ function set(history, name, val) {
 
   const params = getParams(history);
 
-  if (val) {
+  if (val && val.length) {
     params[name] = Array.isArray(val) ? val.join() : val;
   } else {
     delete params[name];

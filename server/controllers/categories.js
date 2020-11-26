@@ -1,4 +1,4 @@
-const db = require('../schema/schema');
+const { getCategoriesFromDB } = require('./utils/getCategoriesFromDB');
 
 module.exports.all = async function () {
   const { query } = this.request;
@@ -6,9 +6,11 @@ module.exports.all = async function () {
     categoryName,
   } = query;
 
-  const findParams = {};
-
-  categoryName && (findParams.path = categoryName);
-
-  this.body = await db.Categories.find(findParams);
+  try {
+    const categories = await getCategoriesFromDB({ categoryName });
+    this.body = categories;
+  } catch (e) {
+    this.status = 500;
+    this.body = e.message;
+  }
 };

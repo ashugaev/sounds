@@ -9,5 +9,5 @@ module.exports.all = async function () {
 
   const params = ids && { _id: { $in: ids.map(mongoose.mongo.ObjectId) } };
 
-  this.body = await db.Tags.find(params);
+  this.body = await db.Tags.find(params).lean();
 };

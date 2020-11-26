@@ -40,6 +40,7 @@ class PageStore extends TracksStoreCommon {
           channel: this.filterChannel,
           limit: this.limit,
           searchStr: this.filterStr,
+          category: this.filterCategory,
         },
       })
         .then(({ data }) => runInAction(async () => {

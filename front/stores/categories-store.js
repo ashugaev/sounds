@@ -56,6 +56,11 @@ class CategoriesStore {
         },
       });
     }
+
+    @action.bound
+    clearCurrentCategory() {
+      this.currentCategory = {};
+    }
 }
 
 export default new CategoriesStore();

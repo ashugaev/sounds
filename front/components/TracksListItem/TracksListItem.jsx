@@ -4,14 +4,16 @@ import cn from 'classnames';
 import Text from 'c/Text';
 import Button from 'c/Button';
 import { get } from 'lodash-es';
-import { withRouter } from 'react-router';
+import { useLocation, withRouter } from 'react-router';
 import { isLivePage } from 'helpers/isLivePage';
 import LiveLabel from 'c/LiveLabel';
+import { getTracksCategory } from 'helpers/getTracksCategory';
 import s from './TracksListItem.sass';
 
 const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(observer(({
   imageUrl, title, isPlaying, playerStore, videoObjId, playerTracksStore, history, pageStore, isLive,
 }) => {
+  const location = useLocation();
   const { toggleIsPlaying } = playerStore;
   const {
     firstFetchPlayerTracks, currentTrack,
@@ -32,6 +34,7 @@ const TracksListItem = inject('playerStore', 'playerTracksStore', 'pageStore')(o
           filterLiveOnly: isLivePage(history),
           callback: toggleIsPlaying,
           callbackArgs: true,
+          filterCategory: getTracksCategory(location.pathname),
         });
       } else {
         toggleIsPlaying(true);

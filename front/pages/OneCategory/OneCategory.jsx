@@ -12,21 +12,17 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
 }) => {
   const categoryName = get(match, 'params.name');
   const {
-    currentCategory, fetchCurrentCategory,
+    currentCategory, fetchCurrentCategory, clearCurrentCategory,
   } = categoriesStore;
   const {
-    firstFetchPageTracks, resetTracks,
+    firstFetchPageTracks,
   } = pageStore;
 
   useEffect(() => {
-    // Сброс треков, что бы они не висели пока отработывает fetchCurrentCategory
-    resetTracks();
+    fetchCurrentCategory(categoryName);
+    firstFetchPageTracks({ filterCategory: categoryName });
 
-    fetchCurrentCategory(categoryName, (data) => {
-      firstFetchPageTracks({
-        filterChannel: data.channels.join(),
-      });
-    });
+    return () => clearCurrentCategory();
   }, []);
 
   return (

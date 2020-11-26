@@ -189,7 +189,7 @@ function fetchChannelData({
 function getCnannels() {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Channels.find();
+      const data = await db.Channels.find().lean();
 
       rs(data);
     } catch (e) {
@@ -275,7 +275,7 @@ async function getVideosFromChannel(channel) {
 function getLastVideoIdOnThisChannel(id) {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 }).lean();
 
       rs(get(data, '0._doc.id.videoId'));
     } catch (e) {
@@ -288,7 +288,7 @@ function getLastVideoIdOnThisChannel(id) {
 function getMostPopularVideoFromChannel(id) {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 }).lean();
 
       rs(get(data, '0._doc'));
     } catch (e) {

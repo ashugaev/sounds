@@ -5,6 +5,7 @@ import { get } from 'lodash-es';
 import axios from 'axios';
 import { tracksPath } from 'helpers/constants';
 import { TracksStoreCommon } from 'stores/utils/tracks-store-common';
+import query from 'helpers/query';
 
 class PlayerTracksStore extends TracksStoreCommon {
   @observable prevTracksIsLoading = false
@@ -54,6 +55,7 @@ class PlayerTracksStore extends TracksStoreCommon {
         tags: this.filterTags,
         channel: this.filterChannel,
         liveOnly: this.filterLiveOnly,
+        category: this.filterCategory,
       },
     })
       .then(({ data }) => runInAction(async () => {
@@ -173,12 +175,20 @@ class PlayerTracksStore extends TracksStoreCommon {
   @action.bound
   firstFetchPlayerTracks({ ...args }) {
     this.updateFilters({ ...args });
+    this.updateQueries({ ...args });
 
     this.fetch({
       ...args,
       rewrite: true,
       checkPrevTracks: true,
     });
+  }
+
+  updateQueries({
+    filterCategory,
+    history,
+  }) {
+    query.set(history, 'playerCategory', filterCategory);
   }
 }
 

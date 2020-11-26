@@ -48,7 +48,9 @@ Tracks.index({
 
 const Tags = new Schema({});
 
-const Cagetories = new Schema({});
+const Cagetories = new Schema({
+  name: String,
+});
 
 const Channels = new Schema({
   channelId: String,

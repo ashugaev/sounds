@@ -6,7 +6,7 @@ const logger = log4js.getLogger();
 logger.level = 'debug';
 
 async function modify(callback) {
-  const allTracksList = await db.Tracks.find();
+  const allTracksList = await db.Tracks.find().lean();
 
   logger.debug('Got tracks', allTracksList.length);
 

@@ -8,7 +8,7 @@ const logger = log4js.getLogger();
 module.exports.all = async function () {
   const { query } = this.request;
   const {
-    fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly, searchStr,
+    fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly, searchStr, category,
   } = query;
 
   const tracksQuantity = Number(limit) || 6;
@@ -19,7 +19,7 @@ module.exports.all = async function () {
 
   try {
     let tracks = await getTracks({
-      fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly, tracksQuantity, tags, searchStr,
+      fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly, tracksQuantity, tags, searchStr, category,
     });
 
     // Нужно реверcнуть, потому что в этом случае у базы была обратная сортировка

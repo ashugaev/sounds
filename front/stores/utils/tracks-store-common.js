@@ -18,6 +18,8 @@ export class TracksStoreCommon {
 
   @observable filterLiveOnly
 
+  @observable filterCategory
+
   // App data variables
 
   @observable tracks = []
@@ -45,6 +47,7 @@ export class TracksStoreCommon {
     filterLiveOnly,
     filterChannel,
     filterTags,
+    filterCategory,
   }) {
     if (filterTags) {
       this.filterTags.replace = filterTags;
@@ -55,6 +58,7 @@ export class TracksStoreCommon {
     this.filterChannel = filterChannel;
     this.filterStr = filterStr;
     this.filterLiveOnly = filterLiveOnly;
+    this.filterCategory = filterCategory;
   }
 
   scrollToTop() {

@@ -41,8 +41,10 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
   useEffect(() => {
     const urlQueries = query.get(history);
 
-    // eslint-disable-next-line prefer-const
-    let { playerChannel, trackObjId, playerTags } = urlQueries;
+    let {
+      // eslint-disable-next-line prefer-const
+      playerChannel, trackObjId, playerTags, playerCategory,
+    } = urlQueries;
 
     playerTags = playerTags && playerTags.split(',');
 
@@ -51,6 +53,8 @@ const PlayerBox = inject('playerTracksStore', 'playerStore', 'notifierStore', 'p
       filterTags: playerTags,
       filterChannel: playerChannel,
       filterLiveOnly: isLivePage(history),
+      filterCategory: playerCategory,
+      history,
     });
 
     // Предлагает продолжить слушать тег/трек

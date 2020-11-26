@@ -13,7 +13,7 @@ function checkDuplicates({ videoId }) {
     try {
       logger.debug('Check duplicate', videoId);
 
-      const duplicates = await db.Tracks.find({ 'id.videoId': videoId });
+      const duplicates = await db.Tracks.find({ 'id.videoId': videoId }).lean();
 
       if (duplicates.length > 1) {
         // Сортировка по live, потому что бывают live и мертвые треки с одним id

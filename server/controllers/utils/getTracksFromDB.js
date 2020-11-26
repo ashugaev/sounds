@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const db = require('../../schema/schema');
+const { getCategoriesFromDB } = require('./getCategoriesFromDB');
 
 /**
  * Достает треки из базы по указанным параметрам
  */
 
 function getTracks({
-  fromObjId, channel, afterObjId, beforeObjId, liveOnly, tracksQuantity, tags, searchStr,
+  fromObjId, channel, afterObjId, beforeObjId, liveOnly, tracksQuantity, tags, searchStr, category,
 }) {
   return new Promise(async (rs, rj) => {
     try {
@@ -29,13 +30,24 @@ function getTracks({
         findProjection = sortParams
       );
 
+      if (category) {
+        const categoryData = await getCategoriesFromDB({ categoryName: category });
+
+        const { tracks, channels } = categoryData[0] || {};
+
+        findParams.$or = [];
+
+        channels && (findParams.$or.push({ 'snippet.channelId': { $in: channels } }));
+        tracks && (findParams.$or.push({ 'id.videoId': { $in: tracks } }));
+      }
+
       // FIXME: Из базы приходит нестабильная сортировка и поэтому плеер расходится со страницей, если сортаировать не по _id
       // Если нет тега или канала, то сортаровать по времени добавления на ютуб
       // if ((!tags || !tags.length) && !channel) {
       //   sortParams = beforeObjId ? { 'snippet.publishedAt': 1 } : { 'snippet.publishedAt': -1 };
       // }
 
-      const tracks = await db.Tracks.find(findParams, findProjection).limit(tracksQuantity).sort(sortParams);
+      const tracks = await db.Tracks.find(findParams, findProjection).limit(tracksQuantity).sort(sortParams).lean();
 
       rs(tracks);
     } catch (e) {

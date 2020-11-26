@@ -13,7 +13,7 @@ module.exports.all = async function () {
 
   channelId && (findParams.id = channelId);
 
-  this.body = await db.Channels.find(findParams);
+  this.body = await db.Channels.find(findParams).lean();
 };
 
 module.exports.insert = async function (list) {
