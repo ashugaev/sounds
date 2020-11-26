@@ -1,6 +1,5 @@
 import React from 'react';
 import query from 'query';
-import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
 import Button from 'c/Button';
 import { withRouter } from 'react-router';
@@ -35,8 +34,9 @@ const Header = ({ history }) => {
           <NavLink
             key={el.path}
             exact
-            activeClassName={cn(s.OneTab, { [s.OneTab_active]: true })}
+            activeClassName={s.OneTab_active}
             className={s.OneTab}
+            isActive={(match, location) => location.pathname === el.path}
             to={{
               pathname: el.path,
               search: query.getString(history),
