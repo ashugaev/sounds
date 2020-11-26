@@ -11,7 +11,7 @@ import s from './Header.sass';
 
 const tabs = [
   {
-    text: 'Categories',
+    text: 'Home',
     path: '/categories',
     label: 'categories',
   },

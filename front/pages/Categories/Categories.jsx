@@ -18,7 +18,7 @@ const Categories = inject('categoriesStore')(observer(({
   return (
     <div className={className}>
       <ItemsBlock
-        title="Genres"
+        title="Mixes And Genres"
         type={genresType}
       />
     </div>
