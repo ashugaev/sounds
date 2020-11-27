@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import ItemsBlock from 'c/ItemsBlock';
-import { genresType } from 'helpers/constants';
+import { genresType, soundsType } from 'helpers/constants';
 
 const Categories = inject('categoriesStore')(observer(({
   className,
@@ -20,6 +20,11 @@ const Categories = inject('categoriesStore')(observer(({
       <ItemsBlock
         title="Mixes And Genres"
         type={genresType}
+      />
+
+      <ItemsBlock
+        title="Nature Sounds"
+        type={soundsType}
       />
     </div>
   );

@@ -4,17 +4,18 @@ import ChannelListItem from 'c/ChannelListItem';
 import GenreItem from 'c/CategoryItem';
 import get from 'lodash-es/get';
 import { inject, observer } from 'mobx-react';
-import { genresType } from 'helpers/constants';
+import { genresType, mixType, soundsType } from 'helpers/constants';
 
 
 const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'playerStore', 'pageStore')(observer(({
   categoriesStore, channelsStore, playerTracksStore, playerStore, pageStore, type,
 }) => {
   let content = null;
+  let categories = [];
 
   const { allChannels } = channelsStore;
   const { currentTrack } = playerTracksStore;
-  const { allCategories } = categoriesStore;
+  const { getCategoriesByType } = categoriesStore;
   const { isPlaying } = playerStore;
   const { tracks } = pageStore;
 
@@ -49,7 +50,25 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
       break;
 
     case genresType:
-      content = allCategories.map(({
+      // Пока что тип mix тут же
+      categories = getCategoriesByType(genresType, mixType);
+
+      content = categories.map(({
+        _id, name, bgImage, path,
+      }) => (
+        <GenreItem
+          key={_id}
+          wrapImageUrl={bgImage}
+          title={name}
+          path={path}
+        />
+      ));
+      break;
+
+    case soundsType:
+      categories = getCategoriesByType(soundsType);
+
+      content = categories.map(({
         _id, name, bgImage, path,
       }) => (
         <GenreItem

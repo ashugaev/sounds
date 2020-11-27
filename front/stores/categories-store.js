@@ -61,6 +61,11 @@ class CategoriesStore {
     clearCurrentCategory() {
       this.currentCategory = {};
     }
+
+    @action.bound
+    getCategoriesByType(...types) {
+      return this.allCategories.filter(category => types.includes(category.type));
+    }
 }
 
 export default new CategoriesStore();

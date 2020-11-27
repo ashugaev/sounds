@@ -1,6 +1,8 @@
 // page blocks
 export const genresType = 'genres';
+export const soundsType = 'sounds';
 export const tracksType = 'tracks';
+export const mixType = 'mix';
 
 // pages
 export const categoriesPath = '/categories';
