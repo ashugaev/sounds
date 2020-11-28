@@ -5,6 +5,7 @@ $root: '.Button'
   cursor: pointer
   display: inline-flex
   box-sizing: border-box
+  user-select: none
 
   &_bold
     font-weight: 500
@@ -24,11 +25,16 @@ $root: '.Button'
     &_miniLabel
       font-size: $size-typo-xs
       padding: $space-xxxxxxs $space-xxxxxs
-      border-radius: 16px
+      border-radius: 12px
       display: inline-block
       border: solid 1px $gray-color-3
       background-color: $pure-white
       color: $gray-color-3
+
+      &#{$root}_outlined
+        background: transparent
+        color: $pure-white
+        border-color: $pure-white
 
       &#{$root}_isActive
         background: $gray-color-3
@@ -42,4 +48,3 @@ $root: '.Button'
   &_withIcon
     .Text
       margin-left: $space-xxxs
-

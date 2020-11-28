@@ -4,6 +4,7 @@ import j from 'join';
 import Text from 'c/Text';
 import { withRouter } from 'react-router';
 import cn from 'classnames';
+import { setCategory } from 'helpers/setCategory';
 import s from './GenreItem.sass';
 
 const ChannelListItem = ({
@@ -16,10 +17,7 @@ const ChannelListItem = ({
   if (!title) return null;
 
   function onClick() {
-    history.push({
-      pathname: `/categories/${path}`,
-      search: query.getString(history),
-    });
+    setCategory(path, history);
   }
 
   return (

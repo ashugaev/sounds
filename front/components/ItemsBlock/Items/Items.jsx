@@ -35,7 +35,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
 
     case 'channels':
       content = allChannels.map(({
-        brandingSettings, statistics, snippet, id, _id, bgImage,
+        brandingSettings, statistics, snippet, id, _id, bgImage, categories
       }) => (
         <ChannelListItem
           key={_id}
@@ -45,6 +45,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
           wrapImageUrl={bgImage || get(brandingSettings, 'image.bannerMobileImageUrl')}
           subscriberCount={get(statistics, 'subscriberCount')}
           viewCount={get(statistics, 'viewCount')}
+          categories={categories}
         />
       ));
       break;

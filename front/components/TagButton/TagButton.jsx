@@ -1,24 +1,15 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import Button from 'c/Button';
 import { withRouter } from 'react-router';
-import { setTagToLocalStorage } from '../../helpers/lastTrackNotifier';
+import { setCategory } from 'helpers/setCategory';
 
-const TagsButton = inject('pageStore')(observer(({
-  history, key, onClick, text, id, theme, className, pageStore,
+const TagsButton = ({
+  history, key, onClick, text, theme, className, outlined, categoryPath,
 }) => {
-  const {
-    filterTags,
-    setFilterTags,
-    removeFilterTags,
-  } = pageStore;
+  function onTagClick(_, e) {
+    setCategory(categoryPath, history);
+    e.stopPropagation();
 
-  const isTagActive = filterTags.includes(id);
-
-  function onTagClick() {
-    isTagActive ? removeFilterTags(history) : setFilterTags(id, history);
-
-    setTagToLocalStorage(text, id, isTagActive);
     onClick && onClick();
   }
 
@@ -26,13 +17,13 @@ const TagsButton = inject('pageStore')(observer(({
     <Button
       onClick={onTagClick}
       key={key}
-      isActive={isTagActive}
       theme={theme}
       text={text}
       className={className}
+      outlined={outlined}
     />
   );
-}));
+};
 
 TagsButton.defaultProps = {
   theme: 'label',

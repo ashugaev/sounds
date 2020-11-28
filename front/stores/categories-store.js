@@ -66,6 +66,13 @@ class CategoriesStore {
     getCategoriesByType(...types) {
       return this.allCategories.filter(category => types.includes(category.type));
     }
+
+    @action.bound
+    getCategoriesById(ids) {
+      if (!ids || !ids.length) return;
+
+      return this.allCategories.filter((category) => ids.includes(category._id));
+    }
 }
 
 export default new CategoriesStore();

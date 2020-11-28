@@ -6,13 +6,26 @@ import cnByModifiers from 'helpers/cnByModifiers';
 import s from './RoundButton.sass';
 
 const RoundButton = ({
-  icon, onClick, size, className, isHidden, theme, text, onClickArgs, disabled, iconClassName, textColor, isActive,
+  icon,
+  onClick,
+  size,
+  className,
+  isHidden,
+  theme,
+  text,
+  onClickArgs,
+  disabled,
+  iconClassName,
+  textColor,
+  isActive,
+  outlined,
 }) => {
   const buttonModifiers = cnByModifiers({
     s,
     root: 'Button',
     mods: {
       size,
+      outlined,
       theme,
       icon,
       disabled,
@@ -22,10 +35,10 @@ const RoundButton = ({
     },
   });
 
-  function onButtonClick() {
+  function onButtonClick(e) {
     if (disabled) return;
 
-    onClick(onClickArgs);
+    onClick(onClickArgs, e);
   }
 
   return (

@@ -4,15 +4,18 @@ import j from 'join';
 import TracksList from 'c/ItemsBlock';
 import s from './Channels.sass';
 
-const Channels = inject('channelsStore')(observer(({
+const Channels = inject('channelsStore', 'categoriesStore')(observer(({
   className,
   channelsStore,
+  categoriesStore,
 }) => {
   useEffect(() => {
+    fetchCategories({ rewrite: true });
     fetchChannels({ rewrite: true });
   }, []);
 
   const { fetchChannels } = channelsStore;
+  const { fetchCategories } = categoriesStore;
 
   return (
     <div className={j(className, s.ChannelsPage)}>
