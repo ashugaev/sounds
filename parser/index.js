@@ -303,7 +303,7 @@ function getFetchUrl(channel, nextPageUrl) {
     channelId: channel,
     part: 'snippet,id',
     order: 'date',
-    maxResults: 50,
+    maxResults: 10,
   };
 
   nextPageUrl && (queryParams.pageToken = nextPageUrl);

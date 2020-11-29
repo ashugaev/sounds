@@ -4,7 +4,7 @@ import cnByModifiers from 'cnByModifiers';
 import s from './Icon.sass';
 
 const Icon = ({
-  size, className, isHidden, icon, color, isActive, wide,
+  size, className, isHidden, icon, color, isActive, wide, opacity,
 }) => {
   const modifiers = cnByModifiers({
     s,
@@ -16,6 +16,7 @@ const Icon = ({
       isActive,
       isHidden,
       wide,
+      opacity,
     },
   });
 

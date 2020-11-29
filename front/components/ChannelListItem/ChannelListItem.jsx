@@ -6,6 +6,7 @@ import Text from 'c/Text';
 import { withRouter } from 'react-router';
 import { albumsPath } from 'helpers/constants';
 import TagButton from 'c/TagButton/TagButton';
+import Icon from 'c/Icon';
 import s from './ChannelListItem.sass';
 
 const ChannelListItem = inject(
@@ -28,6 +29,8 @@ const ChannelListItem = inject(
   const { getCategoriesById } = categoriesStore;
   const channelCategories = getCategoriesById(categories);
 
+  const isMarkingEnabled = query.hasParam(history, 'marking');
+
   function onClick() {
     history.push({
       pathname: `${albumsPath}/${id}`,
@@ -37,6 +40,7 @@ const ChannelListItem = inject(
 
   return (
     <div className={j(className, s.ChannelListItem)} onClick={onClick}>
+      {isMarkingEnabled && <Icon icon="dots" size="s" opacity="1" className={s.DotsIcon} />}
       <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
         <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>
