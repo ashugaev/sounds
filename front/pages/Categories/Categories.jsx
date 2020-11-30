@@ -22,10 +22,10 @@ const Categories = inject('categoriesStore')(observer(({
         type={genresType}
       />
 
-      <ItemsBlock
-        title="Nature Sounds"
-        type={soundsType}
-      />
+      {/*<ItemsBlock*/}
+      {/*  title="Nature Sounds"*/}
+      {/*  type={soundsType}*/}
+      {/*/>*/}
     </div>
   );
 }));
