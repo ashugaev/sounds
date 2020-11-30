@@ -288,7 +288,7 @@ function getLastVideoIdOnThisChannel(id) {
 function getMostPopularVideoFromChannel(id) {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 }).lean();
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
 
       rs(get(data, '0._doc'));
     } catch (e) {
