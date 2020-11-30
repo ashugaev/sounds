@@ -15,7 +15,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
 
   const { allChannels } = channelsStore;
   const { currentTrack } = playerTracksStore;
-  const { getCategoriesByType } = categoriesStore;
+  const { allCategories, getCategoriesByType } = categoriesStore;
   const { isPlaying } = playerStore;
   const { tracks } = pageStore;
 
@@ -52,7 +52,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
 
     case genresType:
       // Пока что тип mix тут же
-      categories = getCategoriesByType(genresType, mixType);
+      categories = getCategoriesByType(allCategories, [genresType, mixType]);
 
       content = categories.map(({
         _id, name, bgImage, path,
@@ -67,7 +67,7 @@ const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'p
       break;
 
     case soundsType:
-      categories = getCategoriesByType(soundsType);
+      categories = getCategoriesByType(allCategories, [soundsType]);
 
       content = categories.map(({
         _id, name, bgImage, path,

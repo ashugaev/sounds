@@ -1,0 +1,13 @@
+$root: '.Dots'
+
+
+#{$root}
+  transition: opacity $ease-show $time-s
+  opacity: 0
+  position: absolute
+  right: $space-xxxxxs
+  top: $space-xxxs
+  z-index: $z-page-item-dots
+
+  &_visible
+    opacity: 1
