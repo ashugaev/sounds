@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import ItemsBlock from 'c/ItemsBlock';
 import { genresType, soundsType } from 'helpers/constants';
+import Loader from 'c/Loader';
 
 const Categories = inject('categoriesStore')(observer(({
   className,
@@ -9,11 +10,16 @@ const Categories = inject('categoriesStore')(observer(({
 }) => {
   const {
     fetchCategories,
+    categoriesLoading,
   } = categoriesStore;
 
   useEffect(() => {
     fetchCategories({ rewrite: true });
   }, []);
+
+  if (categoriesLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className={className}>
@@ -22,10 +28,10 @@ const Categories = inject('categoriesStore')(observer(({
         type={genresType}
       />
 
-      {/*<ItemsBlock*/}
-      {/*  title="Nature Sounds"*/}
-      {/*  type={soundsType}*/}
-      {/*/>*/}
+      <ItemsBlock
+        title="Nature Sounds"
+        type={soundsType}
+      />
     </div>
   );
 }));

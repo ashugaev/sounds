@@ -6,6 +6,8 @@ import axious from 'axios';
 class CategoriesStore {
     @observable allCategories = [];
 
+    @observable categoriesLoading = false;
+
     @observable noCategoriesToFetch = false;
 
     @observable currentCategory = {}
@@ -21,6 +23,7 @@ class CategoriesStore {
     }) {
       this.noCategoriesToFetch = false;
       this.currentCategory = {};
+      this.categoriesLoading = true;
 
       axious.get('/api/categories/', {
         params: { categoryName },
@@ -40,7 +43,10 @@ class CategoriesStore {
         }))
         .catch((err) => {
           console.log(err);
-        });
+        })
+        .finally(() => runInAction(() => {
+          this.categoriesLoading = false;
+        }));
     }
 
     @action.bound setCurrentCategory(currentCategory) {
@@ -62,16 +68,15 @@ class CategoriesStore {
       this.currentCategory = {};
     }
 
-    @action.bound
-    getCategoriesByType(...types) {
-      return this.allCategories.filter(category => types.includes(category.type));
+    getCategoriesByType(allCategories, types) {
+      return allCategories.filter(category => types.includes(category.type));
     }
 
     @action.bound
     getCategoriesById(ids) {
       if (!ids || !ids.length) return;
 
-      return this.allCategories.filter((category) => ids.includes(category._id));
+      return this.allCategories.filter(category => ids.includes(category._id));
     }
 }
 
