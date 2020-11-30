@@ -4,7 +4,6 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { cssConstants, aliases, plugins } = require('./common');
 
 module.exports = {
@@ -46,9 +45,6 @@ module.exports = {
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new MiniCssExtractPlugin({ filename: '[name].[hash:2].css' }),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-    }),
     ...plugins,
   ],
 

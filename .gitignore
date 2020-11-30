@@ -6,3 +6,5 @@ dist
 data.json
 
 parser/logs/
+
+front/stats.json
