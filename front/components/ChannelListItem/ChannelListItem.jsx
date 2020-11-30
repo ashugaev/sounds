@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import query from 'query';
 import j from 'join';
 import { inject, observer } from 'mobx-react';
@@ -6,7 +6,7 @@ import Text from 'c/Text';
 import { withRouter } from 'react-router';
 import { albumsPath } from 'helpers/constants';
 import TagButton from 'c/TagButton/TagButton';
-import Icon from 'c/Icon';
+import DotsMenu from 'c/DotsMenu';
 import s from './ChannelListItem.sass';
 
 const ChannelListItem = inject(
@@ -26,10 +26,10 @@ const ChannelListItem = inject(
 }) => {
   if (!title) return null;
 
+  const [isHovered, setIsHovered] = useState(false);
+
   const { getCategoriesById } = categoriesStore;
   const channelCategories = getCategoriesById(categories);
-
-  const isMarkingEnabled = query.hasParam(history, 'marking');
 
   function onClick() {
     history.push({
@@ -39,8 +39,13 @@ const ChannelListItem = inject(
   }
 
   return (
-    <div className={j(className, s.ChannelListItem)} onClick={onClick}>
-      {isMarkingEnabled && <Icon icon="dots" size="s" opacity="1" className={s.DotsIcon} />}
+    <div
+      className={j(className, s.ChannelListItem)}
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <DotsMenu isVisible={isHovered} />
       <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
         <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>

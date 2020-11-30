@@ -1,5 +1,4 @@
 import React from 'react';
-import query from 'query';
 import j from 'join';
 import Text from 'c/Text';
 import { withRouter } from 'react-router';
