@@ -32,6 +32,7 @@
     "postcss-loader": "^3.0.0",
     "query-string": "^6.12.1",
     "react": "^16.13.1",
+    "react-dev-utils": "^11.0.1",
     "react-dom": "^16.13.1",
     "react-mobx": "0.0.4",
     "react-router": "^5.1.2",

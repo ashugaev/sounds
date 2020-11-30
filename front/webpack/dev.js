@@ -1,3 +1,4 @@
+const openBrowser = require('react-dev-utils/openBrowser');
 const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
@@ -18,7 +19,7 @@ module.exports = {
   },
 
   devServer: {
-    open: true,
+    after: () => { openBrowser('http://localhost:1234'); },
     port: 1234,
     disableHostCheck: true,
     historyApiFallback: true,
