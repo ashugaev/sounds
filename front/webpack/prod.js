@@ -4,7 +4,9 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { cssConstants, aliases, plugins: pluginsCommon } = require('./common');
+const {
+  cssConstants, aliases, plugins: pluginsCommon, loaders,
+} = require('./common');
 
 
 module.exports = (env) => {
@@ -113,6 +115,7 @@ module.exports = (env) => {
           test: /\.png$/,
           loader: 'url-loader?limit=10000&mimetype=image/png',
         },
+        ...loaders,
       ],
     },
   };

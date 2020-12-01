@@ -4,7 +4,7 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { cssConstants, aliases, plugins } = require('./common');
+const { cssConstants, aliases, plugins, loaders } = require('./common');
 
 module.exports = {
   entry: [
@@ -114,6 +114,7 @@ module.exports = {
         test: /\.png$/,
         loader: 'url-loader?limit=10000&mimetype=image/png',
       },
+      ...loaders
     ],
   },
 };
