@@ -4,7 +4,7 @@ import j from 'join';
 import { inject, observer } from 'mobx-react';
 import Text from 'c/Text';
 import { withRouter } from 'react-router';
-import { albumsPath } from 'helpers/constants';
+import { albumsPath } from 'constants';
 import TagButton from 'c/TagButton/TagButton';
 import DotsMenu from 'c/DotsMenu';
 import s from './ChannelListItem.sass';
@@ -45,7 +45,10 @@ const ChannelListItem = inject(
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <DotsMenu isVisible={isHovered} />
+      <DotsMenu
+        isVisible={isHovered}
+        onEditClick={() => console.log('edit click')}
+      />
       <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
         <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>

@@ -8,6 +8,7 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 import './index.sass';
+import 'antd/dist/antd.css';
 
 configure({ enforceActions: 'observed' });
 
