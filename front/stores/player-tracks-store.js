@@ -3,7 +3,7 @@ import {
 } from 'mobx';
 import { get } from 'lodash-es';
 import axios from 'axios';
-import { tracksPath } from 'helpers/constants';
+import { tracksPath } from 'constants';
 import { TracksStoreCommon } from 'stores/utils/tracks-store-common';
 import query from 'helpers/query';
 

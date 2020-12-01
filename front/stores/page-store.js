@@ -2,7 +2,7 @@ import {
   observable, action, runInAction,
 } from 'mobx';
 import axios from 'axios';
-import { tracksPath } from 'helpers/constants';
+import { tracksPath } from 'constants';
 import { TracksStoreCommon } from './utils/tracks-store-common';
 
 class PageStore extends TracksStoreCommon {

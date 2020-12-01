@@ -4,7 +4,7 @@ import Input from 'c/Input';
 import query from 'query';
 import path from 'helpers/path';
 import { withRouter } from 'react-router';
-import { searchQuery, searchPath } from 'helpers/constants';
+import { searchQuery, searchPath } from 'constants';
 
 import { inject, observer } from 'mobx-react';
 import s from './Search.sass';

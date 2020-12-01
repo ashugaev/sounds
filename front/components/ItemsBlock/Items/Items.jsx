@@ -4,7 +4,7 @@ import ChannelListItem from 'c/ChannelListItem';
 import GenreItem from 'c/CategoryItem';
 import get from 'lodash-es/get';
 import { inject, observer } from 'mobx-react';
-import { genresType, mixType, soundsType } from 'helpers/constants';
+import { genresType, mixType, soundsType } from 'constants';
 
 
 const Items = inject('playerTracksStore', 'channelsStore', 'categoriesStore', 'playerStore', 'pageStore')(observer(({

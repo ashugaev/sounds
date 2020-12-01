@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import ItemsBlock from 'c/ItemsBlock';
-import { genresType, soundsType } from 'helpers/constants';
+import { genresType, soundsType } from 'constants';
 import Loader from 'c/Loader';
 
 const Categories = inject('categoriesStore')(observer(({

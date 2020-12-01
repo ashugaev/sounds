@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { get } from 'lodash-es';
 import TracksList from 'c/ItemsBlock';
-import { tracksType } from 'helpers/constants';
+import { tracksType } from 'constants';
 
 const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer(({
   className,

@@ -1,4 +1,4 @@
-import { categoriesPath } from 'helpers/constants';
+import { categoriesPath } from 'constants';
 
 export function getTracksCategory(pathname) {
   if (pathname.includes(categoriesPath)) {

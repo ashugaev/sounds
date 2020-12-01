@@ -2,7 +2,7 @@ import {
   observable, action,
 } from 'mobx';
 import query from 'helpers/query';
-import { searchQuery } from 'helpers/constants';
+import { searchQuery } from 'constants';
 
 class SearchStore {
   @observable searchStr;

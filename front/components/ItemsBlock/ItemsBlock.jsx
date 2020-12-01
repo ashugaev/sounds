@@ -5,7 +5,7 @@ import Loader from 'c/Loader';
 import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
 import Items from 'c/ItemsBlock/Items';
-import { tracksType } from 'helpers/constants';
+import { tracksType } from 'constants';
 import s from './ItemsBlock.sass';
 
 const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({

@@ -5,7 +5,7 @@ import Button from 'c/Button';
 import { withRouter } from 'react-router';
 import Search from 'c/Header/Search';
 import Text from 'c/Text';
-import { albumsPath, livePath } from 'helpers/constants';
+import { albumsPath, livePath } from 'constants';
 import s from './Header.sass';
 
 const tabs = [

@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { throttle } from 'lodash-es';
 import TracksList from 'c/ItemsBlock';
-import { tracksType, searchQuery } from 'helpers/constants';
+import { tracksType, searchQuery } from 'constants';
 import query from 'query';
 
 const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
