@@ -26,22 +26,22 @@ import {
 } from 'mobx';
 import axious from 'axios';
 
-class ChannelEditModalStore {
-  @observable modalIsOpen = false
+class ItemEditModalStore {
+  @observable modalIsOpen = true
 
-  @observable modalChannelImages = []
+  @observable modalItemImages = []
 
-  @observable modalChannelData = {}
+  @observable modalItemData = {}
 
   @action.bound
-  channelEditModalOpen() {
+  onItemEditModalOpen() {
     this.modalIsOpen = true;
   }
 
   @action.bound
-  channelEditModalClose() {
+  onItemEditModalClose() {
     this.modalIsOpen = false;
   }
 }
 
-export default new ChannelEditModalStore();
+export default new ItemEditModalStore();

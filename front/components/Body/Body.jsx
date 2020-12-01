@@ -10,8 +10,9 @@ import Live from 'p/Live';
 import Search from 'p/Search';
 import Categories from 'p/Categories';
 import ChannelWallpaper from 'c/ChannelWallpaper';
-import {albumsPath, categoriesPath, livePath, searchPath} from 'helpers/constants';
+import {albumsPath, categoriesPath, livePath, searchPath} from 'constants';
 import s from './Body.sass';
+import ItemEditModal from '../ItemEditModal.js';
 
 const Body = () => {
   return (
@@ -30,6 +31,7 @@ const Body = () => {
         </Switch>
         <PlayerBox className={s.PlayerBox} />
       </div>
+      <ItemEditModal />
     </div>
   );
 };

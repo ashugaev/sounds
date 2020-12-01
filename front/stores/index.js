@@ -6,6 +6,7 @@ import notifierStore from './notifier-store';
 import categoriesStore from './categories-store';
 import pageStore from './page-store';
 import searchStore from './search-store';
+import itemEditModalStore from './item-edit-modal-store';
 
 export default {
   playerTracksStore,
@@ -16,4 +17,5 @@ export default {
   pageStore,
   categoriesStore,
   searchStore,
+  itemEditModalStore,
 };
