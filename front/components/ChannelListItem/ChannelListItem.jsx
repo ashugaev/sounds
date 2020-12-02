@@ -23,6 +23,7 @@ const ChannelListItem = inject(
   wrapImageUrl,
   categoriesStore,
   categories,
+  isDemo,
 }) => {
   if (!title) return null;
 
@@ -45,10 +46,18 @@ const ChannelListItem = inject(
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <DotsMenu
-        isVisible={isHovered}
-        onEditClick={() => console.log('edit click')}
-      />
+      {!isDemo && (
+        <DotsMenu
+          isVisible={isHovered}
+          channelCategories={channelCategories}
+          channelData={{
+            title,
+            id,
+            logoImageUrl,
+            wrapImageUrl,
+          }}
+        />
+      )}
       <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
         <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>

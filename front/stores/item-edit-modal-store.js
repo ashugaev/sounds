@@ -27,20 +27,53 @@ import {
 import axious from 'axios';
 
 class ItemEditModalStore {
-  @observable modalIsOpen = true
+  @observable modalIsOpen = false
+
+  @observable modalItemImagesLoading = false
 
   @observable modalItemImages = []
 
   @observable modalItemData = {}
 
+  @observable channelData = {}
+
+  @observable channelCategories = []
+
   @action.bound
-  onItemEditModalOpen() {
+  onItemEditModalOpen({ channelData, channelCategories }) {
     this.modalIsOpen = true;
+    this.channelData = channelData;
+    this.channelCategories = channelCategories;
+
+
+    this.fetchChannelImages({ id: channelData.id });
   }
 
   @action.bound
   onItemEditModalClose() {
     this.modalIsOpen = false;
+  }
+
+  @action.bound
+  fetchChannelImages({ id, callback, callbackArgs }) {
+    this.modalItemImagesLoading = true;
+
+    axious.get('/api/channel_images/', {
+      params: {
+        id,
+      },
+    })
+      .then(({ data }) => runInAction(() => {
+        this.modalItemImages.replace(data);
+
+        callback && callback(data, callbackArgs);
+      }))
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => runInAction(() => {
+        this.modalItemImagesLoading = false;
+      }));
   }
 }
 

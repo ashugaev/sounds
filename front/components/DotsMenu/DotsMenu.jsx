@@ -5,15 +5,18 @@ import { useHistory } from 'react-router';
 import cn from 'classnames';
 import { Menu, Dropdown } from 'antd';
 import { editText } from 'constants/texts';
+import { inject, observer } from 'mobx-react';
 import s from './DotsMenu.sass';
 
 let timerId;
 
-const DotsMenu = ({ isVisible, onEditClick }) => {
+const DotsMenu = inject('itemEditModalStore')(observer(({
+  isVisible, channelData, channelCategories, itemEditModalStore,
+}) => {
+  const { onItemEditModalOpen } = itemEditModalStore;
   const [isPopOverVisible, setPopOverVisible] = useState(false);
   const history = useHistory();
   const isMarkingEnabled = query.hasParam(history, 'marking');
-
   const cnBox = cn(s.Box, { [s.Box_visible]: isVisible || isPopOverVisible });
 
   const onClick = (e) => {
@@ -32,16 +35,18 @@ const DotsMenu = ({ isVisible, onEditClick }) => {
     timerId = null;
   };
 
+  const onEditClick = (e) => {
+    e.stopPropagation();
+    onItemEditModalOpen({ channelData, channelCategories });
+  };
+
   useEffect(() => (unCloseDropDown()), []);
 
   const menu = (
     <Menu>
       <Menu.Item>
         <div
-          onClick={(e) => {
-            e.stopPropagation();
-            onEditClick(e);
-          }}
+          onClick={onEditClick}
         >
           {editText}
         </div>
@@ -70,6 +75,6 @@ const DotsMenu = ({ isVisible, onEditClick }) => {
       ) : null}
     </>
   );
-};
+}));
 
 export default DotsMenu;
