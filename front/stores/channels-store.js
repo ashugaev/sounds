@@ -55,6 +55,12 @@ class ChannelsStore {
       callback: this.setCurrentChannel,
     });
   }
+
+  @action.bound
+  updateChannelImage({ wrapImageUrl, id }) {
+    const index = this.allChannels.findIndex(el => el.id === id);
+    this.allChannels[index].bgImage = wrapImageUrl;
+  }
 }
 
 export default new ChannelsStore();

@@ -79,6 +79,12 @@ class ItemEditModalStore {
   setWrapImage(url) {
     this.channelData.wrapImageUrl = url;
   }
+
+  @action.bound
+  saveChannelData(callback) {
+    callback();
+    this.modalIsOpen = false;
+  }
 }
 
 export default new ItemEditModalStore();

@@ -7,8 +7,8 @@ import s from './ItemEditModal.sass';
 import ImagesBlock from './ImagesBlock';
 import Loader from '../Loader';
 
-const ItemEditModal = inject('itemEditModalStore')(observer(({
-  itemEditModalStore,
+const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
+  itemEditModalStore, channelsStore,
 }) => {
   const {
     modalIsOpen,
@@ -17,17 +17,22 @@ const ItemEditModal = inject('itemEditModalStore')(observer(({
     modalItemImages,
     setWrapImage,
     modalItemImagesLoading,
+    saveChannelData,
   } = itemEditModalStore;
+
+  const { updateChannelImage } = channelsStore;
 
   const {
     id, title, logoImageUrl, wrapImageUrl,
   } = channelData;
 
+  const onOk = () => saveChannelData(() => updateChannelImage({ wrapImageUrl, id }));
+
   return (
     <Modal
       title={editText}
       visible={modalIsOpen}
-      onOk={onItemEditModalClose}
+      onOk={onOk}
       onCancel={onItemEditModalClose}
     >
       <div className={s.Content}>
