@@ -68,6 +68,7 @@ const DotsMenu = inject('itemEditModalStore')(observer(({
             overlay={menu}
             placement="bottomRight"
             visible={isPopOverVisible}
+            overlayClassName={s.DropDownOverlay}
           >
             <Icon icon="dots" size="s" opacity="1" className={s.Dots} />
           </Dropdown>
