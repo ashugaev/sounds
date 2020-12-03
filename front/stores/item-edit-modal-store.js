@@ -45,7 +45,6 @@ class ItemEditModalStore {
     this.channelData = channelData;
     this.channelCategories = channelCategories;
 
-
     this.fetchChannelImages({ id: channelData.id });
   }
 
@@ -64,7 +63,7 @@ class ItemEditModalStore {
       },
     })
       .then(({ data }) => runInAction(() => {
-        this.modalItemImages.replace(data);
+        this.modalItemImages = data;
 
         callback && callback(data, callbackArgs);
       }))
@@ -74,6 +73,11 @@ class ItemEditModalStore {
       .finally(() => runInAction(() => {
         this.modalItemImagesLoading = false;
       }));
+  }
+
+  @action.bound
+  setWrapImage(url) {
+    this.channelData.wrapImageUrl = url;
   }
 }
 

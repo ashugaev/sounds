@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import j from 'join';
+import React from 'react';
 import { Modal } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { editText } from 'constants/texts';
-import get from 'lodash-es/get';
 import ChannelListItem from 'c/ChannelListItem';
 import s from './ItemEditModal.sass';
+import ImagesBlock from './ImagesBlock';
+import Loader from '../Loader';
 
 const ItemEditModal = inject('itemEditModalStore')(observer(({
   itemEditModalStore,
@@ -13,9 +13,10 @@ const ItemEditModal = inject('itemEditModalStore')(observer(({
   const {
     modalIsOpen,
     onItemEditModalClose,
-    channelCategories,
     channelData,
-    fetchChannelImages,
+    modalItemImages,
+    setWrapImage,
+    modalItemImagesLoading,
   } = itemEditModalStore;
 
   const {
@@ -26,17 +27,27 @@ const ItemEditModal = inject('itemEditModalStore')(observer(({
     <Modal
       title={editText}
       visible={modalIsOpen}
-      onOk={() => console.log('ok')}
+      onOk={onItemEditModalClose}
       onCancel={onItemEditModalClose}
     >
-      <div className={s.Header}>
+      <div className={s.Content}>
         <ChannelListItem
           id={id}
           title={title}
           logoImageUrl={logoImageUrl}
           wrapImageUrl={wrapImageUrl}
           isDemo
+          className={s.ChannelItem}
         />
+        {modalItemImagesLoading ? (
+          <Loader />
+        ) : (
+          <ImagesBlock
+            className={s.ImagesBlock}
+            onClick={setWrapImage}
+            items={modalItemImages}
+          />
+        )}
       </div>
     </Modal>
   );
