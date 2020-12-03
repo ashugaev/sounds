@@ -2,11 +2,12 @@ const Koa = require('koa');
 const compress = require('koa-compress');
 const logger = require('koa-logger');
 const route = require('koa-route');
-const { tracksPath } = require('./helpers/constants');
+const { tracksPath, channelImagesPath } = require('./helpers/constants');
 const tracks = require('./controllers/tracks');
 const tags = require('./controllers/tags');
 const categories = require('./controllers/categories');
 const channels = require('./controllers/channels');
+const channelImages = require('./controllers/channelImages');
 
 const app = new Koa();
 
@@ -17,6 +18,7 @@ app.use(route.get(tracksPath, tracks.all));
 app.use(route.get('/api/tags/', tags.all));
 app.use(route.get('/api/channels/', channels.all));
 app.use(route.get('/api/categories/', categories.all));
+app.use(route.get(channelImagesPath, channelImages.all));
 
 // Compress
 app.use(compress());
