@@ -4,16 +4,14 @@ const getTracks = require('./utils/getTracksFromDB');
 
 const logger = log4js.getLogger();
 
-// FIXME: Обособить логику получения данных от работы с методами Koa (сделать отдельную ф-цию возврата данных)
-module.exports.all = async function () {
-  const { query } = this.request;
+module.exports.all = async function (ctx) {
   const {
     fromObjId, channel, afterObjId, beforeObjId, limit, liveOnly, searchStr, category,
-  } = query;
+  } = ctx.query;
 
   const tracksQuantity = Number(limit) || 6;
 
-  let tags = query['tags[]'] || query.tags;
+  let tags = ctx.query['tags[]'] || ctx.query.tags;
 
   if (typeof tags === 'string') tags = [tags];
 
@@ -27,10 +25,10 @@ module.exports.all = async function () {
       tracks = tracks.reverse();
     }
 
-    this.body = tracks;
+    ctx.body = tracks;
   } catch (error) {
-    this.status = 500;
-    this.body = error.message;
+    ctx.status = 500;
+    ctx.body = error.message;
   }
 };
 

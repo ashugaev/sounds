@@ -1,8 +1,8 @@
 const db = require('../schema/schema');
 
-module.exports.all = async function () {
+module.exports.all = async function (ctx) {
   try {
-    const { query } = this.request;
+    const { query } = ctx.request;
     const { id } = query;
 
     const result = await db.Tracks.find({ 'snippet.channelId': id })
@@ -12,11 +12,24 @@ module.exports.all = async function () {
 
     const images = result.map(el => el.snippet.thumbnails.medium.url);
 
-    console.log('images', id, images);
-
-    this.body = images;
+    ctx.body = images;
   } catch (error) {
-    this.status = 500;
-    this.body = error.message;
+    ctx.status = 500;
+    ctx.body = error.message;
+  }
+};
+
+module.exports.setOne = async function (ctx) {
+  try {
+    const { id, wrapImageUrl } = ctx.request.body;
+
+    await db.Channels.update({ id }, { $set: { bgImage: wrapImageUrl } });
+
+    ctx.status = 200;
+  } catch (error) {
+    console.error(error);
+
+    ctx.status = 500;
+    ctx.body = error.message;
   }
 };

@@ -31,6 +31,31 @@ const Tracks = new Schema({
       },
     },
   },
+  id: Object,
+  kind: String,
+  etag: String,
+});
+
+const Tags = new Schema({});
+
+const Cagetories = new Schema({
+  name: String,
+  channels: Array,
+  bgImage: String,
+  path: String,
+  type: String,
+});
+
+const Channels = new Schema({
+  snippet: Object,
+  bgImage: String,
+  id: String,
+  king: String,
+  etag: String,
+  contentDetails: Object,
+  statistics: Object,
+  brandingSettings: Object,
+  localizations: Object,
 });
 
 // Индексация для нативного поиска по тексту в Mongo DB
@@ -44,17 +69,6 @@ Tracks.index({
     'snippet.channelTitle': 3,
     'snippet.description': 1,
   },
-});
-
-const Tags = new Schema({});
-
-const Cagetories = new Schema({
-  name: String,
-});
-
-const Channels = new Schema({
-  channelId: String,
-  channelTitle: String,
 });
 
 module.exports = {

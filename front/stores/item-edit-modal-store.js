@@ -84,6 +84,13 @@ class ItemEditModalStore {
   saveChannelData(callback) {
     callback();
     this.modalIsOpen = false;
+
+    const { id, wrapImageUrl } = this.channelData;
+
+    axious.post('/api/channel_images/set_one', {
+      id, wrapImageUrl,
+    })
+      .catch(e => console.error(e));
   }
 }
 

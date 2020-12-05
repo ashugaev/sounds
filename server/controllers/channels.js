@@ -3,17 +3,16 @@ const db = require('../schema/schema');
 
 const logger = log4js.getLogger();
 
-module.exports.all = async function () {
-  const { query } = this.request;
+module.exports.all = async function (ctx) {
   const {
     channelId,
-  } = query;
+  } = ctx.query;
 
   const findParams = {};
 
   channelId && (findParams.id = channelId);
 
-  this.body = await db.Channels.find(findParams).lean();
+  ctx.body = await db.Channels.find(findParams).lean();
 };
 
 module.exports.insert = async function (list) {

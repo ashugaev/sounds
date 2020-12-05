@@ -1,16 +1,15 @@
 const { getCategoriesFromDB } = require('./utils/getCategoriesFromDB');
 
-module.exports.all = async function () {
-  const { query } = this.request;
+module.exports.all = async function (ctx) {
   const {
     categoryName,
-  } = query;
+  } = ctx.query;
 
   try {
     const categories = await getCategoriesFromDB({ categoryName });
-    this.body = categories;
+    ctx.body = categories;
   } catch (e) {
-    this.status = 500;
-    this.body = e.message;
+    ctx.status = 500;
+    ctx.body = e.message;
   }
 };
