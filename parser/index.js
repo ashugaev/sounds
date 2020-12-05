@@ -11,8 +11,9 @@ const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
 const { checkEnvs } = require('./helpers/checkEnvs');
+const { getChannelsFromDB } = require('./../server/controllers/utils/getChannelsFromDB');
 
-let channelsList = [];
+// let channelsList = [];
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
@@ -68,12 +69,6 @@ function fetchVideos(channel, nextPageUrl, pageIndex, lastVideoIdOnThisChannel) 
             modifyVideosData(filtered);
 
             await writeDatoToDB(filtered);
-          }
-
-          if (pageIndex === 0) {
-            await saveChannelToDB(
-              channel,
-            );
           }
 
           rs([nextPageToken, noNewVideosToFetch]);
@@ -138,23 +133,28 @@ function saveChannelToDB(channelId) {
         return rj('Недостаточно данных для сохранения канала. Отсутствует Id.');
       }
 
-      const channelData = await fetchChannelData({ id: channelId });
+      const newChannelData = await fetchChannelData({ id: channelId });
 
-      const mostPupularVideoFromChannel = await getMostPopularVideoFromChannel(channelId);
-
-      if (mostPupularVideoFromChannel) {
-        channelData.bgImage = get(mostPupularVideoFromChannel, 'snippet.thumbnails.medium.url');
-      }
-
-      const featuredChannels = get(channelData, 'brandingSettings.channel.featuredChannelsUrls');
+      const featuredChannels = get(newChannelData, 'brandingSettings.channel.featuredChannelsUrls');
 
       if (featuredChannels && featuredChannels.length) {
         updateFeauteredChannels(featuredChannels);
       }
 
-      await channelsController.insertWithReplace(channelData);
+      const channelFromDB = await getChannelsFromDB({ channelId });
+      const channelAlreadyExistsInDB = Boolean(channelFromDB.length);
 
-      logger.debug('Channel', get(channelData, 'snippet.title'), 'is saved to DB');
+      if (!channelAlreadyExistsInDB) {
+        const mostPupularVideoFromChannel = await getMostPopularVideoFromChannel(channelId);
+
+        if (mostPupularVideoFromChannel) {
+          newChannelData.bgImage = get(mostPupularVideoFromChannel, 'snippet.thumbnails.medium.url');
+        }
+
+        await channelsController.insertWithReplace(newChannelData);
+
+        logger.debug('Channel', get(newChannelData, 'snippet.title'), 'is saved to DB');
+      }
 
       rs();
     } catch (e) {
@@ -189,7 +189,7 @@ function fetchChannelData({
 function getCnannels() {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Channels.find().lean();
+      const data = await db.Channels.find();
 
       rs(data);
     } catch (e) {
@@ -253,12 +253,14 @@ function writeNewDataToJson(data) {
 }
 
 async function getVideosFromChannel(channel) {
-  channelsList = channelsList.concat(await getCnannels());
+  // channelsList = channelsList.concat(await getCnannels());
 
   const lastVideoIdOnThisChannel = await getLastVideoIdOnThisChannel(channel);
 
   return new Promise(async (rs, rj) => {
     try {
+      await saveChannelToDB(channel);
+
       for (let nextPageUrl, noNewVideosToFetch, i = 0; !noNewVideosToFetch && (nextPageUrl || i === 0); i++) {
         logger.debug('Page', i, ', nextPageUrl', nextPageUrl);
 
@@ -275,7 +277,7 @@ async function getVideosFromChannel(channel) {
 function getLastVideoIdOnThisChannel(id) {
   return new Promise(async (rs, rj) => {
     try {
-      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 }).lean();
+      const data = await db.Tracks.find({ 'snippet.channelId': id }).limit(1).sort({ 'snippet.publishedAt': -1 });
 
       rs(get(data, '0._doc.id.videoId'));
     } catch (e) {
