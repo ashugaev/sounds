@@ -41,7 +41,7 @@ const tracksIterator = (callbackList, filters = {}) => {
         counter++;
 
         for (let j = 0; j < callbackList.length; j++) {
-          await wait(0);
+          await wait(100, 1000);
 
           try {
             const trackJSON = JSON.parse(JSON.stringify(track));
@@ -54,7 +54,9 @@ const tracksIterator = (callbackList, filters = {}) => {
               _id,
             });
           } catch (e) {
-            rj(e);
+            logger.error(e);
+
+            continue;
           }
         }
       }

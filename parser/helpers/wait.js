@@ -1,3 +1,13 @@
-const wait = time => new Promise(rs => setTimeout(rs, time));
+const { log } = require('./log');
+
+const wait = (minTime, maxTime) => new Promise((rs) => {
+  if (maxTime) {
+    minTime = Math.floor(Math.random() * (maxTime - minTime) + minTime);
+  }
+
+  log.debug('wait', minTime, 'milliseconds');
+
+  setTimeout(rs, minTime);
+});
 
 module.exports = { wait };
