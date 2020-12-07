@@ -36,7 +36,7 @@ const ChannelListItem = inject(
   const channelCategories = getCategoriesById(categoriesIds);
 
   function onClick() {
-    if(isDemo) return;
+    if (isDemo) return;
 
     history.push({
       pathname: `${albumsPath}/${id}`,
@@ -66,27 +66,27 @@ const ChannelListItem = inject(
       <div className={s.BgImage} style={{ backgroundImage: `url(${wrapImageUrl})` }}>
         <div className={s.LogoImage} style={{ backgroundImage: `url(${logoImageUrl})` }} />
       </div>
-      {channelCategories && (
-      <div className={s.TagsBox}>
-        {channelCategories.map((category, i) => (
-          <TagButton
-            disableClick={isDemo}
-            id={category._id}
-            key={i}
-            text={category.name}
-            theme="miniLabel"
-            className={s.Tag}
-            categoryPath={category.path}
-          />
-        ))}
-      </div>
-      )}
       {/* <div className={s.Counters}> */}
       {/*  {subscriberCount > 0 */}
       {/*    && <ChannelCounter className={s.OneCounter} text={subscriberCount} icon="person" />} */}
       {/*  {viewCount > 0 && <ChannelCounter className={s.OneCounter} text={viewCount} icon="eye" />} */}
       {/* </div> */}
       <Text size="s" text={title} lines={2} className={s.Title} hoverable />
+      {channelCategories && (
+        <div className={s.TagsBox}>
+          {channelCategories.map((category, i) => (
+            <TagButton
+              disableClick={isDemo}
+              id={category._id}
+              key={i}
+              text={category.name}
+              theme="miniLabel"
+              className={s.Tag}
+              categoryPath={category.path}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }));
