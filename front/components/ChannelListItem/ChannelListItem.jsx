@@ -9,6 +9,9 @@ import TagButton from 'c/TagButton/TagButton';
 import DotsMenu from 'c/DotsMenu';
 import s from './ChannelListItem.sass';
 
+/**
+ * isDemo - включает режим демонстрации отключаа интерактивность
+ */
 const ChannelListItem = inject(
   'playerStore',
   'playerTracksStore',
@@ -22,7 +25,7 @@ const ChannelListItem = inject(
   logoImageUrl,
   wrapImageUrl,
   categoriesStore,
-  categories,
+  categoriesIds,
   isDemo,
 }) => {
   if (!title) return null;
@@ -30,9 +33,11 @@ const ChannelListItem = inject(
   const [isHovered, setIsHovered] = useState(false);
 
   const { getCategoriesById } = categoriesStore;
-  const channelCategories = getCategoriesById(categories);
+  const channelCategories = getCategoriesById(categoriesIds);
 
   function onClick() {
+    if(isDemo) return;
+
     history.push({
       pathname: `${albumsPath}/${id}`,
       search: query.getString(history),
@@ -49,7 +54,7 @@ const ChannelListItem = inject(
       {!isDemo && (
         <DotsMenu
           isVisible={isHovered}
-          channelCategories={channelCategories}
+          channelCategories={categoriesIds}
           channelData={{
             title,
             id,
@@ -65,6 +70,7 @@ const ChannelListItem = inject(
       <div className={s.TagsBox}>
         {channelCategories.map((category, i) => (
           <TagButton
+            disableClick={isDemo}
             id={category._id}
             key={i}
             text={category.name}

@@ -18,6 +18,7 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
     setWrapImage,
     modalItemImagesLoading,
     saveChannelData,
+    channelCategories,
   } = itemEditModalStore;
 
   const { updateChannelImage } = channelsStore;
@@ -43,6 +44,7 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
           wrapImageUrl={wrapImageUrl}
           isDemo
           className={s.ChannelItem}
+          categoriesIds={channelCategories}
         />
         {modalItemImagesLoading ? (
           <Loader />

@@ -4,9 +4,11 @@ import { withRouter } from 'react-router';
 import { setCategory } from 'helpers/setCategory';
 
 const TagsButton = ({
-  history, key, onClick, text, theme, className, outlined, categoryPath,
+  history, key, onClick, text, theme, className, outlined, categoryPath, disableClick,
 }) => {
   function onTagClick(_, e) {
+    if (disableClick) return;
+
     setCategory(categoryPath, history);
     e.stopPropagation();
 
