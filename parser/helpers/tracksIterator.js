@@ -41,7 +41,7 @@ const tracksIterator = (callbackList, filters = {}) => {
         counter++;
 
         for (let j = 0; j < callbackList.length; j++) {
-          await wait(100, 1000);
+          await wait(0, 100);
 
           try {
             const trackJSON = JSON.parse(JSON.stringify(track));
