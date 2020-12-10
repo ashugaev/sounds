@@ -11,7 +11,11 @@ import s from './DotsMenu.sass';
 let timerId;
 
 const DotsMenu = inject('itemEditModalStore')(observer(({
-  isVisible, channelData, channelCategories, itemEditModalStore,
+  isVisible,
+  channelData,
+  channelCategories,
+  itemEditModalStore,
+  channelCategoryIds,
 }) => {
   const { onItemEditModalOpen } = itemEditModalStore;
   const [isPopOverVisible, setPopOverVisible] = useState(false);
@@ -26,7 +30,7 @@ const DotsMenu = inject('itemEditModalStore')(observer(({
 
   const closeDropDown = () => {
     timerId = setTimeout(() => {
-      setPopOverVisible(val => !val);
+      setPopOverVisible(false);
     }, 500);
   };
 
@@ -37,7 +41,11 @@ const DotsMenu = inject('itemEditModalStore')(observer(({
 
   const onEditClick = (e) => {
     e.stopPropagation();
-    onItemEditModalOpen({ channelData, channelCategories });
+    onItemEditModalOpen({
+      channelData,
+      channelCategories,
+      channelCategoryIds,
+    });
   };
 
   useEffect(() => (unCloseDropDown()), []);

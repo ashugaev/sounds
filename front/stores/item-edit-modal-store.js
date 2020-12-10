@@ -39,11 +39,14 @@ class ItemEditModalStore {
 
   @observable channelCategories = []
 
+  @observable channelCategoryIds = []
+
   @action.bound
-  onItemEditModalOpen({ channelData, channelCategories }) {
+  onItemEditModalOpen({ channelData, channelCategories, channelCategoryIds }) {
     this.modalIsOpen = true;
     this.channelData = channelData;
     this.channelCategories = channelCategories;
+    this.channelCategoryIds = channelCategoryIds;
 
     this.fetchChannelImages({ id: channelData.id });
   }

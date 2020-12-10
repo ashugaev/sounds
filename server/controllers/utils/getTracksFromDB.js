@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('../../schema/schema');
 const { getCategoriesFromDB } = require('./getCategoriesFromDB');
+const { log } = require('../../../parser/helpers/log');
 
 /**
  * Достает треки из базы по указанным параметрам
@@ -46,6 +47,8 @@ function getTracks({
       // if ((!tags || !tags.length) && !channel) {
       //   sortParams = beforeObjId ? { 'snippet.publishedAt': 1 } : { 'snippet.publishedAt': -1 };
       // }
+
+      log.debug('findParams', findParams);
 
       const tracks = await db.Tracks.find(findParams, findProjection).limit(tracksQuantity).sort(sortParams).lean();
 

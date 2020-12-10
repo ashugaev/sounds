@@ -7,6 +7,7 @@ import categoriesStore from './categories-store';
 import pageStore from './page-store';
 import searchStore from './search-store';
 import itemEditModalStore from './item-edit-modal-store';
+import categoryBlocksStore from './category-blocks-store';
 
 export default {
   playerTracksStore,
@@ -18,4 +19,5 @@ export default {
   categoriesStore,
   searchStore,
   itemEditModalStore,
+  categoryBlocksStore,
 };

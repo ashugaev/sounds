@@ -54,7 +54,8 @@ const ChannelListItem = inject(
       {!isDemo && (
         <DotsMenu
           isVisible={isHovered}
-          channelCategories={categoriesIds}
+          channelCategories={channelCategories}
+          channelCategoryIds={categoriesIds}
           channelData={{
             title,
             id,
@@ -79,10 +80,10 @@ const ChannelListItem = inject(
               disableClick={isDemo}
               id={category._id}
               key={i}
-              text={category.name}
+              text={category.title}
               theme="miniLabel"
               className={s.Tag}
-              categoryPath={category.path}
+              categoryPath={category.name}
             />
           ))}
         </div>

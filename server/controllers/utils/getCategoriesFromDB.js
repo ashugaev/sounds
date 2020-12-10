@@ -1,11 +1,12 @@
 const db = require('../../schema/schema');
 
-function getCategoriesFromDB({ categoryName }) {
+function getCategoriesFromDB({ categoryName, categoryBlockIds }) {
   return new Promise(async (rs, rj) => {
     try {
       const findParams = {};
 
-      categoryName && (findParams.path = categoryName);
+      categoryName && (findParams.name = categoryName);
+      categoryBlockIds && (findParams.blocks = { $in: categoryBlockIds.split(',') });
 
       const res = await db.Categories.find(findParams).lean();
 

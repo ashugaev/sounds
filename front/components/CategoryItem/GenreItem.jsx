@@ -10,13 +10,13 @@ const ChannelListItem = ({
   history,
   className,
   title,
-  path,
+  name,
   wrapImageUrl,
 }) => {
   if (!title) return null;
 
   function onClick() {
-    setCategory(path, history);
+    setCategory(name, history);
   }
 
   return (

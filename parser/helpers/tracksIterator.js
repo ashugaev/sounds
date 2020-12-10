@@ -6,6 +6,8 @@ const { wait } = require('./wait');
 const logger = log4js.getLogger();
 logger.level = 'debug';
 
+// TODO: Вконце валидация каналов и удаление каналов, если пустые
+
 /**
  * Просто проходится по трекам из базы
  * */
@@ -30,7 +32,10 @@ const tracksIterator = (callbackList, filters = {}) => {
 
       const tracksLength = lastFetchedTracks.length;
 
-      if (!tracksLength) return;
+      if (!tracksLength) {
+        rs();
+        return;
+      }
 
       lastTrackId = lastFetchedTracks[tracksLength - 1]._id.toString();
 

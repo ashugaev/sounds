@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { get } from 'lodash-es';
 import j from 'join';
-import TracksList from 'c/ItemsBlock';
+import ItemsBlock from 'c/ItemsBlock';
+import PageTracksList from 'c/PageTracksList';
 import s from './OneChannel.sass';
 
 const OneChannel = inject('pageStore', 'channelsStore')(observer(({
@@ -29,8 +30,15 @@ const OneChannel = inject('pageStore', 'channelsStore')(observer(({
   }, []);
 
   return (
-    <div className={j(className, s.OneChannelPage)}>
-      <TracksList type="tracks" title={get(currentChannel, 'snippet.title')} titlePlaceholder />
+    <div
+      className={j(className, s.OneChannelPage)}
+    >
+      <ItemsBlock
+        title={get(currentChannel, 'snippet.title')}
+        lazy
+      >
+        <PageTracksList />
+      </ItemsBlock>
     </div>
   );
 }));

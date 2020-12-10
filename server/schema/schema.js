@@ -38,6 +38,11 @@ const Tracks = new Schema({
 
 const Tags = new Schema({});
 
+const CategoryBlocks = new Schema({
+  name: String,
+  title: String,
+});
+
 const Cagetories = new Schema({
   name: String,
   channels: Array,
@@ -76,4 +81,5 @@ module.exports = {
   Tags: mongoose.model('Tags', Tags),
   Channels: mongoose.model('Channels', Channels),
   Categories: mongoose.model('Categories', Cagetories),
+  CategoryBlocks: mongoose.model('CategoryBlocks', CategoryBlocks, 'categoryBlocks'),
 };

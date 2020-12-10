@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import j from 'join';
-import TracksList from 'c/ItemsBlock';
+import ItemsBlock from 'c/ItemsBlock';
+import get from 'lodash-es/get';
+import ChannelListItem from 'c/ChannelListItem';
 import s from './Channels.sass';
 
 const Channels = inject('channelsStore', 'categoriesStore')(observer(({
@@ -14,12 +16,25 @@ const Channels = inject('channelsStore', 'categoriesStore')(observer(({
     fetchChannels({ rewrite: true });
   }, []);
 
-  const { fetchChannels } = channelsStore;
+  const { fetchChannels, allChannels } = channelsStore;
   const { fetchCategories } = categoriesStore;
 
   return (
     <div className={j(className, s.ChannelsPage)}>
-      <TracksList type="channels" />
+      <ItemsBlock>
+        {allChannels.map(({
+          brandingSettings, snippet, id, _id, bgImage, categories,
+        }) => (
+          <ChannelListItem
+            key={_id}
+            id={id}
+            title={get(snippet, 'title')}
+            logoImageUrl={get(snippet, 'thumbnails.default.url')}
+            wrapImageUrl={bgImage || get(brandingSettings, 'image.bannerMobileImageUrl')}
+            categoriesIds={categories}
+          />
+        ))}
+      </ItemsBlock>
     </div>
   );
 }));

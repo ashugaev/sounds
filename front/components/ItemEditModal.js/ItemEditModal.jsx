@@ -6,6 +6,7 @@ import ChannelListItem from 'c/ChannelListItem';
 import s from './ItemEditModal.sass';
 import ImagesBlock from './ImagesBlock';
 import Loader from '../Loader';
+import TagsEditor from './TagsEditor';
 
 const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
   itemEditModalStore, channelsStore,
@@ -18,7 +19,7 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
     setWrapImage,
     modalItemImagesLoading,
     saveChannelData,
-    channelCategories,
+    channelCategoryIds,
   } = itemEditModalStore;
 
   const { updateChannelImage } = channelsStore;
@@ -44,7 +45,7 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
           wrapImageUrl={wrapImageUrl}
           isDemo
           className={s.ChannelItem}
-          categoriesIds={channelCategories}
+          categoriesIds={channelCategoryIds}
         />
         {modalItemImagesLoading ? (
           <Loader />
@@ -55,6 +56,7 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
             items={modalItemImages}
           />
         )}
+        {/*<TagsEditor />*/}
       </div>
     </Modal>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { throttle } from 'lodash-es';
 import TracksList from 'c/ItemsBlock';
-import { tracksType, searchQuery } from 'constants';
+import { searchQuery } from 'constants';
 import query from 'query';
 
 const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
@@ -38,9 +38,7 @@ const Search = inject('pageStore', 'searchStore', 'pageStore')(observer(({
     <div className={className}>
       {searchQueryVal && searchQueryVal.length && (
         <TracksList
-          type={tracksType}
           title="Search Results"
-          titlePlaceholder
         />
       )}
     </div>

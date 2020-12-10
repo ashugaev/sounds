@@ -1,10 +1,5 @@
 // endpoints
-const tracksPath = '/api/tracks';
-const channelImagesPath = '/api/channel_images';
-const channelImagesSetOnePath = '/api/channel_images/set_one';
-
-module.exports = {
-  tracksPath,
-  channelImagesPath,
-  channelImagesSetOnePath,
-};
+module.exports.tracksPath = '/api/tracks';
+module.exports.channelImagesPath = '/api/channel_images';
+module.exports.channelImagesSetOnePath = '/api/channel_images/set_one';
+module.exports.categoryBlocksPath = '/api/category_blocks';

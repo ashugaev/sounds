@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
 import { get } from 'lodash-es';
-import TracksList from 'c/ItemsBlock';
-import { tracksType } from 'constants';
+import ItemsBlock from 'c/ItemsBlock';
+import PageTracksList from 'c/PageTracksList';
 
 const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer(({
   className,
@@ -27,11 +27,12 @@ const OneCategory = inject('pageStore', 'categoriesStore', 'pageStore')(observer
 
   return (
     <div className={className}>
-      <TracksList
-        type={tracksType}
-        title={get(currentCategory, 'name')}
-        titlePlaceholder
-      />
+      <ItemsBlock
+        lazy
+        title={get(currentCategory, 'title')}
+      >
+        <PageTracksList />
+      </ItemsBlock>
     </div>
   );
 }));

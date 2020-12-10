@@ -19,14 +19,18 @@ class CategoriesStore {
      * @param catogoryName
      */
     @action.bound fetchCategories({
-      rewrite, callback, callbackArgs, categoryName,
+      rewrite, callback, callbackArgs, categoryName, categoryBlockIds,
     }) {
       this.noCategoriesToFetch = false;
       this.currentCategory = {};
       this.categoriesLoading = true;
 
       axious.get('/api/categories/', {
-        params: { categoryName },
+        params: {
+          categoryName,
+          // TODO: Для ленивой загрузки отправлять только новые айдишки, которых нет в allCategories
+          categoryBlockIds: categoryBlockIds && categoryBlockIds.join(','),
+        },
       })
         .then(({ data }) => runInAction(() => {
           if (!categoryName) {
@@ -68,10 +72,19 @@ class CategoriesStore {
       this.currentCategory = {};
     }
 
-    getCategoriesByType(allCategories, types) {
-      return allCategories.filter(category => types.includes(category.type));
+    /**
+     * Получает категорию по id блока к которому она принадлежит
+     */
+    @action.bound
+    getCategoriesByBlockId(id) {
+      if (!id || !id.length) return;
+
+      return this.allCategories.filter(category => category.blocks.includes(id));
     }
 
+    /**
+     * Получает категорию по её id
+     */
     @action.bound
     getCategoriesById(ids) {
       if (!ids || !ids.length) return;

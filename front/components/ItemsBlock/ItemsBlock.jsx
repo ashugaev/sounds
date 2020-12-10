@@ -4,18 +4,14 @@ import Text from 'c/Text';
 import Loader from 'c/Loader';
 import LazyLoader from 'c/LazyLoader';
 import { inject, observer } from 'mobx-react';
-import Items from 'c/ItemsBlock/Items';
-import { tracksType } from 'constants';
 import s from './ItemsBlock.sass';
 
-const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
-  pageStore, type, title, channelsStore, titlePlaceholder,
+const ItemsBlock = inject('pageStore')(observer(({
+  pageStore, title, lazy, children,
 }) => {
   const {
     isTracksLoading, noTracksToFetch, fetchPageTracks,
   } = pageStore;
-  const { noChannelsToFetch } = channelsStore;
-
   function loadMoreItems() {
     fetchPageTracks({
       afterObjId: get(pageStore, 'lastTrack._id'),
@@ -24,7 +20,7 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
 
   return (
     <>
-      {type === tracksType && (
+      {lazy && (
         <LazyLoader
           loadHandler={loadMoreItems}
           pixelsLeftToLoad={600}
@@ -32,23 +28,27 @@ const ItemsBlock = inject('pageStore', 'channelsStore')(observer(({
         />
       )}
       <div className={s.ItemsBlock}>
-        {(title || titlePlaceholder) ? (
+        {title ? (
           <Text
-            text={title || '...'}
+            text={title}
             size="xl"
             className={s.Title}
             line="normal"
             bold
             cropLine
           />
-        ) : <div className={s.UpperPlaceholder} />}
+        ) : (
+          <div className={s.UpperPlaceholder} />
+        )}
         <div className={s.List}>
-          <Items type={type} />
+          { children }
         </div>
       </div>
-      {((!noTracksToFetch && type === tracksType) || (!noChannelsToFetch && type === 'channels'))
-        ? <Loader />
-        : <div className={s.BottomPlaceholder} />}
+      {lazy ? (
+        isTracksLoading ? <Loader /> : <div className={s.LoaderPlaceholder} />
+      ) : (
+        <div className={s.BottomPlaceholder} />
+      )}
     </>
   );
 }));
