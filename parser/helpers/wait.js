@@ -1,4 +1,4 @@
-const { log } = require('./log');
+const { log } = require('../../common/utils/log');
 
 const wait = (minTime, maxTime) => new Promise((rs) => {
   if (maxTime) {

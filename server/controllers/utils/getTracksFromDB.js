@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const db = require('../../schema/schema');
 const { getCategoriesFromDB } = require('./getCategoriesFromDB');
-const { log } = require('../../../parser/helpers/log');
+const { log } = require('../../../common/utils/log');
 
 /**
  * Достает треки из базы по указанным параметрам
