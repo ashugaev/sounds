@@ -6,7 +6,7 @@ import ChannelListItem from 'c/ChannelListItem';
 import s from './ItemEditModal.sass';
 import ImagesBlock from './ImagesBlock';
 import Loader from '../Loader';
-import TagsEditor from './TagsEditor';
+// import TagsEditor from './TagsEditor';
 
 const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
   itemEditModalStore, channelsStore,
