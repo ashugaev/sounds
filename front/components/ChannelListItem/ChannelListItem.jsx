@@ -32,8 +32,8 @@ const ChannelListItem = inject(
 
   const [isHovered, setIsHovered] = useState(false);
 
-  const { getCategoriesById } = categoriesStore;
-  const channelCategories = getCategoriesById(categoriesIds);
+  const { getCategoriesByChannelId } = categoriesStore;
+  const channelCategories = getCategoriesByChannelId(id);
 
   function onClick() {
     if (isDemo) return;
@@ -54,8 +54,6 @@ const ChannelListItem = inject(
       {!isDemo && (
         <DotsMenu
           isVisible={isHovered}
-          channelCategories={channelCategories}
-          channelCategoryIds={categoriesIds}
           channelData={{
             title,
             id,

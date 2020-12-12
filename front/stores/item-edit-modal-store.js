@@ -1,26 +1,3 @@
-/**
- * Константы
- * - isEditModalOpen
- * - channelImages
- * - channelData
- * - categoriesList
- * - categoryTypesList
- * - channelCategories
- *
- * Mетоды
- * - openEditModal(channelData, channelCategories)
- * - closeEditModal
- * - saveChannelData
- * - fetchChannelImages
- * - fetchCategories
- * - fetchCategoryTypes
- * - addCategory
- * - addCategoryType
- *
- * Новые методы в channel-store
- * - updateChannelData(channelData, i)
- */
-
 import {
   observable, action, runInAction,
 } from 'mobx';
@@ -37,16 +14,10 @@ class ItemEditModalStore {
 
   @observable channelData = {}
 
-  @observable channelCategories = []
-
-  @observable channelCategoryIds = []
-
   @action.bound
-  onItemEditModalOpen({ channelData, channelCategories, channelCategoryIds }) {
+  onItemEditModalOpen({ channelData }) {
     this.modalIsOpen = true;
     this.channelData = channelData;
-    this.channelCategories = channelCategories;
-    this.channelCategoryIds = channelCategoryIds;
 
     this.fetchChannelImages({ id: channelData.id });
   }

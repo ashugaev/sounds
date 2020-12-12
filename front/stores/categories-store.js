@@ -91,6 +91,16 @@ class CategoriesStore {
 
       return this.allCategories.filter(category => ids.includes(category._id));
     }
+
+  /**
+   * Получает категорию по id канала которому она присвоенна
+   */
+  @action.bound
+    getCategoriesByChannelId(id) {
+      if (!id || !id.length) return;
+
+      return this.allCategories.filter(category => category.channels && category.channels.includes(id));
+    }
 }
 
 export default new CategoriesStore();

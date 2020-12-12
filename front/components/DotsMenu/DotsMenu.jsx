@@ -13,9 +13,7 @@ let timerId;
 const DotsMenu = inject('itemEditModalStore')(observer(({
   isVisible,
   channelData,
-  channelCategories,
   itemEditModalStore,
-  channelCategoryIds,
 }) => {
   const { onItemEditModalOpen } = itemEditModalStore;
   const [isPopOverVisible, setPopOverVisible] = useState(false);
@@ -43,8 +41,6 @@ const DotsMenu = inject('itemEditModalStore')(observer(({
     e.stopPropagation();
     onItemEditModalOpen({
       channelData,
-      channelCategories,
-      channelCategoryIds,
     });
   };
 
