@@ -7,6 +7,8 @@ COPY server/ ./server
 COPY common/ ./common
 
 RUN cd server && npm i && cd ../common && npm i
+# for debugging
+RUN apt-get update && apt-get install nano curl
 
 # expose port to have it mapped by Docker daemon
 EXPOSE 3000
