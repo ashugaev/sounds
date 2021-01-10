@@ -1,12 +1,13 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Collapse } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { editText } from 'constants/texts';
 import ChannelListItem from 'c/ChannelListItem';
 import s from './ItemEditModal.sass';
 import ImagesBlock from './ImagesBlock';
 import Loader from '../Loader';
-// import TagsEditor from './TagsEditor';
+import TagsEditor from './TagsEditor';
+
 
 const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
   itemEditModalStore, channelsStore,
@@ -45,16 +46,33 @@ const ItemEditModal = inject('itemEditModalStore', 'channelsStore')(observer(({
           isDemo
           className={s.ChannelItem}
         />
-        {modalItemImagesLoading ? (
-          <Loader />
-        ) : (
-          <ImagesBlock
-            className={s.ImagesBlock}
-            onClick={setWrapImage}
-            items={modalItemImages}
-          />
-        )}
-        {/*<TagsEditor />*/}
+        <Collapse
+          bordered={false}
+          className={s.Collapse}
+        >
+          <Collapse.Panel
+            header="Wrappers"
+            key="1"
+            className={s.CollapsePanel}
+          >
+            {modalItemImagesLoading ? (
+              <Loader />
+            ) : (
+              <ImagesBlock
+                className={s.ImagesBlock}
+                onClick={setWrapImage}
+                items={modalItemImages}
+              />
+            )}
+          </Collapse.Panel>
+          <Collapse.Panel
+            header="Categories"
+            key="2"
+            className={s.CollapsePanel}
+          >
+            <TagsEditor />
+          </Collapse.Panel>
+        </Collapse>
       </div>
     </Modal>
   );

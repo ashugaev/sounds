@@ -11,7 +11,7 @@ COPY common/ ./common
 RUN cd parser && mkdir logs -p && npm i && cd ../server && npm i && cd ../common && npm i
 
 # cron download
-RUN apt-get update && apt-get install -y cron && apt-get install nano curl
+RUN apt-get update && apt-get install -y cron && apt-get install nano curl -y
 
 # lockrun download
 RUN wget unixwiz.net/tools/lockrun.c && gcc lockrun.c -o lockrun && cp lockrun /usr/local/bin/

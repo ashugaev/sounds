@@ -9,7 +9,7 @@ RUN chmod -R 777 /etc/nginx/
 RUN chmod -R 777 /app/
 
 # for debuging
-RUN apt-get update && apt-get install nano curl
+RUN apt-get update && apt-get install nano curl -y
 
 # expose port to have it mapped by Docker daemon
 EXPOSE 8082

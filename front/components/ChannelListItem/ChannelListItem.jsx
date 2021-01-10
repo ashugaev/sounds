@@ -25,7 +25,6 @@ const ChannelListItem = inject(
   logoImageUrl,
   wrapImageUrl,
   categoriesStore,
-  categoriesIds,
   isDemo,
 }) => {
   if (!title) return null;
@@ -59,6 +58,7 @@ const ChannelListItem = inject(
             id,
             logoImageUrl,
             wrapImageUrl,
+            channelCategories,
           }}
         />
       )}

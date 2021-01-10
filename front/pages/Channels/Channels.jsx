@@ -23,7 +23,7 @@ const Channels = inject('channelsStore', 'categoriesStore')(observer(({
     <div className={j(className, s.ChannelsPage)}>
       <ItemsBlock>
         {allChannels.map(({
-          brandingSettings, snippet, id, _id, bgImage, categories,
+          brandingSettings, snippet, id, _id, bgImage,
         }) => (
           <ChannelListItem
             key={_id}
@@ -31,7 +31,6 @@ const Channels = inject('channelsStore', 'categoriesStore')(observer(({
             title={get(snippet, 'title')}
             logoImageUrl={get(snippet, 'thumbnails.default.url')}
             wrapImageUrl={bgImage || get(brandingSettings, 'image.bannerMobileImageUrl')}
-            categoriesIds={categories}
           />
         ))}
       </ItemsBlock>
