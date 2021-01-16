@@ -19,7 +19,7 @@ RUN wget unixwiz.net/tools/lockrun.c && gcc lockrun.c -o lockrun && cp lockrun /
 WORKDIR /app/parser
 
 # cron data copy
-RUN crontab crontab
+# RUN crontab crontab
 
-CMD npm run cron-init
+CMD npm run start:cron
 

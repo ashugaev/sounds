@@ -1,8 +1,9 @@
+# !!! НА ДАННЫЙ МОМЕНТ НЕ ИСПОЛЬЗУЕТСЯ
 # TODO: Заюзать lockrun (уже ставится в контейнер) как тут
 # * * * * * /usr/local/bin/lockrun --lockfile=/tmp/kek.lockrun --maxtime=21600 -- /usr/local/bin/node /app/parser/kek.js > /app/logs/$(date +\%Y_\%m_\%d_\%H_)__kek.log 2>&1
 
 # Парсинг новых треков (раз в день)
-0 0 * * * /usr/local/bin/node /app/parser/index.js > /app/logs/parser/$(date +\%Y-\%m-\%d).log 2>&1
+0 0 * * * /usr/local/bin/node /app/parser/parser.js > /app/logs/parser/$(date +\%Y-\%m-\%d).log 2>&1
 
 # Валидация трансляций (раз в день)
 0 6 * * * /usr/local/bin/node /app/parser/validators/checkLive.js > /app/logs/liveValidator/$(date +\%Y-\%m-\%d).log 2>&1

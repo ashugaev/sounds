@@ -198,7 +198,9 @@ function getCnannels() {
   });
 }
 
-async function getVideos(channels, users) {
+module.exports.getVideos = async function () {
+  const { channelsIds: channels, userNames: users } = parserData;
+
   const userIds = await getUserIds(users);
   const channelsWithUserIds = uniq(channels.concat(userIds));
 
@@ -222,7 +224,7 @@ async function getVideos(channels, users) {
       rj(e);
     }
   });
-}
+};
 
 function getUserIds(users) {
   return new Promise(async (rs, rj) => {
@@ -362,14 +364,16 @@ function decodeData(videos) {
 /**
  * Метод запуска сбора видео
  */
+/*
 (async () => {
   const { channelsIds, userNames } = parserData;
 
   try {
-    await getVideos(channelsIds, userNames);
+    await module.exports.getVideos(channelsIds, userNames);
   } catch (e) {
     logger.error('Videos fetch error', e);
   } finally {
     process.exit();
   }
 })();
+ */

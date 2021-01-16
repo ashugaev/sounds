@@ -10,7 +10,7 @@ logger.level = 'debug';
 /**
  * Проверяет, что трек еще жив
  */
-function checkTracksIsNotDead({ track, _id }) {
+module.exports.checkTracksIsNotDead = ({ track, _id }) => {
   return new Promise(async (rs, rj) => {
     const thumbnailUrl = get(track, 'snippet.thumbnails.medium.url');
 
@@ -26,8 +26,9 @@ function checkTracksIsNotDead({ track, _id }) {
       rj(`Dead Track Was Removed :( ${thumbnailUrl}`);
     }
   });
-}
+};
 
+/*
 (async () => {
   try {
     await tracksIterator([checkTracksIsNotDead]);
@@ -37,3 +38,4 @@ function checkTracksIsNotDead({ track, _id }) {
     process.exit();
   }
 })();
+ */

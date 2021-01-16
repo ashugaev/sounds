@@ -8,7 +8,7 @@ logger.level = 'debug';
 /**
  * Проверяет, что у трека не появились дубли
  */
-function checkDuplicates({ videoId }) {
+module.exports.checkDuplicates = ({ videoId }) => {
   return new Promise(async (rs, rj) => {
     try {
       logger.debug('Check duplicate', videoId);
@@ -33,8 +33,9 @@ function checkDuplicates({ videoId }) {
       rj(e);
     }
   });
-}
+};
 
+/*
 (async () => {
   try {
     await tracksIterator([checkDuplicates]);
@@ -44,3 +45,4 @@ function checkDuplicates({ videoId }) {
     process.exit();
   }
 })();
+ */

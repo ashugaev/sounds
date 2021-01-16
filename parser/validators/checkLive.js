@@ -15,7 +15,7 @@ logger.level = 'debug';
 /**
  * Проверяет жива ли трансляция
  */
-const checkIsAlive = ({ videoId, _id }) => {
+module.exports = function checkIsAlive({ videoId, _id }) {
   return new Promise((rs, rj) => {
     const getUrl = getYoutubeApiUrl.videosList({
       ids: videoId,
@@ -50,6 +50,7 @@ const checkIsAlive = ({ videoId, _id }) => {
   });
 };
 
+/*
 (async () => {
   try {
     await tracksIterator([checkIsAlive], { liveOnly: true });
@@ -59,3 +60,4 @@ const checkIsAlive = ({ videoId, _id }) => {
     process.exit();
   }
 })();
+ */
