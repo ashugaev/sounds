@@ -76,7 +76,7 @@ release_parser:
   before_script:
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    - # Пишет энвы для парсера
+    # Пишет энвы для парсера
     - chmod +x parser/setup_env.sh
     - ./parser/setup_env.sh
 
