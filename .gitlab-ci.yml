@@ -4,9 +4,12 @@
 cache:
   key: "$CI_BUILD_REF_NAME node:10-alpine"
   paths:
-    - node_modules/
     - parser/.env
     - server/.env
+    - node_modules/
+    - parser/node_modules/
+    - server/node_modules/
+    - common/node_modules/
 
 # использование драйвера хранилища Docker overlay2 вместо драйвера vfs
 variables:
@@ -57,7 +60,7 @@ release_server:
   before_script:
     - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
   script:
-    # Пишет энвы на сервер
+    # Пишет энвы для сервера
     - chmod +x setup_env.sh
     - ./setup_env.sh
 
@@ -79,6 +82,9 @@ release_parser:
     # Пишет энвы для парсера
     - chmod +x parser/setup_env.sh
     - ./parser/setup_env.sh
+    # Пишет энвы для сервера
+    - chmod +x setup_env.sh
+    - ./setup_env.sh
 
     - "docker build -f parser/Dockerfile --pull -t ${CI_REGISTRY}/${CI_PROJECT_PATH}/parser:v1 ."
     - "docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}/parser:v1"

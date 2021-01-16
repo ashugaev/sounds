@@ -6,4 +6,4 @@
 
 touch -a parser/.env
 
-echo "MONGO_HOST=${YOUTUBE_TOKEN}" >> parser/.env
+echo "YOUTUBE_TOKEN=${YOUTUBE_TOKEN}" >> parser/.env
