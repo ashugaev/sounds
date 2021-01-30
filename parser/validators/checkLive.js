@@ -5,7 +5,6 @@
 const axios = require('axios');
 const log4js = require('log4js');
 const get = require('lodash/get');
-const { tracksIterator } = require('../helpers/tracksIterator.js');
 const { getYoutubeApiUrl } = require('../helpers/youtubeAPI');
 const db = require('../../server/schema/schema');
 
@@ -15,7 +14,7 @@ logger.level = 'debug';
 /**
  * Проверяет жива ли трансляция
  */
-module.exports = function checkIsAlive({ videoId, _id }) {
+module.exports.checkIsAlive = ({ videoId, _id }) => {
   return new Promise((rs, rj) => {
     const getUrl = getYoutubeApiUrl.videosList({
       ids: videoId,
