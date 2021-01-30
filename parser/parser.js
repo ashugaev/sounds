@@ -6,14 +6,12 @@ const { get, uniq } = require('lodash');
 const axios = require('axios');
 const queryString = require('query-string');
 const { write: writeJSON } = require('./helpers/json');
-const parserData = require('./parser');
+const parserData = require('./parser.json');
 const tracks = require('../server/controllers/tracks');
 const channelsController = require('../server/controllers/channels');
 const db = require('../server/schema/schema');
 const { checkEnvs } = require('./helpers/checkEnvs');
 const { getChannelsFromDB } = require('./../server/controllers/utils/getChannelsFromDB');
-
-// let channelsList = [];
 
 const logger = log4js.getLogger();
 logger.level = 'debug';
