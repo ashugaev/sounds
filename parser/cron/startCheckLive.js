@@ -1,6 +1,6 @@
 const { checkIsAlive } = require('../validators/checkLive');
 const { startCronJob } = require('../helpers/startCronJob');
-const { tracksIterator } = require('../helpers/tracksIterator.js');
+const { tracksIterator } = require('../helpers/tracksIterator');
 
 startCronJob({
   name: 'Check live',

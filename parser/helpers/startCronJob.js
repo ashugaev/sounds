@@ -10,18 +10,18 @@ module.exports.startCronJob = ({
   const job = new CronJob(
     period,
     async () => {
-      console.log('Start:', name);
+      log.info('Start cron job:', name);
 
       try {
         callbackArgs
           ? await callback(...callbackArgs)
           : await callback();
       } catch (e) {
-        log.error('Videos fetch error', e);
+        log.error('Cron job error', e);
       }
     },
     () => {
-      console.log('Complete:', name);
+      log.info('Complete cron job:', name);
     },
     false,
     'Europe/Moscow',

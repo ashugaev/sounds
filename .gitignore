@@ -8,3 +8,6 @@ data.json
 parser/logs/
 
 front/stats.json
+
+# development
+**/test_*.js
